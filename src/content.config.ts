@@ -1,5 +1,6 @@
-import { defineCollection, reference, z } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 /*
  * Every load-bearing fact carries a citation: the official source URL and the

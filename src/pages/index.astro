@@ -1,9 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../data/site';
+import { organization, website } from '../lib/jsonld';
 ---
 
-<BaseLayout title={`${SITE.name} — ${SITE.tagline}`} description={SITE.description}>
+<BaseLayout
+  title={`${SITE.name} — ${SITE.tagline}`}
+  description={SITE.description}
+  jsonld={[organization(), website()]}
+>
   <section class="py-16 sm:py-24">
     <h1 class="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
       The AI product reference database

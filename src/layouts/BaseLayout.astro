@@ -2,13 +2,11 @@
 import '../styles/global.css';
 import Header from '../components/nav/Header.astro';
 import Footer from '../components/nav/Footer.astro';
+import SEO, { type SEOProps } from '../components/seo/SEO.astro';
 
-interface Props {
-  title: string;
-  description: string;
-}
+type Props = SEOProps;
 
-const { title, description } = Astro.props;
+const seoProps = Astro.props;
 ---
 
 <!doctype html>
@@ -18,8 +16,7 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <SEO {...seoProps} />
     <script is:inline>
       // Pre-paint theme resolution: no flash, no CLS.
       (() => {
