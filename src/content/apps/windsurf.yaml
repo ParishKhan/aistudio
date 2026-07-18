@@ -1,0 +1,70 @@
+name: Windsurf
+slug: windsurf
+url: https://devin.ai
+vendorName: Cognition
+category: ide
+platforms: [macos, windows, linux]
+pricingPlans:
+  - name: Free
+    pricePerMonth: 0
+    features: [Light quota to code with agents, Limited model availability, Unlimited inline edits and Tab completions]
+    cite:
+      url: https://devin.ai/pricing
+      verified: 2026-07-18
+  - name: Pro
+    pricePerMonth: 20
+    features:
+      - Increased quotas
+      - OpenAI, Claude, and Gemini frontier models
+      - Free use of SWE 1.7 and leading open source models
+      - Devin Cloud agents
+    cite:
+      url: https://devin.ai/pricing
+      verified: 2026-07-18
+  - name: Max
+    pricePerMonth: 200
+    features: [Everything in Pro, Significantly higher quotas]
+    cite:
+      url: https://devin.ai/pricing
+      verified: 2026-07-18
+  - name: Teams
+    pricePerMonth: 80
+    features: ['$80/month plus $40 per developer seat', Unlimited team members, Admin dashboard with analytics, Priority support]
+    cite:
+      url: https://devin.ai/pricing
+      verified: 2026-07-18
+supportedModels: [gpt-5-6-sol, claude-opus-4-8, gemini-3-1-pro]
+features:
+  - Cascade agent
+  - Tab completions and inline edits
+  - Devin Cloud agents
+  - SWE-family in-house models
+description: >-
+  Windsurf, the AI editor acquired by Cognition, now lives under the Devin
+  platform — windsurf.com redirects to devin.ai. Plans run free to $20 Pro
+  and $200 Max, unified with Devin's cloud agents.
+summary: |
+  Windsurf began as Codeium's AI-native editor and was acquired by Cognition
+  (maker of the Devin autonomous engineer) in 2025. As of mid-2026 the merger
+  is complete enough that windsurf.com redirects to devin.ai, and the editor
+  is sold as part of Cognition's unified platform alongside Devin's cloud
+  agents and the in-house SWE model family.
+
+  The current plans mirror classic Windsurf tiers: a free tier with limited
+  models, Pro at $20/month with frontier models from OpenAI, Anthropic, and
+  Google plus free use of Cognition's SWE 1.7, and a $200 Max tier for heavy
+  usage. Teams pricing runs $80/month plus $40 per developer seat.
+
+  Choose it over Cursor if you want the same subscription to cover both an
+  AI editor and Devin-style autonomous cloud agents.
+faq:
+  - q: Is Windsurf still a separate product?
+    a: >-
+      The editor still exists, but Cognition has folded it into the Devin
+      platform — windsurf.com now redirects to devin.ai and plans are unified
+      with Devin's cloud agents.
+  - q: How much does Windsurf (Devin) cost?
+    a: >-
+      Free tier; Pro at $20/month; Max at $200/month; Teams at $80/month plus
+      $40 per developer seat; custom Enterprise pricing.
+lastVerified: 2026-07-18

@@ -1,0 +1,78 @@
+name: Replit
+slug: replit
+url: https://replit.com
+vendorName: Replit
+category: cloud-ide
+platforms: [web, macos, windows]
+pricingPlans:
+  - name: Starter
+    pricePerMonth: 0
+    features: [Free daily Agent credits, Built-in database, Publish up to 1 project, Private deployments]
+    cite:
+      url: https://replit.com/pricing
+      verified: 2026-07-18
+  - name: Replit Core
+    pricePerMonth: 25
+    annualPricePerMonth: 20
+    features:
+      - $25 of monthly credits
+      - Up to 5 collaborators
+      - 2 parallel agents
+      - Publish in any region
+      - Unlimited workspaces
+    cite:
+      url: https://replit.com/pricing
+      verified: 2026-07-18
+  - name: Replit Pro
+    pricePerMonth: 100
+    annualPricePerMonth: 95
+    features:
+      - $100 monthly credits
+      - Up to 15 collaborators and 50 viewers
+      - 10 parallel agents
+      - Most powerful models
+      - 28-day database rollbacks
+      - Premium support
+    cite:
+      url: https://replit.com/pricing
+      verified: 2026-07-18
+  - name: Enterprise
+    pricePerMonth: null
+    features: [SSO/SAML, Single-tenant environments, VPC peering, Custom seat limits, Dedicated support]
+    cite:
+      url: https://replit.com/pricing
+      verified: 2026-07-18
+supportedModels: [claude-opus-4-8, claude-fable-5, gpt-5-6-sol]
+features:
+  - Replit Agent for full-app builds
+  - Cloud IDE with instant hosting
+  - Built-in databases with rollbacks
+  - Parallel agents
+  - Slides, videos, and animation creation
+description: >-
+  Replit pairs a cloud IDE with Replit Agent, which builds and deploys apps
+  from prompts. Free Starter tier; Core at $25/mo and Pro at $100/mo with
+  usage credits and parallel agents.
+summary: |
+  Replit is the longest-running cloud IDE, now centered on Replit Agent — an
+  autonomous builder that takes a prompt to a deployed app with hosting and a
+  database on Replit's own infrastructure. Its president publicly cites
+  Claude Fable 5 as the top performer on Replit's internal ViBench
+  vibe-coding benchmark.
+
+  Pricing is credit-based with effort-based (pay-as-you-go) overages: the
+  free Starter tier includes daily agent credits, Core is $25/month ($20
+  annual) with $25 of credits and two parallel agents, and Pro is $100/month
+  with $100 in credits, ten parallel agents, and access to the most powerful
+  models.
+faq:
+  - q: How much does Replit cost?
+    a: >-
+      Starter is free with daily agent credits. Core is $25/month ($20 billed
+      annually) with $25 of credits; Pro is $100/month with $100 of credits;
+      Enterprise is custom.
+  - q: What models power Replit Agent?
+    a: >-
+      Replit uses frontier models from Anthropic and OpenAI under the hood,
+      with its Pro tier advertising access to the most powerful models.
+lastVerified: 2026-07-18

@@ -1,0 +1,77 @@
+name: Cursor
+slug: cursor
+url: https://cursor.com
+vendorName: Anysphere
+category: ide
+platforms: [macos, windows, linux]
+pricingPlans:
+  - name: Hobby
+    pricePerMonth: 0
+    features: [No credit card required, Limited Agent requests, Limited Tab completions]
+    cite:
+      url: https://cursor.com/pricing
+      verified: 2026-07-18
+  - name: Individual
+    pricePerMonth: 20
+    features:
+      - Extended limits on Agent
+      - Generous limits for Grok & Composer
+      - Access to frontier models
+      - MCPs, skills, and hooks
+      - Cloud agents
+      - Bugbot on usage-based billing
+    cite:
+      url: https://cursor.com/pricing
+      verified: 2026-07-18
+  - name: Teams
+    pricePerMonth: 40
+    features:
+      - Centralized team billing and administration
+      - Team marketplace for rules, skills, and plugins
+      - Agentic code reviews with Bugbot
+      - Cloud agents with shared team context
+      - Usage analytics
+      - SAML/OIDC SSO
+    cite:
+      url: https://cursor.com/pricing
+      verified: 2026-07-18
+  - name: Enterprise
+    pricePerMonth: null
+    features: [Pooled usage, Invoice/PO billing, SCIM seat management, Access controls, Audit logs, Priority support]
+    cite:
+      url: https://cursor.com/pricing
+      verified: 2026-07-18
+supportedModels: [gpt-5-6-sol, claude-opus-4-8, claude-fable-5, gemini-3-1-pro, grok-4-5]
+features:
+  - Agent mode with parallel cloud agents
+  - Tab autocompletion
+  - Bugbot agentic code review
+  - MCP, skills, and hooks
+  - Team rules and plugin marketplace
+description: >-
+  Cursor is the most popular AI code editor: a VS Code fork with agent mode,
+  frontier-model access, and Bugbot reviews. Plans from free to $20/mo
+  Individual and $40/user Teams.
+summary: |
+  Cursor, by Anysphere, is the reference AI-native code editor — a VS Code
+  fork rebuilt around an agent that can plan, edit, and verify changes across
+  a codebase. It pairs frontier models from OpenAI, Anthropic, Google, and
+  SpaceXAI with its own Composer models and Tab completions, plus Bugbot for
+  agentic code review.
+
+  Cursor is deeply wired into the model ecosystem: SpaceXAI trained Grok 4.5
+  alongside Cursor, and both OpenAI and Anthropic quote CursorBench results
+  in their flagship launches. The Individual plan is $20/month; Teams adds
+  administration, SSO, and a shared marketplace at $40 per user.
+faq:
+  - q: How much does Cursor cost?
+    a: >-
+      A free Hobby tier with limited agent requests; Individual at $20/month
+      with extended limits and frontier-model access; Teams at $40 per user
+      per month; custom Enterprise pricing.
+  - q: Which models does Cursor support?
+    a: >-
+      Frontier models across vendors — including GPT-5.6, Claude Opus
+      4.8/Fable 5, Gemini, and Grok 4.5 (free for a limited time at launch) —
+      plus Cursor's own Composer models.
+lastVerified: 2026-07-18

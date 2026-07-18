@@ -1,0 +1,73 @@
+name: v0
+slug: v0
+url: https://v0.app
+vendorName: Vercel
+category: app-builder
+platforms: [web]
+pricingPlans:
+  - name: Free
+    pricePerMonth: 0
+    features: ['$5 of included monthly credits', 7 messages/day limit, Deploy to Vercel, Design Mode, GitHub sync]
+    cite:
+      url: https://v0.app/pricing
+      verified: 2026-07-18
+  - name: Plus
+    pricePerMonth: 30
+    features:
+      - $30 of monthly credits per user
+      - $2 free daily credits on login
+      - Shared team credits
+      - Centralized billing on vercel.com
+      - Chat sharing and collaboration
+    cite:
+      url: https://v0.app/pricing
+      verified: 2026-07-18
+  - name: Business
+    pricePerMonth: 100
+    features:
+      - Training opt-out by default
+      - $30 of monthly credits per user
+      - $2 free daily credits on login
+      - Team collaboration
+    cite:
+      url: https://v0.app/pricing
+      verified: 2026-07-18
+  - name: Enterprise
+    pricePerMonth: null
+    features: [Data never used for training, SAML SSO, Role-based access control, Priority access, Support SLAs]
+    cite:
+      url: https://v0.app/pricing
+      verified: 2026-07-18
+supportedModels: [gpt-5-6-sol, claude-sonnet-5]
+features:
+  - UI and app generation tuned for Next.js/React
+  - Design Mode visual editing
+  - One-click Vercel deploys
+  - GitHub sync
+description: >-
+  v0 is Vercel's AI app builder, strongest at Next.js/React UI generation
+  with one-click Vercel deploys. Free tier with $5 credits; Plus $30/user
+  and Business $100/user per month.
+summary: |
+  v0 is Vercel's generative app builder, best known for producing
+  production-quality React and Next.js interfaces styled with Tailwind and
+  shadcn/ui. It pairs chat-driven generation with a visual Design Mode, syncs
+  to GitHub, and deploys to Vercel in one click — the natural choice if your
+  stack already lives on Vercel.
+
+  Pricing is dollar-denominated credits: the free tier includes $5 of monthly
+  credits with a 7-message daily cap, Plus is $30 per user with $30 of
+  credits plus $2 daily login credits, and Business at $100 per user adds
+  training opt-out by default. Enterprise brings SAML SSO and a guarantee
+  that data is never used for training.
+faq:
+  - q: How much does v0 cost?
+    a: >-
+      Free with $5 of monthly credits (7 messages/day); Plus at $30/user/month
+      with $30 of credits; Business at $100/user/month adding training
+      opt-out; Enterprise custom.
+  - q: What is v0 best at?
+    a: >-
+      Generating polished React/Next.js UIs and full apps that deploy
+      straight to Vercel — with visual editing via Design Mode.
+lastVerified: 2026-07-18

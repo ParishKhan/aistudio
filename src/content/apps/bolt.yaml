@@ -1,0 +1,69 @@
+name: Bolt
+slug: bolt
+url: https://bolt.new
+vendorName: StackBlitz
+category: app-builder
+platforms: [web]
+pricingPlans:
+  - name: Free
+    pricePerMonth: 0
+    features: [300K tokens daily limit, 1M tokens per month, Website hosting, Unlimited databases, Bolt branding]
+    cite:
+      url: https://bolt.new/pricing
+      verified: 2026-07-18
+  - name: Pro
+    pricePerMonth: 25
+    features:
+      - Starts at 10M tokens per month
+      - Token rollover
+      - No daily token limit
+      - Custom domains and SEO boosting
+      - 100MB file uploads
+      - AI image editing
+    cite:
+      url: https://bolt.new/pricing
+      verified: 2026-07-18
+  - name: Teams
+    pricePerMonth: 30
+    features: ['$30 per member per month', Centralized billing, Team access management, Private NPM registries, Design system knowledge]
+    cite:
+      url: https://bolt.new/pricing
+      verified: 2026-07-18
+  - name: Enterprise
+    pricePerMonth: null
+    features: [SSO and audit logs, Dedicated account manager, Custom workflows and SLAs, Data governance]
+    cite:
+      url: https://bolt.new/pricing
+      verified: 2026-07-18
+supportedModels: [claude-sonnet-5, claude-opus-4-8]
+features:
+  - In-browser full-stack builds (WebContainers)
+  - Website hosting with web requests included
+  - Unlimited databases
+  - Token-based usage with rollover
+description: >-
+  Bolt (bolt.new) by StackBlitz builds and hosts full-stack apps in the
+  browser via WebContainers. Free tier with 1M tokens/month; Pro $25/mo from
+  10M tokens; Teams $30/member.
+summary: |
+  Bolt is StackBlitz's prompt-to-app builder, distinctive for running the
+  entire dev environment in your browser tab via WebContainers — installs,
+  builds, and previews execute client-side, with hosting and databases
+  included when you publish.
+
+  Pricing is token-metered rather than credit-metered: the free tier allows
+  300K tokens per day up to 1M per month, Pro at $25/month starts at 10M
+  tokens with unused tokens rolling over, and Teams at $30 per member adds
+  centralized billing, private NPM registries, and design-system knowledge
+  with per-package prompts.
+faq:
+  - q: How much does Bolt cost?
+    a: >-
+      Free with a 300K-token daily limit (1M/month); Pro at $25/month starting
+      at 10M tokens with rollover; Teams at $30 per member; Enterprise custom.
+  - q: What makes Bolt different from Lovable or v0?
+    a: >-
+      Bolt runs the full dev environment in-browser via StackBlitz
+      WebContainers, and its pricing is transparently token-based rather than
+      abstracted into credits.
+lastVerified: 2026-07-18
