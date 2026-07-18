@@ -1,7 +1,43 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../data/site';
+import EntityCard from '../components/blocks/EntityCard.astro';
+import { SITE, SECTIONS } from '../data/site';
 import { organization, website } from '../lib/jsonld';
+import { isCurrent, byPriority } from '../lib/models';
+import { tokens, usd, date } from '../lib/fmt';
+import { orderPair } from '../lib/routes';
+
+const models = (await getCollection('models')).filter(isCurrent).sort(byPriority);
+const comparisons = await getCollection('comparisons');
+const news = (await getCollection('news')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()).slice(0, 3);
+const byId = new Map(models.map((m) => [m.id, m]));
+
+const featured = models.slice(0, 6);
+const featuredCompares = comparisons
+  .filter((c) => c.data.verdict)
+  .map((c) => {
+    const a = byId.get(c.data.a.id);
+    const b = byId.get(c.data.b.id);
+    if (!a || !b) return null;
+    const [first, second] = orderPair(a, b);
+    return { first, second };
+  })
+  .filter(Boolean)
+  .slice(0, 4) as { first: (typeof models)[number]; second: (typeof models)[number] }[];
+
+const totalSources = new Set(
+  models.flatMap((m) => [
+    m.data.pricing.cite.url,
+    m.data.contextWindow.cite.url,
+    m.data.releaseDate.cite.url,
+    ...m.data.benchmarks.map((b) => b.cite.url),
+  ]),
+).size;
+const lastUpdated = models.reduce((max, m) => (m.data.lastVerified > max ? m.data.lastVerified : max), new Date(0));
+
+const cheapest = [...models].sort((a, b) => a.data.pricing.input - b.data.pricing.input)[0];
+const biggestCtx = [...models].sort((a, b) => b.data.contextWindow.value - a.data.contextWindow.value)[0];
 ---
 
 <BaseLayout
@@ -9,13 +45,117 @@ import { organization, website } from '../lib/jsonld';
   description={SITE.description}
   jsonld={[organization(), website()]}
 >
-  <section class="py-16 sm:py-24">
-    <h1 class="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-      The AI product reference database
+  <section class="py-14 sm:py-20">
+    <h1 class="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+      Every AI model. Every spec. Every price. <span class="text-ink-2">Sourced.</span>
     </h1>
     <p class="mt-4 max-w-xl text-[15px] leading-relaxed text-ink-2">
-      Specs, pricing, context windows, and benchmarks for every major AI model and coding app.
-      Every fact sourced and dated. Launching soon.
+      Specs, pricing, context windows, and benchmarks for {models.length} current models and the
+      apps built on them — every fact linked to an official source with a verification date.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="/models" class="border border-accent bg-accent px-4 py-2 text-[13px] font-semibold text-white">Browse models</a>
+      <a href="/comparisons" class="border border-line-strong px-4 py-2 text-[13px] font-medium transition-colors hover:border-accent hover:text-accent-text">Compare head-to-head</a>
+      <a href="/pricing" class="border border-line-strong px-4 py-2 text-[13px] font-medium transition-colors hover:border-accent hover:text-accent-text">Pricing database</a>
+    </div>
+    <dl class="mt-10 grid max-w-2xl grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
+      {
+        [
+          { label: 'Models tracked', value: String(models.length) },
+          { label: 'Official sources', value: String(totalSources) },
+          { label: 'Cheapest input / 1M', value: usd(cheapest.data.pricing.input) },
+          { label: 'Largest context', value: tokens(biggestCtx.data.contextWindow.value) },
+        ].map((stat) => (
+          <div class="bg-surface p-4">
+            <dt class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{stat.label}</dt>
+            <dd class="num mt-1 text-lg font-semibold">{stat.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section>
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="text-lg font-semibold tracking-tight">Top models right now</h2>
+      <a href="/models" class="text-[13px] font-medium text-accent-text underline underline-offset-2">All models →</a>
+    </div>
+    <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        featured.map((m) => (
+          <EntityCard
+            name={m.data.name}
+            href={`/${m.data.slug}`}
+            meta={`${m.data.family} · ${m.data.tier === 'flagship' ? 'Flagship' : m.data.tier === 'mid' ? 'Mid-tier' : m.data.tier}`}
+            stats={[
+              { label: 'Context', value: tokens(m.data.contextWindow.value) },
+              { label: 'Input / 1M', value: usd(m.data.pricing.input) },
+              { label: 'Output / 1M', value: usd(m.data.pricing.output) },
+            ]}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-14">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="text-lg font-semibold tracking-tight">The big matchups</h2>
+      <a href="/comparisons" class="text-[13px] font-medium text-accent-text underline underline-offset-2">All comparisons →</a>
+    </div>
+    <div class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+      {
+        featuredCompares.map((c) => (
+          <a
+            href={`/${c.first.data.slug}-vs-${c.second.data.slug}`}
+            class="group flex items-baseline justify-between border border-line px-4 py-3 transition-colors hover:border-line-strong"
+          >
+            <span class="text-[14px] font-medium group-hover:text-accent-text">
+              {c.first.data.name} <span class="text-ink-3">vs</span> {c.second.data.name}
+            </span>
+            <span class="num text-[12px] text-ink-3">
+              {usd(c.first.data.pricing.input)} · {usd(c.second.data.pricing.input)}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-14">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="text-lg font-semibold tracking-tight">Latest news</h2>
+      <a href="/news" class="text-[13px] font-medium text-accent-text underline underline-offset-2">All news →</a>
+    </div>
+    <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      {
+        news.map((item) => (
+          <a href={`/news/${item.data.slug}`} class="group border border-line p-4 transition-colors hover:border-line-strong">
+            <time class="num text-[11px] text-ink-3" datetime={item.data.pubDate.toISOString().slice(0, 10)}>
+              {date(item.data.pubDate)}
+            </time>
+            <div class="mt-1 text-[14px] font-semibold leading-snug group-hover:text-accent-text">{item.data.title}</div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-14 pb-4">
+    <h2 class="text-lg font-semibold tracking-tight">Everything else</h2>
+    <div class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      {
+        SECTIONS.filter((s) => !['models', 'comparisons', 'pricing', 'news', 'about'].includes(s.slug)).map((s) => (
+          <a href={`/${s.slug}`} class="group border border-line p-3.5 transition-colors hover:border-line-strong">
+            <span class="text-[13px] font-semibold group-hover:text-accent-text">{s.title}</span>
+            <span class="mt-0.5 block text-[11px] leading-snug text-ink-3">{s.blurb}</span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 text-[12px] text-ink-3">
+      Data last verified <time class="num" datetime={lastUpdated.toISOString().slice(0, 10)}>{date(lastUpdated)}</time> —
+      read <a href="/methodology" class="underline underline-offset-2 hover:text-ink-2">how we verify</a>.
     </p>
   </section>
 </BaseLayout>

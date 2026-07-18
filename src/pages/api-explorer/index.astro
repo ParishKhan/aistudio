@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { isCurrent, byPriority } from '../../lib/models';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const models = (await getCollection('models')).filter(isCurrent).sort(byPriority);
+const vendors = await getCollection('vendors');
+const vendorName = (id: string) => vendors.find((v) => v.id === id)?.data.name ?? id;
+---
+
+<BaseLayout
+  title="API Explorer: Model IDs, Providers & Code for Every Model"
+  description="Every model's exact API identity in one table — model IDs, aliases, provider availability across Bedrock/Vertex/first-party, and copy-paste code examples."
+  jsonld={[breadcrumbs([{ name: 'API Explorer' }])]}
+>
+  <Breadcrumbs items={[{ label: 'API Explorer' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">API Explorer</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    The exact strings you need to call each model — IDs, aliases, and where each model is served —
+    with copy-paste curl, Python, and TypeScript on every model's API page.
+  </p>
+
+  <div class="table-scroll mt-8">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Vendor</th>
+          <th>Primary model ID</th>
+          <th class="cell-num">Providers</th>
+          <th><span class="sr-only">Link</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          models.map((m) => (
+            <tr>
+              <td>
+                <a href={`/${m.data.slug}`} class="font-medium hover:text-accent-text">
+                  {m.data.name}
+                </a>
+              </td>
+              <td class="text-ink-2">{vendorName(m.data.vendor.id)}</td>
+              <td class="num">{m.data.api.modelIds[0]}</td>
+              <td class="cell-num">{m.data.api.providers.length}</td>
+              <td>
+                <a href={`/${m.data.slug}-api`} class="text-[12px] font-medium text-accent-text underline underline-offset-2">
+                  API page →
+                </a>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</BaseLayout>

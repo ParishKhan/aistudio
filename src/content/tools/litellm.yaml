@@ -1,0 +1,9 @@
+name: LiteLLM
+slug: litellm
+url: https://litellm.ai
+category: gateway
+pricingModel: open-source
+description: >-
+  Open-source LLM gateway: call 100+ providers through one OpenAI-format
+  API with spend tracking, budgets, and fallbacks.
+lastVerified: 2026-07-18

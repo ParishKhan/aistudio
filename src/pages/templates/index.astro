@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const templates = (await getCollection('templates')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+
+<BaseLayout
+  title="AI App Templates: Starter Kits Worth Cloning"
+  description="Curated starter templates for AI apps — official quickstarts and battle-tested starters for chatbots, agents, and AI-powered products."
+  jsonld={[breadcrumbs([{ name: 'Templates' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Templates' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Templates</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Starter kits worth cloning — official quickstarts and proven starters, not abandoned demos.
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    {
+      templates.map((t) => (
+        <a href={t.data.url} rel="noopener" class="group border border-line p-4 transition-colors hover:border-line-strong">
+          <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{t.data.category}</div>
+          <div class="mt-1 text-[15px] font-semibold group-hover:text-accent-text">{t.data.name}</div>
+          <p class="mt-1 text-[13px] leading-relaxed text-ink-2">{t.data.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

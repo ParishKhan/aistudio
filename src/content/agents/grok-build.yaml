@@ -1,0 +1,9 @@
+name: Grok Build
+slug: grok-build
+url: https://x.ai
+category: coding-agent
+relatedModels: [grok-4-5]
+description: >-
+  SpaceXAI's agentic build environment where Grok 4.5 is the default model —
+  coding plus Office-style document, spreadsheet, and deck work.
+lastVerified: 2026-07-18

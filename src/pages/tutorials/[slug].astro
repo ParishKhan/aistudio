@@ -1,0 +1,55 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { date } from '../../lib/fmt';
+import { breadcrumbs, article } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const tutorials = await getCollection('tutorials');
+  return tutorials.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'tutorials'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const jsonld = [
+  breadcrumbs([{ name: 'Tutorials', path: '/tutorials' }, { name: d.title }]),
+  article({
+    type: 'TechArticle',
+    title: d.title,
+    path: `/tutorials/${d.slug}`,
+    description: d.description,
+    published: d.pubDate,
+    updated: d.updatedDate,
+  }),
+];
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  type="article"
+  publishedTime={d.pubDate}
+  modifiedTime={d.updatedDate}
+  jsonld={jsonld}
+>
+  <Breadcrumbs items={[{ label: 'Tutorials', href: '/tutorials' }, { label: d.title }]} />
+
+  <article class="max-w-2xl pb-8">
+    <div class="flex items-center gap-2 text-[11px] font-semibold tracking-wider text-ink-3 uppercase">
+      <span>{d.difficulty}</span>
+      <span aria-hidden="true">·</span>
+      <time class="num" datetime={d.pubDate.toISOString().slice(0, 10)}>{date(d.pubDate)}</time>
+    </div>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h1>
+    <div class="prose-site mt-6" data-pagefind-body>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

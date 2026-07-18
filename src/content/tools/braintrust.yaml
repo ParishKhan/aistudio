@@ -1,0 +1,9 @@
+name: Braintrust
+slug: braintrust
+url: https://www.braintrust.dev
+category: evals
+pricingModel: freemium
+description: >-
+  Eval-first LLM engineering platform: datasets, scoring functions, CI
+  integration, and prompt playgrounds for shipping reliable AI features.
+lastVerified: 2026-07-18

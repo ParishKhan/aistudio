@@ -1,0 +1,9 @@
+name: LangChain
+slug: langchain
+url: https://www.langchain.com
+category: orchestration
+pricingModel: freemium
+description: >-
+  The most widely adopted framework for building LLM applications and agents,
+  with LangGraph for stateful agent orchestration.
+lastVerified: 2026-07-18

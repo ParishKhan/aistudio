@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const prompts = (await getCollection('prompts')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const models = await getCollection('models');
+const modelName = (id: string) => models.find((m) => m.id === id)?.data.name ?? id;
+const categories = [...new Set(prompts.map((p) => p.data.category))];
+---
+
+<BaseLayout
+  title="Prompt Library: Tested Prompts for Real Tasks"
+  description="A curated library of tested prompts for coding, analysis, and productivity — each with the reasoning for why it works and the models it works best with."
+  jsonld={[breadcrumbs([{ name: 'Prompt Library' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Prompt Library' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Prompt Library</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Prompts we actually use, with the reasoning for why each works — not a dump of a thousand
+    templates.
+  </p>
+
+  {
+    categories.map((cat) => (
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold tracking-tight capitalize">{cat}</h2>
+        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {prompts
+            .filter((p) => p.data.category === cat)
+            .map((p) => (
+              <a href={`/prompts/${p.data.slug}`} class="group border border-line p-4 transition-colors hover:border-line-strong">
+                <div class="text-[14px] font-semibold group-hover:text-accent-text">{p.data.title}</div>
+                <p class="mt-1 text-[13px] leading-relaxed text-ink-2">{p.data.description}</p>
+                {p.data.models.length > 0 && (
+                  <div class="mt-2 text-[11px] text-ink-3">Works well with {p.data.models.map((r) => modelName(r.id)).join(', ')}</div>
+                )}
+              </a>
+            ))}
+        </div>
+      </section>
+    ))
+  }
+</BaseLayout>

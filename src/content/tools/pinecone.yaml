@@ -1,0 +1,9 @@
+name: Pinecone
+slug: pinecone
+url: https://www.pinecone.io
+category: vector-db
+pricingModel: freemium
+description: >-
+  Managed vector database for retrieval-augmented generation — serverless
+  indexes, hybrid search, and metadata filtering.
+lastVerified: 2026-07-18

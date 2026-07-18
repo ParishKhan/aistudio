@@ -1,0 +1,9 @@
+name: vLLM
+slug: vllm
+url: https://docs.vllm.ai
+category: inference
+pricingModel: open-source
+description: >-
+  High-throughput open-source inference engine for serving open-weight models
+  in production — the default choice for self-hosting at scale.
+lastVerified: 2026-07-18

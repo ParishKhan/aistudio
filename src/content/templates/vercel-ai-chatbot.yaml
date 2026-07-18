@@ -1,0 +1,9 @@
+name: Next.js AI Chatbot
+slug: vercel-ai-chatbot
+url: https://github.com/vercel/ai-chatbot
+category: chat
+relatedModels: [gpt-5-6-sol]
+description: >-
+  Vercel's full-featured chatbot starter on Next.js and the AI SDK — auth,
+  streaming, tool calls, and model switching out of the box.
+lastVerified: 2026-07-18

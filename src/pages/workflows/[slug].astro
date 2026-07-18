@@ -1,0 +1,35 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const workflows = await getCollection('workflows');
+  return workflows.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'workflows'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<BaseLayout
+  title={`${d.title} — AI Workflows`}
+  description={d.description}
+  jsonld={[breadcrumbs([{ name: 'Workflows', path: '/workflows' }, { name: d.title }])]}
+>
+  <Breadcrumbs items={[{ label: 'Workflows', href: '/workflows' }, { label: d.title }]} />
+
+  <article class="max-w-2xl pb-8">
+    <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{d.category}</div>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h1>
+    <div class="prose-site mt-6" data-pagefind-body>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,9 @@
+name: OpenRouter
+slug: openrouter
+url: https://openrouter.ai
+category: gateway
+pricingModel: paid
+description: >-
+  Unified API over hundreds of models from every major lab — one key, one
+  OpenAI-compatible endpoint, with automatic fallbacks and price routing.
+lastVerified: 2026-07-18

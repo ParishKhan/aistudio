@@ -1,0 +1,9 @@
+name: Ollama
+slug: ollama
+url: https://ollama.com
+category: inference
+pricingModel: open-source
+description: >-
+  The standard way to run open-weight models locally — one command to pull
+  and serve models like DeepSeek and Mistral on your own machine.
+lastVerified: 2026-07-18

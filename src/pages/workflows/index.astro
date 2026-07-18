@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const workflows = (await getCollection('workflows')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<BaseLayout
+  title="AI Workflows: End-to-End Recipes That Hold Up"
+  description="Step-by-step AI workflow recipes — evaluation pipelines, cost-controlled agent setups, and production patterns built on verified model data."
+  jsonld={[breadcrumbs([{ name: 'Workflows' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Workflows' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Workflows</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    End-to-end recipes: what to run, in what order, with which models.
+  </p>
+
+  <div class="mt-8 grid max-w-3xl grid-cols-1 gap-3">
+    {
+      workflows.map((w) => (
+        <a href={`/workflows/${w.data.slug}`} class="group border border-line p-5 transition-colors hover:border-line-strong">
+          <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{w.data.category}</div>
+          <div class="mt-1 text-[16px] font-semibold tracking-tight group-hover:text-accent-text">{w.data.title}</div>
+          <p class="mt-1.5 text-[13px] leading-relaxed text-ink-2">{w.data.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

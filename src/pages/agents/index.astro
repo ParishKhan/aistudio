@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const agents = (await getCollection('agents')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const models = await getCollection('models');
+const modelName = (id: string) => models.find((m) => m.id === id)?.data.name ?? id;
+---
+
+<BaseLayout
+  title="AI Agents: Coding Agents & Autonomous Engineers Compared"
+  description="The agent products doing real software work — Claude Code, Codex, Devin, Grok Build — what each one is, and which models power them."
+  jsonld={[breadcrumbs([{ name: 'Agents' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Agents' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Agents</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    The agent products shipping real software work, and the models underneath them.
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    {
+      agents.map((agent) => (
+        <a href={agent.data.url} rel="noopener" class="group border border-line p-4 transition-colors hover:border-line-strong">
+          <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{agent.data.category.replace('-', ' ')}</div>
+          <div class="mt-1 text-[15px] font-semibold group-hover:text-accent-text">{agent.data.name}</div>
+          <p class="mt-1 text-[13px] leading-relaxed text-ink-2">{agent.data.description}</p>
+          {agent.data.relatedModels.length > 0 && (
+            <div class="mt-2 text-[11px] text-ink-3">
+              Powered by {agent.data.relatedModels.map((r) => modelName(r.id)).join(', ')}
+            </div>
+          )}
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

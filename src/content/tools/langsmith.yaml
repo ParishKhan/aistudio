@@ -1,0 +1,9 @@
+name: LangSmith
+slug: langsmith
+url: https://smith.langchain.com
+category: observability
+pricingModel: freemium
+description: >-
+  Tracing, evals, and monitoring for LLM apps from the LangChain team —
+  works with or without the LangChain framework.
+lastVerified: 2026-07-18

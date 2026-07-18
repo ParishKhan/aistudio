@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const tools = (await getCollection('tools')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const categories = [...new Set(tools.map((t) => t.data.category))].sort();
+
+const categoryLabel: Record<string, string> = {
+  inference: 'Inference & serving',
+  gateway: 'Gateways & routing',
+  orchestration: 'Orchestration',
+  observability: 'Observability',
+  evals: 'Evals',
+  'vector-db': 'Vector databases',
+  'fine-tuning': 'Fine-tuning',
+  data: 'Data',
+  other: 'Other',
+};
+---
+
+<BaseLayout
+  title="AI Tool Directory: Infrastructure for Building with LLMs"
+  description="A curated directory of AI developer tools — gateways, inference engines, orchestration frameworks, evals, and vector databases — organized by what they do."
+  jsonld={[breadcrumbs([{ name: 'Tool Directory' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Tool Directory' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Tool Directory</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    The infrastructure layer around the models: curated, categorized, and kept current.
+  </p>
+
+  {
+    categories.map((cat) => (
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold tracking-tight">{categoryLabel[cat] ?? cat}</h2>
+        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {tools
+            .filter((t) => t.data.category === cat)
+            .map((t) => (
+              <a href={t.data.url} rel="noopener" class="group border border-line p-4 transition-colors hover:border-line-strong">
+                <div class="flex items-baseline justify-between gap-2">
+                  <span class="text-[14px] font-semibold group-hover:text-accent-text">{t.data.name}</span>
+                  <span class="text-[11px] text-ink-3">{t.data.pricingModel}</span>
+                </div>
+                <p class="mt-1 text-[13px] leading-relaxed text-ink-2">{t.data.description}</p>
+              </a>
+            ))}
+        </div>
+      </section>
+    ))
+  }
+</BaseLayout>

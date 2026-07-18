@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { date } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const news = (await getCollection('news')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title="AI News: Model Releases & Pricing Changes That Matter"
+  description="Model launches, pricing changes, and platform shifts across OpenAI, Anthropic, Google, SpaceXAI, Mistral, and DeepSeek — reported with sources, linked to our spec database."
+  jsonld={[breadcrumbs([{ name: 'News' }])]}
+>
+  <Breadcrumbs items={[{ label: 'News' }]} />
+
+  <div class="flex items-baseline justify-between gap-4">
+    <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">News</h1>
+    <a href="/news/rss.xml" class="text-[12px] text-ink-3 underline underline-offset-2 hover:text-ink-2">RSS</a>
+  </div>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Releases and pricing changes that actually change the model-picking math — each linked into
+    the spec database so you can act on it.
+  </p>
+
+  <div class="mt-8 max-w-3xl divide-y divide-line border-y border-line">
+    {
+      news.map((item) => (
+        <article class="py-5">
+          <time class="num text-[12px] text-ink-3" datetime={item.data.pubDate.toISOString().slice(0, 10)}>
+            {date(item.data.pubDate)}
+          </time>
+          <h2 class="mt-1 text-[16px] font-semibold tracking-tight">
+            <a href={`/news/${item.data.slug}`} class="hover:text-accent-text">
+              {item.data.title}
+            </a>
+          </h2>
+          <p class="mt-1.5 text-[13px] leading-relaxed text-ink-2">{item.data.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

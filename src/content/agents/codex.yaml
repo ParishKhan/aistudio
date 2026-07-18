@@ -1,0 +1,10 @@
+name: Codex
+slug: codex
+url: https://openai.com/codex
+category: coding-agent
+relatedModels: [gpt-5-6-sol]
+description: >-
+  OpenAI's software engineering agent, deeply integrated with the GPT-5.6
+  family — including max effort mode and ultra's parallel agents on paid
+  ChatGPT plans.
+lastVerified: 2026-07-18

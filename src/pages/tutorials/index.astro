@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { date } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const tutorials = (await getCollection('tutorials')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title="AI Tutorials: Practical Guides for Models & APIs"
+  description="Practical, data-backed guides for working with AI models — choosing between them, cutting API costs, and building with the current generation of tools."
+  jsonld={[breadcrumbs([{ name: 'Tutorials' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Tutorials' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Tutorials</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Practical guides backed by the same verified data as the rest of the site.
+  </p>
+
+  <div class="mt-8 grid max-w-3xl grid-cols-1 gap-3">
+    {
+      tutorials.map((t) => (
+        <a href={`/tutorials/${t.data.slug}`} class="group border border-line p-5 transition-colors hover:border-line-strong">
+          <div class="flex items-center gap-2 text-[11px] font-semibold tracking-wider text-ink-3 uppercase">
+            <span>{t.data.difficulty}</span>
+            <span aria-hidden="true">·</span>
+            <time class="num" datetime={t.data.pubDate.toISOString().slice(0, 10)}>{date(t.data.pubDate)}</time>
+          </div>
+          <div class="mt-1.5 text-[16px] font-semibold tracking-tight group-hover:text-accent-text">{t.data.title}</div>
+          <p class="mt-1.5 text-[13px] leading-relaxed text-ink-2">{t.data.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

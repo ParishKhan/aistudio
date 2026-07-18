@@ -1,0 +1,54 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const prompts = await getCollection('prompts');
+  return prompts.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'prompts'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const models = await getCollection('models');
+const related = d.models.map((r) => models.find((m) => m.id === r.id)).filter(Boolean);
+---
+
+<BaseLayout
+  title={`${d.title} — Prompt Library`}
+  description={d.description}
+  jsonld={[breadcrumbs([{ name: 'Prompt Library', path: '/prompts' }, { name: d.title }])]}
+>
+  <Breadcrumbs items={[{ label: 'Prompt Library', href: '/prompts' }, { label: d.title }]} />
+
+  <article class="max-w-2xl pb-8">
+    <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{d.category}</div>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{d.title}</h1>
+    <p class="mt-2 text-[14px] leading-relaxed text-ink-2">{d.description}</p>
+    <div class="prose-site mt-6" data-pagefind-body>
+      <Content />
+    </div>
+    {
+      related.length > 0 && (
+        <div class="mt-8 border-t border-line pt-5">
+          <h2 class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Works well with</h2>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            {related.map((m) => (
+              <li>
+                <a href={`/${m!.data.slug}`} class="inline-block border border-line px-3 py-1.5 text-[13px] font-medium transition-colors hover:border-line-strong hover:text-accent-text">
+                  {m!.data.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </article>
+</BaseLayout>

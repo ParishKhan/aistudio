@@ -1,0 +1,10 @@
+name: Claude Code
+slug: claude-code
+url: https://claude.com/claude-code
+category: coding-agent
+relatedModels: [claude-opus-4-8, claude-fable-5]
+description: >-
+  Anthropic's agentic coding tool — CLI, desktop, and IDE surfaces. With Opus
+  4.8's dynamic workflows it runs hundreds of parallel subagents for
+  codebase-scale migrations.
+lastVerified: 2026-07-18
