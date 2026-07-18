@@ -1,4 +1,1 @@
-# www -> apex
-https://www.aistudio.quest/* https://aistudio.quest/:splat 301
-
 # Reversed comparison URLs are appended below by scripts/gen-redirects (milestone 8)
