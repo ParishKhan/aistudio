@@ -4,7 +4,7 @@ slug: grok-4-5-launch
 pubDate: 2026-07-16
 description: >-
   Grok 4.5 arrives at $2/$6 per 1M tokens with 83.3% on Terminal-Bench 2.1
-  and a claimed 4× token-efficiency edge over Opus 4.8 — served at 80
+  and a claimed 4× token-efficiency edge over Opus 4.8, served at 80
   tokens/second with a 500K context window.
 tags: [xai, grok, launch]
 sources:
@@ -14,14 +14,14 @@ sources:
     verified: 2026-07-18
 ---
 
-SpaceXAI — the merged SpaceX/xAI entity — released [Grok 4.5](/grok-4-5) on
+SpaceXAI, the merged SpaceX/xAI entity, released [Grok 4.5](/grok-4-5) on
 July 16 as its strongest model, built for coding, agentic tasks, and knowledge
 work and trained alongside Cursor on real engineering workflows.
 
 The pitch is intelligence per dollar and per second: $2 per million input
 tokens and $6 per million output (doubling past 200K input), served at
 fast-model speeds of ~80 tokens/second. On SWE-Bench Pro tasks it averages
-15,954 output tokens — about 4.2× fewer than Claude Opus 4.8 at max effort —
+15,954 output tokens, about 4.2× fewer than Claude Opus 4.8 at max effort,
 and it posts 83.3% on Terminal-Bench 2.1 and 64.7% on SWE-Bench Pro,
 mid-flagship territory at a fraction of flagship prices.
 

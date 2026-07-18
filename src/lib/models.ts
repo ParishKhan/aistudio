@@ -81,8 +81,8 @@ export function compareRows(a: Model, b: Model, benchmarks: Benchmark[]): Compar
   rows.push({
     label: 'Knowledge cutoff',
     cells: [
-      { display: a.data.knowledgeCutoff?.value ?? '—' },
-      { display: b.data.knowledgeCutoff?.value ?? '—' },
+      { display: a.data.knowledgeCutoff?.value ?? '-' },
+      { display: b.data.knowledgeCutoff?.value ?? '-' },
     ],
   });
   rows.push({

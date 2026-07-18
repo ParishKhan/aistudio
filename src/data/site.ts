@@ -3,7 +3,7 @@ export const SITE = {
   url: 'https://aistudio.quest',
   tagline: 'The AI product reference database',
   description:
-    'Specs, pricing, context windows, and benchmarks for every major AI model and coding app. Compare GPT, Claude, Gemini, Grok, Mistral, and DeepSeek side by side — every fact sourced and dated.',
+    'Specs, pricing, context windows, and benchmarks for every major AI model and coding app. Compare GPT, Claude, Gemini, Grok, Mistral, and DeepSeek side by side, every fact sourced and dated.',
   github: 'https://github.com/ParishKhan/aistudio',
 } as const;
 

@@ -70,7 +70,7 @@ const rows = d.benchmarks.map((entry) => {
                 {fmtScore(entry.score, bench.data.scoreType)}
                 <SourceNote n={sources.indexOf(entry.cite.url)} url={entry.cite.url} />
               </td>
-              <td class="text-ink-2">{entry.variant ?? '—'}</td>
+              <td class="text-ink-2">{entry.variant ?? '-'}</td>
               <td class="text-ink-2">{entry.selfReported ? 'vendor' : 'third-party'}</td>
               <td class="cell-num">
                 #{rank}<span class="text-ink-3"> / {of}</span>
@@ -85,6 +85,6 @@ const rows = d.benchmarks.map((entry) => {
   <p class="mt-4 max-w-2xl text-[13px] leading-relaxed text-ink-3">
     Rank is among the {allModels.length} models in our database that report the same benchmark.
     Cross-vendor comparisons should account for differing eval harnesses and reasoning-effort
-    settings — see each benchmark's methodology notes.
+    settings; see each benchmark's methodology notes.
   </p>
 </ModelShell>

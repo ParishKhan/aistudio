@@ -106,13 +106,13 @@ summary: |
   Gemini 3.1 Pro is Google DeepMind's flagship, still carrying a Preview
   label as of July 2026 (latest update February 2026). Its standout spec is
   input breadth: it accepts text, images, video, audio, and PDF across a
-  1,048,576-token context window — the widest modality support of any
+  1,048,576-token context window, the widest modality support of any
   flagship we track.
 
   Pricing is tiered by prompt length: $2 per million input tokens and $12 per
   million output up to 200K input tokens, doubling to $4 and rising to $18
   beyond that. Google also offers half-price Batch and Flex processing and a
-  1.8× Priority tier — the most granular serving options of the major
+  1.8× Priority tier, the most granular serving options of the major
   vendors.
 
   Google's own leaderboard claim rests on GPQA Diamond (94.3% in OpenAI's
@@ -126,7 +126,7 @@ faq:
       tokens; $4/$18 beyond that. Batch and Flex halve the standard rates.
   - q: What modalities does Gemini 3.1 Pro accept?
     a: >-
-      Text, images, video, audio, and PDF input with text output — the
+      Text, images, video, audio, and PDF input with text output, the
       broadest input support among current flagship models.
   - q: Is Gemini 3.1 Pro generally available?
     a: >-

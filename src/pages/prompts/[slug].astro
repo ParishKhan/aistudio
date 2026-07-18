@@ -21,7 +21,7 @@ const related = d.models.map((r) => models.find((m) => m.id === r.id)).filter(Bo
 ---
 
 <BaseLayout
-  title={`${d.title} — Prompt Library`}
+  title={`${d.title} | Prompt Library`}
   description={d.description}
   jsonld={[breadcrumbs([{ name: 'Prompt Library', path: '/prompts' }, { name: d.title }])]}
 >

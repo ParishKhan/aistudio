@@ -5,7 +5,7 @@ category: analysis
 models: [gpt-5-6-sol, claude-fable-5]
 description: >-
   Turns a vague research question into a scoped brief with source
-  requirements and a claim-verification pass — built for browsing-capable
+  requirements and a claim-verification pass, built for browsing-capable
   models.
 lastVerified: 2026-07-18
 ---
@@ -24,5 +24,5 @@ Process:
 Never present an unverified claim as fact.
 ```
 
-The explicit unverified-claims section is the key — it converts hallucination
+The explicit unverified-claims section is the key: it converts hallucination
 risk into a visible, checkable list.

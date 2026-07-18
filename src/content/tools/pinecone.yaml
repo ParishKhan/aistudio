@@ -4,6 +4,6 @@ url: https://www.pinecone.io
 category: vector-db
 pricingModel: freemium
 description: >-
-  Managed vector database for retrieval-augmented generation — serverless
+  Managed vector database for retrieval-augmented generation, with serverless
   indexes, hybrid search, and metadata filtering.
 lastVerified: 2026-07-18

@@ -71,8 +71,8 @@ description: >-
   with full multimodal input at $1.50/$9 per 1M tokens. Specs, pricing
   options, and API details.
 summary: |
-  Gemini 3.5 Flash is Google's stable workhorse — "sustained frontier
-  performance on agentic and coding tasks" in Google's positioning — updated
+  Gemini 3.5 Flash is Google's stable workhorse, "sustained frontier
+  performance on agentic and coding tasks" in Google's positioning, updated
   May 2026. Google notably describes it as more intelligent than the
   Preview-labeled 3.1 Pro on sustained agentic work, making it the
   recommended default for most Gemini API workloads.
@@ -83,7 +83,7 @@ summary: |
   output, it sits between GPT-5.6 Luna and Terra on price.
 
   Unlike 3.1 Pro, it supports computer use, and it is a stable (non-preview)
-  model — the safer bet for production Gemini deployments.
+  model, the safer bet for production Gemini deployments.
 faq:
   - q: How much does Gemini 3.5 Flash cost?
     a: >-

@@ -7,7 +7,7 @@ verdict: |
   and OpenAI's own Artificial Analysis Intelligence Index comparison puts
   Fable one point ahead. But Sol costs half as much ($5/$30 vs $10/$50 per 1M
   tokens), and OpenAI reports it completes comparable work with fewer tokens
-  and less time — its Agents' Last Exam and Terminal-Bench scores lead.
+  and less time; its Agents' Last Exam and Terminal-Bench scores lead.
 
   Practical read: for long-horizon autonomous engineering where per-task
   quality dominates cost, Fable 5 is the strongest model available. For
@@ -27,6 +27,6 @@ faq:
       efficiency.
   - q: Do they have the same context window?
     a: >-
-      Nearly — Sol offers 1,050,000 tokens vs Fable's 1,000,000, both with
+      Nearly. Sol offers 1,050,000 tokens vs Fable's 1,000,000, both with
       128K max output. Note Fable's newer tokenizer produces ~30% more tokens
       for the same text.

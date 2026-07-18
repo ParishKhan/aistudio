@@ -28,15 +28,15 @@ const used = new Set<(typeof entries)[number]>();
 
 <BaseLayout
   title="AI Model Comparisons: Head-to-Head Specs & Benchmarks"
-  description="Side-by-side comparisons of every major AI model pairing — GPT-5.6 vs Claude, Gemini vs Grok, DeepSeek vs Mistral — with benchmarks, pricing, and context windows from official sources."
+  description="Side-by-side comparisons of every major AI model pairing (GPT-5.6 vs Claude, Gemini vs Grok, DeepSeek vs Mistral), with benchmarks, pricing, and context windows from official sources."
   jsonld={[breadcrumbs([{ name: 'Comparisons' }])]}
 >
   <Breadcrumbs items={[{ label: 'Comparisons' }]} />
 
   <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Model Comparisons</h1>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
-    {entries.length} head-to-head matchups with spec-by-spec grids, benchmark deltas, and — for the
-    big rivalries — a written verdict. Marked ★ where a verdict is included.
+    {entries.length} head-to-head matchups with spec-by-spec grids, benchmark deltas, and a written verdict for the
+    big rivalries. Marked ★ where a verdict is included.
   </p>
 
   <form id="compare-picker" class="mt-6 flex max-w-2xl flex-wrap items-end gap-3 border border-line bg-surface-2 p-4">

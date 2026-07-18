@@ -27,7 +27,7 @@ const jsonld = [
 
 <BaseLayout
   title="AI Model Pricing Database: Every API Price Per 1M Tokens"
-  description="API pricing for every major AI model in one table — input, output, cached, and batch rates per 1M tokens for GPT, Claude, Gemini, Grok, Mistral, and DeepSeek, verified against official pricing pages."
+  description="API pricing for every major AI model in one table: input, output, cached, and batch rates per 1M tokens for GPT, Claude, Gemini, Grok, Mistral, and DeepSeek, verified against official pricing pages."
   jsonld={jsonld}
 >
   <Breadcrumbs items={[{ label: 'Pricing' }]} />
@@ -36,7 +36,7 @@ const jsonld = [
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
     Standard API rates per 1M tokens for all {models.length} current models we track, sorted
     cheapest-first by input price. Every number is verified against the vendor's official pricing
-    page — click through to any model for cached, batch, and per-task cost detail.
+    page. Click through to any model for cached, batch, and per-task cost detail.
   </p>
 
   <div class="table-scroll mt-8">
@@ -64,8 +64,8 @@ const jsonld = [
               <td class="text-ink-2">{vendorName(m.data.vendor.id)}</td>
               <td class="cell-num">{usd(m.data.pricing.input)}</td>
               <td class="cell-num">{usd(m.data.pricing.output)}</td>
-              <td class="cell-num">{m.data.pricing.cachedInput !== undefined ? usd(m.data.pricing.cachedInput) : '—'}</td>
-              <td class="cell-num">{m.data.pricing.batchInput !== undefined ? usd(m.data.pricing.batchInput) : '—'}</td>
+              <td class="cell-num">{m.data.pricing.cachedInput !== undefined ? usd(m.data.pricing.cachedInput) : '-'}</td>
+              <td class="cell-num">{m.data.pricing.batchInput !== undefined ? usd(m.data.pricing.batchInput) : '-'}</td>
               <td class="cell-num">{tokens(m.data.contextWindow.value)}</td>
             </tr>
           ))

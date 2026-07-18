@@ -12,14 +12,14 @@ const categories = [...new Set(prompts.map((p) => p.data.category))];
 
 <BaseLayout
   title="Prompt Library: Tested Prompts for Real Tasks"
-  description="A curated library of tested prompts for coding, analysis, and productivity — each with the reasoning for why it works and the models it works best with."
+  description="A curated library of tested prompts for coding, analysis, and productivity, each with the reasoning for why it works and the models it works best with."
   jsonld={[breadcrumbs([{ name: 'Prompt Library' }])]}
 >
   <Breadcrumbs items={[{ label: 'Prompt Library' }]} />
 
   <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Prompt Library</h1>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
-    Prompts we actually use, with the reasoning for why each works — not a dump of a thousand
+    Prompts we actually use, with the reasoning for why each works, not a dump of a thousand
     templates.
   </p>
 

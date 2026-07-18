@@ -6,7 +6,7 @@ import { breadcrumbs, organization } from '../lib/jsonld';
 
 <BaseLayout
   title="About AIStudio: The AI Product Reference Database"
-  description="AIStudio is a reference database for AI products — think GSMArena or RTINGS, but for AI models and apps. Specs, pricing, and benchmarks, every fact sourced and dated."
+  description="AIStudio is a reference database for AI products. Think GSMArena or RTINGS, but for AI models and apps. Specs, pricing, and benchmarks, every fact sourced and dated."
   jsonld={[breadcrumbs([{ name: 'About' }]), organization()]}
 >
   <Breadcrumbs items={[{ label: 'About' }]} />
@@ -15,8 +15,8 @@ import { breadcrumbs, organization } from '../lib/jsonld';
     <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">About AIStudio</h1>
 
     <p class="mt-6">
-      Phones have GSMArena. PC parts have PCPartPicker. TVs have RTINGS. AI — the fastest-moving,
-      most confusingly priced product category in tech — mostly has hype threads and outdated blog
+      Phones have GSMArena. PC parts have PCPartPicker. TVs have RTINGS. AI, the fastest-moving,
+      most confusingly priced product category in tech, mostly has hype threads and outdated blog
       posts. AIStudio is the missing reference database.
     </p>
 
@@ -30,16 +30,16 @@ import { breadcrumbs, organization } from '../lib/jsonld';
     <p>
       Two things make it trustworthy. First, <a href="/methodology">the methodology</a>: every
       fact links to an official source with the date we verified it, and automated checks flag
-      anything stale. Second, the data is <a href="https://github.com/ParishKhan/aistudio" rel="noopener">open on GitHub</a> —
+      anything stale. Second, the data is <a href="https://github.com/ParishKhan/aistudio" rel="noopener">open on GitHub</a>, so
       errors get fixed in public.
     </p>
 
     <h2>Start here</h2>
     <ul>
-      <li><a href="/models">The model database</a> — specs and pricing for every current model</li>
-      <li><a href="/comparisons">Comparisons</a> — head-to-head grids with verdicts</li>
-      <li><a href="/pricing">The pricing database</a> — every API rate in one table</li>
-      <li><a href="/calculators/token-cost">The token cost calculator</a> — price your workload</li>
+      <li><a href="/models">The model database</a>: specs and pricing for every current model</li>
+      <li><a href="/comparisons">Comparisons</a>: head-to-head grids with verdicts</li>
+      <li><a href="/pricing">The pricing database</a>: every API rate in one table</li>
+      <li><a href="/calculators/token-cost">The token cost calculator</a>: price your workload</li>
     </ul>
   </article>
 </BaseLayout>

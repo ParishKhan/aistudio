@@ -1,4 +1,4 @@
-/** Shared display formatters — every number on the site goes through these. */
+/** Shared display formatters; every number on the site goes through these. */
 
 /** 1050000 → "1.05M", 200000 → "200K", 128000 → "128K". */
 export function tokens(n: number): string {

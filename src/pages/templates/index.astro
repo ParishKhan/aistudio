@@ -9,14 +9,14 @@ const templates = (await getCollection('templates')).sort((a, b) => a.data.name.
 
 <BaseLayout
   title="AI App Templates: Starter Kits Worth Cloning"
-  description="Curated starter templates for AI apps — official quickstarts and battle-tested starters for chatbots, agents, and AI-powered products."
+  description="Curated starter templates for AI apps: official quickstarts and battle-tested starters for chatbots, agents, and AI-powered products."
   jsonld={[breadcrumbs([{ name: 'Templates' }])]}
 >
   <Breadcrumbs items={[{ label: 'Templates' }]} />
 
   <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Templates</h1>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
-    Starter kits worth cloning — official quickstarts and proven starters, not abandoned demos.
+    Starter kits worth cloning: official quickstarts and proven starters, not abandoned demos.
   </p>
 
   <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">

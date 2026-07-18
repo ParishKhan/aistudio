@@ -4,7 +4,7 @@ slug: spec-first-feature
 category: coding
 models: [claude-opus-4-8, gpt-5-6-sol, grok-4-5]
 description: >-
-  Makes an agent write and confirm a mini-spec before touching code —
+  Makes an agent write and confirm a mini-spec before touching code, which
   cuts wasted agentic loops on ambiguous feature requests.
 lastVerified: 2026-07-18
 ---

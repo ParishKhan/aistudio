@@ -26,7 +26,7 @@ const jsonld = [
 
 <BaseLayout
   title="Context Window Database: Token Limits for Every AI Model"
-  description="Context windows and max output limits for every major AI model, ranked — GPT-5.6's 1.05M tokens to Claude Haiku's 200K — verified against official vendor docs."
+  description="Context windows and max output limits for every major AI model, ranked from GPT-5.6's 1.05M tokens to Claude Haiku's 200K, verified against official vendor docs."
   jsonld={jsonld}
 >
   <Breadcrumbs items={[{ label: 'Context Windows' }]} />
@@ -34,7 +34,7 @@ const jsonld = [
   <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Context Window Database</h1>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
     How many tokens each model can hold, ranked. 1M-token context became the frontier standard in
-    2026 — the spread now runs from {tokens(max)} down to {tokens(models[models.length - 1].data.contextWindow.value)}.
+    2026, and the spread now runs from {tokens(max)} down to {tokens(models[models.length - 1].data.contextWindow.value)}.
   </p>
 
   <div class="mt-8">
@@ -70,7 +70,7 @@ const jsonld = [
                 </a>
               </td>
               <td class="cell-num">{tokensLong(m.data.contextWindow.value)}</td>
-              <td class="cell-num">{m.data.maxOutput ? tokensLong(m.data.maxOutput.value) : '—'}</td>
+              <td class="cell-num">{m.data.maxOutput ? tokensLong(m.data.maxOutput.value) : '-'}</td>
             </tr>
           ))
         }

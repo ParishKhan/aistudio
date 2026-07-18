@@ -53,7 +53,7 @@ description: >-
   frontier-model access, and Bugbot reviews. Plans from free to $20/mo
   Individual and $40/user Teams.
 summary: |
-  Cursor, by Anysphere, is the reference AI-native code editor — a VS Code
+  Cursor, by Anysphere, is the reference AI-native code editor, a VS Code
   fork rebuilt around an agent that can plan, edit, and verify changes across
   a codebase. It pairs frontier models from OpenAI, Anthropic, Google, and
   SpaceXAI with its own Composer models and Tab completions, plus Bugbot for
@@ -71,7 +71,7 @@ faq:
       per month; custom Enterprise pricing.
   - q: Which models does Cursor support?
     a: >-
-      Frontier models across vendors — including GPT-5.6, Claude Opus
-      4.8/Fable 5, Gemini, and Grok 4.5 (free for a limited time at launch) —
+      Frontier models across vendors, including GPT-5.6, Claude Opus
+      4.8/Fable 5, Gemini, and Grok 4.5 (free for a limited time at launch),
       plus Cursor's own Composer models.
 lastVerified: 2026-07-18

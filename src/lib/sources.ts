@@ -37,7 +37,7 @@ export function modelSources(model: CollectionEntry<'models'>) {
   };
 }
 
-/** Earliest `verified` date across a model's cites — shown as "verified" on the page. */
+/** Earliest `verified` date across a model's cites; shown as "verified" on the page. */
 export function oldestVerified(model: CollectionEntry<'models'>): Date {
   const { list } = modelSources(model);
   return list.reduce(

@@ -106,7 +106,7 @@ summary: |
 faq:
   - q: Is GPT-5.5 still available?
     a: >-
-      Yes — gpt-5.5 and the gpt-5.5-2026-04-23 snapshot remain in the API at
+      Yes, gpt-5.5 and the gpt-5.5-2026-04-23 snapshot remain in the API at
       $5/$30 per 1M tokens, though GPT-5.6 Sol supersedes it at the same price.
   - q: Should I use GPT-5.5 or GPT-5.6 Sol?
     a: >-

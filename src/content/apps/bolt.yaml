@@ -47,7 +47,7 @@ description: >-
   10M tokens; Teams $30/member.
 summary: |
   Bolt is StackBlitz's prompt-to-app builder, distinctive for running the
-  entire dev environment in your browser tab via WebContainers — installs,
+  entire dev environment in your browser tab via WebContainers: installs,
   builds, and previews execute client-side, with hosting and databases
   included when you publish.
 

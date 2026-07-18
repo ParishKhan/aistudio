@@ -6,7 +6,7 @@ pricingUrl: https://developers.openai.com/api/docs/pricing
 statusUrl: https://status.openai.com
 description: >-
   OpenAI builds the GPT model family, ChatGPT, Codex, and the Sora video models.
-  Its current API lineup is led by the GPT-5.6 family — Sol, Terra, and Luna.
+  Its current API lineup is led by the GPT-5.6 family: Sol, Terra, and Luna.
 sameAs:
   - https://en.wikipedia.org/wiki/OpenAI
   - https://x.com/OpenAI

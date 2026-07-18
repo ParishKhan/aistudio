@@ -32,7 +32,7 @@ pricing:
     url: https://api-docs.deepseek.com/quick_start/pricing
     verified: 2026-07-18
 pricingNotes: >-
-  Input price is for cache misses; cache hits cost $0.0028/1M — a 98%
+  Input price is for cache misses; cache hits cost $0.0028/1M, a 98%
   discount. DeepSeek has announced peak-time pricing with the official V4
   release: rates double during 9AM–12PM and 2PM–6PM (Beijing time) daily.
   The legacy deepseek-chat and deepseek-reasoner aliases retire July 24, 2026.
@@ -66,7 +66,7 @@ summary: |
   DeepSeek V4 Flash is the smaller of DeepSeek's two V4 models, released as a
   preview on April 24, 2026 with the official version following in mid-July.
   It is, by a wide margin, the cheapest 1M-token-context model in our
-  database: $0.14 per million input tokens and $0.28 per million output —
+  database: $0.14 per million input tokens and $0.28 per million output,
   roughly 35× cheaper than GPT-5.6 Sol on input.
 
   Reported as a 284B-parameter model with open weights under an MIT license,
@@ -81,10 +81,10 @@ faq:
   - q: How much does DeepSeek V4 Flash cost?
     a: >-
       $0.14 per 1M input tokens (cache miss), $0.0028 on cache hits, and
-      $0.28 per 1M output — with announced peak-time doubling during
+      $0.28 per 1M output, with announced peak-time doubling during
       9AM–12PM and 2PM–6PM Beijing time.
   - q: What happened to deepseek-chat and deepseek-reasoner?
     a: >-
       They currently map to V4 Flash's non-thinking and thinking modes and
-      will be retired on July 24, 2026 — migrate to deepseek-v4-flash.
+      will be retired on July 24, 2026, so migrate to deepseek-v4-flash.
 lastVerified: 2026-07-18

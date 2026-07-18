@@ -78,8 +78,8 @@ summary: |
   remains the only current Claude model with classic extended thinking rather
   than adaptive thinking.
 
-  For high-volume, latency-sensitive work that fits in 200K tokens — support
-  triage, extraction, routing, sub-agents — it remains Anthropic's
+  For high-volume, latency-sensitive work that fits in 200K tokens (support
+  triage, extraction, routing, sub-agents), it remains Anthropic's
   cost-per-token champion.
 faq:
   - q: How much does Claude Haiku 4.5 cost?
@@ -88,6 +88,6 @@ faq:
       $0.10/1M and batch rates of $0.50/$2.50.
   - q: What is Claude Haiku 4.5's context window?
     a: >-
-      200,000 tokens with up to 64,000 output tokens — smaller than the 1M
+      200,000 tokens with up to 64,000 output tokens, smaller than the 1M
       window on current Opus, Sonnet, and Fable models.
 lastVerified: 2026-07-18

@@ -72,13 +72,13 @@ summary: |
 
   The trade-offs: text-only modalities, an API hosted in China with announced
   peak-time price doubling during Chinese business hours, and no published
-  first-party scores on the Western benchmark suites we track — evaluate on
+  first-party scores on the Western benchmark suites we track, so evaluate on
   your own workload.
 faq:
   - q: How much does DeepSeek V4 Pro cost?
     a: >-
       $0.435 per 1M input tokens (cache miss), $0.003625 on cache hits, and
-      $0.87 per 1M output — with announced peak-time doubling during Chinese
+      $0.87 per 1M output, with announced peak-time doubling during Chinese
       business hours.
   - q: Is DeepSeek V4 Pro open source?
     a: >-

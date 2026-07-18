@@ -41,7 +41,7 @@ features:
   - SWE-family in-house models
 description: >-
   Windsurf, the AI editor acquired by Cognition, now lives under the Devin
-  platform — windsurf.com redirects to devin.ai. Plans run free to $20 Pro
+  platform; windsurf.com redirects to devin.ai. Plans run free to $20 Pro
   and $200 Max, unified with Devin's cloud agents.
 summary: |
   Windsurf began as Codeium's AI-native editor and was acquired by Cognition
@@ -61,7 +61,7 @@ faq:
   - q: Is Windsurf still a separate product?
     a: >-
       The editor still exists, but Cognition has folded it into the Devin
-      platform — windsurf.com now redirects to devin.ai and plans are unified
+      platform; windsurf.com now redirects to devin.ai and plans are unified
       with Devin's cloud agents.
   - q: How much does Windsurf (Devin) cost?
     a: >-

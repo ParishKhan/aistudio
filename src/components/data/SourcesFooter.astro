@@ -23,7 +23,7 @@ const hostname = (url: string) => new URL(url).hostname.replace(/^www\./, '');
               {new URL(s.url).pathname.replace(/\/$/, '')}
             </a>
             <span class="num text-ink-3">verified {date(s.verified)}</span>
-            {s.note && <span class="text-ink-3">— {s.note}</span>}
+            {s.note && <span class="text-ink-3">· {s.note}</span>}
           </li>
         ))}
       </ol>

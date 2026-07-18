@@ -9,7 +9,7 @@ difficulty: beginner
 relatedModels: [gpt-5-6-sol, claude-opus-4-8, claude-fable-5, deepseek-v4-flash]
 ---
 
-Leaderboards answer "which model is smartest?" — but the question that
+Leaderboards answer "which model is smartest?" But the question that
 determines your bill and your product quality is "which model is right for
 this workload?" Here's the decision framework we use.
 
@@ -17,8 +17,8 @@ this workload?" Here's the decision framework we use.
 
 **Interactive chat / extraction / routing.** Latency and cost dominate;
 frontier intelligence is wasted. Start with the small tier:
-[GPT-5.6 Luna](/gpt-5-6-luna), [Claude Haiku 4.5](/claude-haiku-4-5), or —
-if cost is everything — [DeepSeek V4 Flash](/deepseek-v4-flash) at $0.14/$0.28
+[GPT-5.6 Luna](/gpt-5-6-luna), [Claude Haiku 4.5](/claude-haiku-4-5), or,
+if cost is everything, [DeepSeek V4 Flash](/deepseek-v4-flash) at $0.14/$0.28
 per million tokens.
 
 **Production agents and coding.** This is where the mid and flagship tiers
@@ -27,7 +27,7 @@ earn their price. [Claude Opus 4.8](/claude-opus-4-8) and
 undercuts both with strong token efficiency.
 
 **The hardest long-horizon work.** [Claude Fable 5](/claude-fable-5) holds
-the top agentic-coding scores but costs $10/$50 — reserve it for tasks whose
+the top agentic-coding scores but costs $10/$50, so reserve it for tasks whose
 value clearly exceeds the premium.
 
 **Multimodal analysis.** If you need video or audio input,
@@ -40,7 +40,7 @@ are the only flagship-class options that take both natively.
   200K ([Haiku 4.5](/claude-haiku-4-5-context-window)) rules out some
   repository-scale work; see the [context window database](/context-windows).
 - **Knowledge cutoff**: Gemini's January 2025 cutoff is a year behind
-  GPT-5.6's February 2026 — it matters for current-events work, less for
+  GPT-5.6's February 2026. It matters for current-events work, less for
   coding with retrieval.
 - **Data and hosting**: open-weight models
   ([DeepSeek V4](/deepseek-v4-pro), [Mistral Medium 3.5](/mistral-medium-3-5))
@@ -52,5 +52,5 @@ Sticker prices mislead: token efficiency, caching, and batch discounts change
 real costs by multiples. A model that costs 2× per token but solves tasks in
 half the steps breaks even. Run your actual token profile through the
 [token cost calculator](/calculators/token-cost), then benchmark 2–3
-finalists on your own tasks — vendor-reported evals (marked "vendor"
+finalists on your own tasks. Vendor-reported evals (marked "vendor"
 throughout this site) are directionally useful but never a substitute.

@@ -4,7 +4,7 @@ slug: meeting-to-decisions
 category: productivity
 models: [claude-sonnet-5, gpt-5-6-luna]
 description: >-
-  Extracts decisions, owners, and deadlines from raw meeting transcripts —
+  Extracts decisions, owners, and deadlines from raw meeting transcripts,
   tuned for cheap, fast models on high-volume workloads.
 lastVerified: 2026-07-18
 ---

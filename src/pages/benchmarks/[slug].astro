@@ -81,7 +81,7 @@ const description = `${bench.data.name} measures ${bench.data.measures.toLowerCa
                     </a>
                   </td>
                   <td class="cell-num font-semibold">{fmtScore(r.entry.score, bench.data.scoreType)}</td>
-                  <td class="text-ink-2">{r.entry.variant ?? '—'}</td>
+                  <td class="text-ink-2">{r.entry.variant ?? '-'}</td>
                   <td class="text-ink-2">{r.entry.selfReported ? 'vendor' : 'third-party'}</td>
                   <td>
                     <SourceNote n={1} url={r.entry.cite.url} />

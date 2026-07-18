@@ -4,6 +4,6 @@ url: https://github.com/anthropics/anthropic-quickstarts
 category: starter
 relatedModels: [claude-opus-4-8]
 description: >-
-  Official Anthropic starter projects — customer support agent, financial
+  Official Anthropic starter projects: customer support agent, financial
   analyst, and computer-use demos built on the Claude API.
 lastVerified: 2026-07-18

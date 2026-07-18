@@ -12,14 +12,14 @@ const vendorName = (id: string) => vendors.find((v) => v.id === id)?.data.name ?
 
 <BaseLayout
   title="API Explorer: Model IDs, Providers & Code for Every Model"
-  description="Every model's exact API identity in one table — model IDs, aliases, provider availability across Bedrock/Vertex/first-party, and copy-paste code examples."
+  description="Every model's exact API identity in one table: model IDs, aliases, provider availability across Bedrock/Vertex/first-party, and copy-paste code examples."
   jsonld={[breadcrumbs([{ name: 'API Explorer' }])]}
 >
   <Breadcrumbs items={[{ label: 'API Explorer' }]} />
 
   <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">API Explorer</h1>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
-    The exact strings you need to call each model — IDs, aliases, and where each model is served —
+    The exact strings you need to call each model (IDs, aliases, and where each model is served),
     with copy-paste curl, Python, and TypeScript on every model's API page.
   </p>
 

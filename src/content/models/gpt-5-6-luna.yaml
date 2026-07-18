@@ -90,7 +90,7 @@ summary: |
   GPT-5.6 Luna is the cost-efficient tier of OpenAI's GPT-5.6 family,
   released July 9, 2026. Unusually for a small model, it keeps the family's
   full 1,050,000-token context window and 128,000-token output cap while
-  charging $1 per million input tokens and $6 per million output — the same
+  charging $1 per million input tokens and $6 per million output, the same
   price band as Claude Haiku 4.5 and Gemini 3.5 Flash.
 
   OpenAI's launch benchmarks put Luna remarkably close to flagship territory:
@@ -104,5 +104,5 @@ faq:
       $1.00 per 1M input tokens and $6.00 per 1M output tokens, with cached
       input at $0.10/1M and batch rates of $0.50/$3.00.
   - q: Does Luna have the same context window as Sol?
-    a: Yes — all three GPT-5.6 tiers share the 1,050,000-token context window and 128,000-token max output.
+    a: Yes, all three GPT-5.6 tiers share the 1,050,000-token context window and 128,000-token max output.
 lastVerified: 2026-07-18

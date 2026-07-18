@@ -105,9 +105,9 @@ summary: |
 
   Sol accepts text and image input across a 1,050,000-token context window and
   produces up to 128,000 output tokens. New platform features introduced with
-  the family include Programmatic Tool Calling — the model writes and runs
+  the family include Programmatic Tool Calling, where the model writes and runs
   small in-memory programs that coordinate tools without round-tripping every
-  result — and a multi-agent beta in the Responses API. An "ultra" setting
+  result, and a multi-agent beta in the Responses API. An "ultra" setting
   coordinates four parallel agents by default for the hardest tasks.
 
   At $5 per million input tokens and $30 per million output, Sol matches

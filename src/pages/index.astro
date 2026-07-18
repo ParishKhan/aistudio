@@ -41,7 +41,7 @@ const biggestCtx = [...models].sort((a, b) => b.data.contextWindow.value - a.dat
 ---
 
 <BaseLayout
-  title={`${SITE.name} — ${SITE.tagline}`}
+  title={`${SITE.name} | ${SITE.tagline}`}
   description={SITE.description}
   jsonld={[organization(), website()]}
 >
@@ -51,7 +51,7 @@ const biggestCtx = [...models].sort((a, b) => b.data.contextWindow.value - a.dat
     </h1>
     <p class="mt-4 max-w-xl text-[15px] leading-relaxed text-ink-2">
       Specs, pricing, context windows, and benchmarks for {models.length} current models and the
-      apps built on them — every fact linked to an official source with a verification date.
+      apps built on them, with every fact linked to an official source with a verification date.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
       <a href="/models" class="border border-accent bg-accent px-4 py-2 text-[13px] font-semibold text-white">Browse models</a>
@@ -154,8 +154,8 @@ const biggestCtx = [...models].sort((a, b) => b.data.contextWindow.value - a.dat
       }
     </div>
     <p class="mt-8 text-[12px] text-ink-3">
-      Data last verified <time class="num" datetime={lastUpdated.toISOString().slice(0, 10)}>{date(lastUpdated)}</time> —
-      read <a href="/methodology" class="underline underline-offset-2 hover:text-ink-2">how we verify</a>.
+      Data last verified <time class="num" datetime={lastUpdated.toISOString().slice(0, 10)}>{date(lastUpdated)}</time>.
+      Read <a href="/methodology" class="underline underline-offset-2 hover:text-ink-2">how we verify</a>.
     </p>
   </section>
 </BaseLayout>

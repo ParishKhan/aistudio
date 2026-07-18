@@ -6,7 +6,7 @@ import { SITE } from '../../data/site';
 export async function GET(context: APIContext) {
   const news = (await getCollection('news')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
   return rss({
-    title: `${SITE.name} — AI News`,
+    title: `${SITE.name}: AI News`,
     description: 'Model releases and pricing changes across the AI industry, with sources.',
     site: context.site!,
     items: news.map((item) => ({

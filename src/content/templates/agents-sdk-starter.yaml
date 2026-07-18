@@ -4,5 +4,5 @@ url: https://github.com/cloudflare/agents
 category: agents
 description: >-
   Build stateful AI agents on Cloudflare Workers with WebSockets, scheduling,
-  and durable state — the agents-sdk starter kit.
+  and durable state, using the agents-sdk starter kit.
 lastVerified: 2026-07-18

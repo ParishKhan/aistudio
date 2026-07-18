@@ -31,7 +31,7 @@ const priceRows = [
   ...(p.batchOutput !== undefined ? [{ label: 'Batch output', value: `${usd(p.batchOutput)} / 1M tokens`, citeUrl: p.cite.url, citeIndex }] : []),
 ];
 
-/** Illustrative workloads with token counts stated inline — costs are computed, not claimed. */
+/** Illustrative workloads with token counts stated inline; costs are computed, not claimed. */
 const tasks = [
   { name: 'Chat turn', detail: '500 input + 300 output tokens', input: 500, output: 300 },
   { name: 'Summarize a long report', detail: '30K input + 1.5K output tokens', input: 30_000, output: 1_500 },

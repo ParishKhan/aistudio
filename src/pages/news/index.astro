@@ -10,7 +10,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.pubDate.getTime
 
 <BaseLayout
   title="AI News: Model Releases & Pricing Changes That Matter"
-  description="Model launches, pricing changes, and platform shifts across OpenAI, Anthropic, Google, SpaceXAI, Mistral, and DeepSeek — reported with sources, linked to our spec database."
+  description="Model launches, pricing changes, and platform shifts across OpenAI, Anthropic, Google, SpaceXAI, Mistral, and DeepSeek, reported with sources, linked to our spec database."
   jsonld={[breadcrumbs([{ name: 'News' }])]}
 >
   <Breadcrumbs items={[{ label: 'News' }]} />
@@ -20,7 +20,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.pubDate.getTime
     <a href="/news/rss.xml" class="text-[12px] text-ink-3 underline underline-offset-2 hover:text-ink-2">RSS</a>
   </div>
   <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
-    Releases and pricing changes that actually change the model-picking math — each linked into
+    Releases and pricing changes that actually change the model-picking math, each linked into
     the spec database so you can act on it.
   </p>
 

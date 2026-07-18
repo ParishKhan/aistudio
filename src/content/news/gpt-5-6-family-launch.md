@@ -5,7 +5,7 @@ pubDate: 2026-07-09
 description: >-
   OpenAI's new flagship GPT-5.6 Sol ($5/$30) claims state-of-the-art coding
   and agentic results, while Terra ($2.50/$15) and Luna ($1/$6) reset
-  price-performance — all with a 1.05M-token context window.
+  price-performance, all with a 1.05M-token context window.
 tags: [openai, gpt, launch]
 sources:
   - url: https://openai.com/index/gpt-5-6/
@@ -20,8 +20,8 @@ durable capability tiers: **Sol** (flagship), **Terra** (balanced), and
 128K max output, and a February 16, 2026 knowledge cutoff.
 
 The headline numbers are efficiency claims. On the Artificial Analysis Coding
-Agent Index, [GPT-5.6 Sol](/gpt-5-6-sol) posts a state-of-the-art 80 — 2.8
-points above Claude Fable 5 — while using less than half the output tokens.
+Agent Index, [GPT-5.6 Sol](/gpt-5-6-sol) posts a state-of-the-art 80, which is 2.8
+points above Claude Fable 5, while using less than half the output tokens.
 Terra beats the previous flagship GPT-5.5 on most coding evals at half the
 price, and Luna nearly matches GPT-5.5's knowledge-work peak at one-fifth the
 cost.

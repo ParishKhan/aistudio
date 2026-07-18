@@ -52,7 +52,7 @@ summary: |
   v0 is Vercel's generative app builder, best known for producing
   production-quality React and Next.js interfaces styled with Tailwind and
   shadcn/ui. It pairs chat-driven generation with a visual Design Mode, syncs
-  to GitHub, and deploys to Vercel in one click — the natural choice if your
+  to GitHub, and deploys to Vercel in one click, the natural choice if your
   stack already lives on Vercel.
 
   Pricing is dollar-denominated credits: the free tier includes $5 of monthly
@@ -69,5 +69,5 @@ faq:
   - q: What is v0 best at?
     a: >-
       Generating polished React/Next.js UIs and full apps that deploy
-      straight to Vercel — with visual editing via Design Mode.
+      straight to Vercel, with visual editing via Design Mode.
 lastVerified: 2026-07-18

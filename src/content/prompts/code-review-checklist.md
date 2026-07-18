@@ -5,14 +5,14 @@ category: coding
 models: [claude-opus-4-8, gpt-5-6-sol]
 description: >-
   A review prompt that forces severity-ranked, line-anchored findings instead
-  of vague style commentary — works well with strong agentic models.
+  of vague style commentary. Works well with strong agentic models.
 lastVerified: 2026-07-18
 ---
 
 ```
 Review this diff as a senior engineer. Rules:
 
-1. Only report issues that change behavior, security, or performance —
+1. Only report issues that change behavior, security, or performance;
    no style commentary.
 2. For each finding: severity (blocker/major/minor), the exact line,
    a one-sentence failure scenario, and a suggested fix.

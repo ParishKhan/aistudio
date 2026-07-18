@@ -8,7 +8,7 @@ import FAQ from '../../components/blocks/FAQ.astro';
 
 const models = (await getCollection('models')).filter(isCurrent).sort(byPriority);
 
-/** Inlined at build time — the island reads this, no fetches. */
+/** Inlined at build time; the island reads this, no fetches. */
 const priceData = models.map((m) => ({
   slug: m.data.slug,
   name: m.data.name,
@@ -26,14 +26,14 @@ const calcFaq = [
   },
   {
     q: 'Where do the prices come from?',
-    a: "Each model's official pricing page, verified with a date — the same data behind our pricing database. Length-tiered surcharges (e.g. Gemini past 200K input) are not applied here; check the model's pricing page for those.",
+    a: "Each model's official pricing page, verified with a date, the same data behind our pricing database. Length-tiered surcharges (e.g. Gemini past 200K input) are not applied here; check the model's pricing page for those.",
   },
 ];
 ---
 
 <BaseLayout
   title="AI Token Cost Calculator: Estimate API Costs for Any Model"
-  description="Free calculator for AI API costs — pick any model (GPT-5.6, Claude, Gemini, Grok, DeepSeek), enter your token counts and request volume, and get monthly cost with cached and batch pricing."
+  description="Free calculator for AI API costs: pick any model (GPT-5.6, Claude, Gemini, Grok, DeepSeek), enter your token counts and request volume, and get monthly cost with cached and batch pricing."
   jsonld={[breadcrumbs([{ name: 'Calculators', path: '/calculators' }, { name: 'Token cost' }]), faqPage(calcFaq)]}
 >
   <Breadcrumbs items={[{ label: 'Calculators', href: '/calculators' }, { label: 'Token cost' }]} />
@@ -76,15 +76,15 @@ const calcFaq = [
   <div class="mt-6 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
     <div class="border border-line bg-surface-2 p-4">
       <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per request</div>
-      <div id="out-request" class="num mt-1.5 text-xl font-semibold">—</div>
+      <div id="out-request" class="num mt-1.5 text-xl font-semibold">-</div>
     </div>
     <div class="border border-line bg-surface-2 p-4">
       <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per month</div>
-      <div id="out-month" class="num mt-1.5 text-xl font-semibold text-accent-text">—</div>
+      <div id="out-month" class="num mt-1.5 text-xl font-semibold text-accent-text">-</div>
     </div>
     <div class="border border-line bg-surface-2 p-4">
       <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per year</div>
-      <div id="out-year" class="num mt-1.5 text-xl font-semibold">—</div>
+      <div id="out-year" class="num mt-1.5 text-xl font-semibold">-</div>
     </div>
   </div>
   <p id="calc-note" class="mt-3 max-w-3xl text-[12px] text-ink-3"></p>
@@ -116,7 +116,7 @@ const calcFaq = [
           inPrice = 0.9 * m.cachedInput + 0.1 * m.input;
           note = `Assumes 90% of input tokens read from cache at ${fmt(m.cachedInput)}/1M. Cache-write surcharges not included.`;
         } else {
-          note = `${m.name} has no published cached-input rate — using standard pricing.`;
+          note = `${m.name} has no published cached-input rate, so standard pricing applies.`;
         }
       } else if (mode === 'batch') {
         if (m.batchInput !== null && m.batchOutput !== null) {
@@ -124,7 +124,7 @@ const calcFaq = [
           outPrice = m.batchOutput;
           note = 'Batch API rates (asynchronous processing).';
         } else {
-          note = `${m.name} has no published batch rate — using standard pricing.`;
+          note = `${m.name} has no published batch rate, so standard pricing applies.`;
         }
       }
 

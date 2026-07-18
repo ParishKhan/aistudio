@@ -31,11 +31,11 @@ export function modelTitles(m: Model) {
     },
     benchmarks: {
       title: `${m.name} Benchmarks: All Scores & Sources`,
-      description: `Every published ${m.name} benchmark score — coding, reasoning, and agentic evals — with the original source for each number and how it ranks.`,
+      description: `Every published ${m.name} benchmark score (coding, reasoning, and agentic evals), with the original source for each number and how it ranks.`,
     },
     alternatives: {
       title: `${m.name} Alternatives: Cheaper & Comparable Models`,
-      description: `The best alternatives to ${m.name} compared on price, context window, and benchmarks — including cheaper options and closest rivals.`,
+      description: `The best alternatives to ${m.name} compared on price, context window, and benchmarks, including cheaper options and closest rivals.`,
     },
     prompts: {
       title: `Best Prompts for ${m.name}`,
