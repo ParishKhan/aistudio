@@ -1,0 +1,141 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { isCurrent, byPriority } from '../../lib/models';
+import { breadcrumbs, faqPage } from '../../lib/jsonld';
+import FAQ from '../../components/blocks/FAQ.astro';
+
+const models = (await getCollection('models')).filter(isCurrent).sort(byPriority);
+
+/** Inlined at build time — the island reads this, no fetches. */
+const priceData = models.map((m) => ({
+  slug: m.data.slug,
+  name: m.data.name,
+  input: m.data.pricing.input,
+  output: m.data.pricing.output,
+  cachedInput: m.data.pricing.cachedInput ?? null,
+  batchInput: m.data.pricing.batchInput ?? null,
+  batchOutput: m.data.pricing.batchOutput ?? null,
+}));
+
+const calcFaq = [
+  {
+    q: 'How is the cost calculated?',
+    a: 'Cost = (input tokens ÷ 1M × input price) + (output tokens ÷ 1M × output price), multiplied by requests per month. Cached mode prices the cached share of input at the cached rate; batch mode uses batch rates for input and output.',
+  },
+  {
+    q: 'Where do the prices come from?',
+    a: "Each model's official pricing page, verified with a date — the same data behind our pricing database. Length-tiered surcharges (e.g. Gemini past 200K input) are not applied here; check the model's pricing page for those.",
+  },
+];
+---
+
+<BaseLayout
+  title="AI Token Cost Calculator: Estimate API Costs for Any Model"
+  description="Free calculator for AI API costs — pick any model (GPT-5.6, Claude, Gemini, Grok, DeepSeek), enter your token counts and request volume, and get monthly cost with cached and batch pricing."
+  jsonld={[breadcrumbs([{ name: 'Calculators', path: '/calculators' }, { name: 'Token cost' }]), faqPage(calcFaq)]}
+>
+  <Breadcrumbs items={[{ label: 'Calculators', href: '/calculators' }, { label: 'Token cost' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Token Cost Calculator</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Estimate what a workload costs on any model we track. Prices come from official vendor pages,
+    verified and dated.
+  </p>
+
+  <form id="calc" class="mt-8 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2">
+    <label class="block sm:col-span-2">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Model</span>
+      <select id="calc-model" class="mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[14px]">
+        {priceData.map((m) => <option value={m.slug}>{m.name}</option>)}
+      </select>
+    </label>
+    <label class="block">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Input tokens / request</span>
+      <input id="calc-input" type="number" min="0" value="10000" class="num mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[14px]" />
+    </label>
+    <label class="block">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Output tokens / request</span>
+      <input id="calc-output" type="number" min="0" value="1000" class="num mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[14px]" />
+    </label>
+    <label class="block">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Requests / month</span>
+      <input id="calc-requests" type="number" min="1" value="1000" class="num mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[14px]" />
+    </label>
+    <label class="block">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Pricing mode</span>
+      <select id="calc-mode" class="mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[14px]">
+        <option value="standard">Standard</option>
+        <option value="cached">90% of input cached</option>
+        <option value="batch">Batch API</option>
+      </select>
+    </label>
+  </form>
+
+  <div class="mt-6 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
+    <div class="border border-line bg-surface-2 p-4">
+      <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per request</div>
+      <div id="out-request" class="num mt-1.5 text-xl font-semibold">—</div>
+    </div>
+    <div class="border border-line bg-surface-2 p-4">
+      <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per month</div>
+      <div id="out-month" class="num mt-1.5 text-xl font-semibold text-accent-text">—</div>
+    </div>
+    <div class="border border-line bg-surface-2 p-4">
+      <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Per year</div>
+      <div id="out-year" class="num mt-1.5 text-xl font-semibold">—</div>
+    </div>
+  </div>
+  <p id="calc-note" class="mt-3 max-w-3xl text-[12px] text-ink-3"></p>
+
+  <div class="mt-12 max-w-3xl">
+    <FAQ items={calcFaq} heading="How this calculator works" />
+  </div>
+
+  <script is:inline define:vars={{ priceData }}>
+    const models = new Map(priceData.map((m) => [m.slug, m]));
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => (n < 0.01 && n > 0 ? `$${n.toFixed(5)}` : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+
+    const preselect = new URLSearchParams(location.search).get('model');
+    if (preselect && models.has(preselect)) $('calc-model').value = preselect;
+
+    function update() {
+      const m = models.get($('calc-model').value);
+      const inTok = Number($('calc-input').value) || 0;
+      const outTok = Number($('calc-output').value) || 0;
+      const reqs = Number($('calc-requests').value) || 0;
+      const mode = $('calc-mode').value;
+
+      let inPrice = m.input;
+      let outPrice = m.output;
+      let note = '';
+      if (mode === 'cached') {
+        if (m.cachedInput !== null) {
+          inPrice = 0.9 * m.cachedInput + 0.1 * m.input;
+          note = `Assumes 90% of input tokens read from cache at ${fmt(m.cachedInput)}/1M. Cache-write surcharges not included.`;
+        } else {
+          note = `${m.name} has no published cached-input rate — using standard pricing.`;
+        }
+      } else if (mode === 'batch') {
+        if (m.batchInput !== null && m.batchOutput !== null) {
+          inPrice = m.batchInput;
+          outPrice = m.batchOutput;
+          note = 'Batch API rates (asynchronous processing).';
+        } else {
+          note = `${m.name} has no published batch rate — using standard pricing.`;
+        }
+      }
+
+      const perRequest = (inTok / 1e6) * inPrice + (outTok / 1e6) * outPrice;
+      $('out-request').textContent = fmt(perRequest);
+      $('out-month').textContent = fmt(perRequest * reqs);
+      $('out-year').textContent = fmt(perRequest * reqs * 12);
+      $('calc-note').textContent = note;
+    }
+
+    document.getElementById('calc').addEventListener('input', update);
+    update();
+  </script>
+</BaseLayout>

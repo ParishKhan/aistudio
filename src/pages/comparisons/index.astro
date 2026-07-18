@@ -39,6 +39,60 @@ const used = new Set<(typeof entries)[number]>();
     big rivalries — a written verdict. Marked ★ where a verdict is included.
   </p>
 
+  <form id="compare-picker" class="mt-6 flex max-w-2xl flex-wrap items-end gap-3 border border-line bg-surface-2 p-4">
+    <label class="min-w-40 flex-1">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Model A</span>
+      <select id="pick-a" class="mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[13px]">
+        {models.sort((a, b) => a.data.priority - b.data.priority).map((m) => <option value={m.data.slug}>{m.data.name}</option>)}
+      </select>
+    </label>
+    <label class="min-w-40 flex-1">
+      <span class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Model B</span>
+      <select id="pick-b" class="mt-1.5 w-full border border-line-strong bg-surface px-3 py-2 text-[13px]">
+        {models.map((m) => <option value={m.data.slug} selected={m.data.priority === 2}>{m.data.name}</option>)}
+      </select>
+    </label>
+    <button
+      type="submit"
+      id="pick-go"
+      class="border border-accent bg-accent px-4 py-2 text-[13px] font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      Compare
+    </button>
+    <p id="pick-note" class="w-full text-[12px] text-ink-3"></p>
+  </form>
+
+  <script
+    is:inline
+    define:vars={{
+      pairs: entries.map((e) => `${e.first.data.slug}-vs-${e.second.data.slug}`),
+    }}
+  >
+    const valid = new Set(pairs);
+    const a = document.getElementById('pick-a');
+    const b = document.getElementById('pick-b');
+    const go = document.getElementById('pick-go');
+    const note = document.getElementById('pick-note');
+    const urlFor = () => {
+      const forward = `${a.value}-vs-${b.value}`;
+      const reverse = `${b.value}-vs-${a.value}`;
+      return valid.has(forward) ? `/${forward}` : valid.has(reverse) ? `/${reverse}` : null;
+    };
+    const refresh = () => {
+      const url = urlFor();
+      go.disabled = !url;
+      note.textContent = url ? '' : a.value === b.value ? 'Pick two different models.' : "We haven't built this matchup yet.";
+    };
+    a.addEventListener('change', refresh);
+    b.addEventListener('change', refresh);
+    document.getElementById('compare-picker').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = urlFor();
+      if (url) location.href = url;
+    });
+    refresh();
+  </script>
+
   {
     groups.map((group) => {
       const groupEntries = entries.filter((e) => !used.has(e) && group.filter(e));

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { breadcrumbs } from '../../lib/jsonld';
+---
+
+<BaseLayout
+  title="AI Calculators: Token Costs & API Budgeting Tools"
+  description="Free calculators for working with AI APIs — estimate token costs across GPT, Claude, Gemini, Grok, Mistral, and DeepSeek with verified pricing data."
+  jsonld={[breadcrumbs([{ name: 'Calculators' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Calculators' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Calculators</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Tools built on the same verified pricing data as the rest of the site.
+  </p>
+
+  <div class="mt-8 grid max-w-2xl grid-cols-1 gap-3">
+    <a href="/calculators/token-cost" class="group border border-line p-5 transition-colors hover:border-line-strong">
+      <div class="text-[15px] font-semibold group-hover:text-accent-text">Token cost calculator</div>
+      <p class="mt-1 text-[13px] leading-relaxed text-ink-2">
+        Pick a model, enter tokens per request and monthly volume, and get per-request, monthly,
+        and yearly costs — with cached and batch pricing modes.
+      </p>
+    </a>
+  </div>
+</BaseLayout>
