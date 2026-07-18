@@ -1,0 +1,15 @@
+name: GPQA Diamond
+slug: gpqa-diamond
+measures: Graduate-level science questions in biology, physics, and chemistry
+scoreType: percent
+higherIsBetter: true
+maxScore: 100
+sourceUrl: https://arxiv.org/abs/2311.12022
+description: >-
+  GPQA (Graduate-Level Google-Proof Q&A) Diamond is the hardest subset of a
+  multiple-choice benchmark written by domain PhDs, designed so answers cannot
+  be found by searching. It is the standard test of expert scientific
+  reasoning; frontier models now score in the low-to-mid 90s.
+methodologyNotes: >-
+  Vendors report varying eval settings (reasoning effort, sampling attempts),
+  so cross-vendor comparisons should note the reported conditions.

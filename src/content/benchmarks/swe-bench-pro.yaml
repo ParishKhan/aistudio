@@ -1,0 +1,15 @@
+name: SWE-Bench Pro
+slug: swe-bench-pro
+measures: Resolving real GitHub issues in large production codebases
+scoreType: percent
+higherIsBetter: true
+maxScore: 100
+sourceUrl: https://scale.com/leaderboard/swe_bench_pro_public
+description: >-
+  SWE-Bench Pro is the harder successor to SWE-bench Verified: agents must fix
+  real, recent GitHub issues in large repositories, with contamination
+  safeguards and human-verified tasks. It is the most-cited measure of
+  real-world agentic coding ability.
+methodologyNotes: >-
+  Scores depend heavily on the agent harness and reasoning-effort setting used;
+  vendor-reported numbers are typically best-configuration results.

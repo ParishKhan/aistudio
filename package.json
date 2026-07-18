@@ -33,6 +33,7 @@
     "satori-html": "^0.3.2",
     "tsx": "^4.23.1",
     "typescript": "^6.0.3",
-    "wrangler": "^4.112.0"
+    "wrangler": "^4.112.0",
+    "yaml": "^2.9.0"
   }
 }

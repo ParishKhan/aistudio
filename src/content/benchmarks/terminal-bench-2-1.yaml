@@ -1,0 +1,14 @@
+name: Terminal-Bench 2.1
+slug: terminal-bench-2-1
+measures: Completing complex multi-step tasks in a command-line environment
+scoreType: percent
+higherIsBetter: true
+maxScore: 100
+sourceUrl: https://www.tbench.ai/leaderboard
+description: >-
+  Terminal-Bench 2.1 places an agent in a live terminal and scores whether it
+  can finish realistic engineering tasks — builds, debugging, system
+  administration, data wrangling — end to end without human help.
+methodologyNotes: >-
+  Harness choice matters: the same model can score several points apart between
+  the Terminus-2 public harness and vendor-specific CLIs (e.g. Codex CLI).

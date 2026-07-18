@@ -1,0 +1,157 @@
+name: Claude Opus 4.8
+slug: claude-opus-4-8
+vendor: anthropic
+family: Claude
+tier: flagship
+priority: 2
+status: current
+releaseDate:
+  value: 2026-05-28
+  cite:
+    url: https://www.anthropic.com/news/claude-opus-4-8
+    verified: 2026-07-18
+knowledgeCutoff:
+  value: '2026-01'
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+    note: Reliable knowledge cutoff Jan 2026; training data cutoff Jan 2026.
+modalities:
+  input: [text, image, pdf]
+  output: [text]
+contextWindow:
+  value: 1000000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+maxOutput:
+  value: 128000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+    note: Up to 300K output on the Batch API with the output-300k beta header.
+pricing:
+  input: 5.00
+  output: 25.00
+  cachedInput: 0.50
+  cacheWrite: 6.25
+  batchInput: 2.50
+  batchOutput: 12.50
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/pricing
+    verified: 2026-07-18
+pricingNotes: >-
+  The full 1M context is billed at standard rates — no long-context surcharge.
+  5-minute cache writes cost 1.25× input ($6.25/1M); 1-hour cache writes cost
+  2× ($10/1M); cache reads cost 10% of input. Fast mode (research preview,
+  ~2.5× output speed) is $10/$50 per 1M. US-only inference (inference_geo:
+  "us") adds a 1.1× multiplier.
+api:
+  modelIds: [claude-opus-4-8]
+  aliases: [claude-opus-4-8]
+  providers:
+    - name: Claude API
+      url: https://platform.claude.com/docs/en/about-claude/models/overview
+      modelId: claude-opus-4-8
+    - name: Amazon Bedrock
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock
+      modelId: anthropic.claude-opus-4-8
+    - name: Google Cloud Vertex AI
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai
+      modelId: claude-opus-4-8
+    - name: Microsoft Foundry
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry
+    - name: Claude Platform on AWS
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws
+      modelId: claude-opus-4-8
+  docsUrl: https://platform.claude.com/docs/en/about-claude/models/overview
+  rateLimitNotes: >-
+    The model ID is a pinned dateless snapshot. The effort parameter defaults
+    to high on all surfaces; extra ("xhigh") and max spend more tokens for
+    better results.
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+benchmarks:
+  - benchmark: gpqa-diamond
+    score: 92.0
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: Reported by OpenAI in the GPT-5.6 announcement, not by Anthropic.
+  - benchmark: swe-bench-pro
+    score: 69.2
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: Reported by OpenAI in the GPT-5.6 announcement, not by Anthropic.
+  - benchmark: terminal-bench-2-1
+    score: 78.9
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: Reported by OpenAI in the GPT-5.6 announcement, not by Anthropic.
+  - benchmark: browsecomp
+    score: 84.3
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: Reported by OpenAI in the GPT-5.6 announcement, not by Anthropic.
+capabilities:
+  - Adaptive thinking
+  - Effort control (high default, extra/max available)
+  - Fast mode (research preview, 2.5× speed)
+  - Prompt caching (5m and 1h)
+  - Batch API (with 300K extended output beta)
+  - Computer use
+  - Web search, web fetch, code execution tools
+  - Mid-task system message updates (Messages API)
+description: >-
+  Claude Opus 4.8 is Anthropic's flagship for agentic coding and enterprise
+  work (May 2026): 1M context, $5/$25 per 1M tokens, fast mode at 2.5× speed.
+  Full specs, pricing, and sourced benchmark scores.
+summary: |
+  Claude Opus 4.8 is Anthropic's flagship model for complex agentic coding and
+  enterprise work, released May 28, 2026 as an upgrade over Opus 4.7 at the
+  same price. Anthropic highlights improved judgment and honesty: its
+  evaluations found Opus 4.8 roughly four times less likely than its
+  predecessor to let flaws in its own code pass unremarked.
+
+  The model reads text, images, and PDFs across a 1,000,000-token context
+  window billed at standard rates the whole way — a 900K-token request costs
+  the same per token as a 9K one. Output tops out at 128,000 tokens (300,000
+  on the Batch API via a beta header). It launched alongside dynamic
+  workflows in Claude Code, which lets it run hundreds of parallel subagents
+  for codebase-scale migrations, and a fast mode that trades a 2× price
+  premium for roughly 2.5× output speed.
+
+  Anthropic's higher-capability tier, Claude Fable 5 ($10/$50), sits above
+  Opus 4.8 for the hardest long-horizon work, while Sonnet 5 and Haiku 4.5
+  cover the speed- and cost-sensitive end of the lineup.
+faq:
+  - q: What is Claude Opus 4.8's context window?
+    a: >-
+      1,000,000 tokens at standard pricing with no long-context surcharge, and
+      up to 128,000 output tokens (300,000 via the Batch API extended-output
+      beta).
+  - q: How much does Claude Opus 4.8 cost?
+    a: >-
+      $5.00 per 1M input tokens and $25.00 per 1M output tokens — unchanged
+      from Opus 4.7. Batch API halves that to $2.50/$12.50; cache reads cost
+      $0.50/1M. Fast mode costs $10/$50.
+  - q: What is fast mode?
+    a: >-
+      A research-preview option where Opus 4.8 generates output at roughly
+      2.5× standard speed for $10/$50 per 1M tokens — three times cheaper than
+      fast mode was for Opus 4.7.
+  - q: How does Opus 4.8 relate to Claude Fable 5?
+    a: >-
+      Fable 5 ($10/$50) is Anthropic's most capable widely available model;
+      Opus 4.8 is the mainstream flagship for agentic coding and enterprise
+      work at half the price. Both have 1M context and a January 2026
+      knowledge cutoff.
+lastVerified: 2026-07-18

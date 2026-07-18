@@ -1,0 +1,14 @@
+name: BrowseComp
+slug: browsecomp
+measures: Agentic web browsing to find hard-to-locate information
+scoreType: percent
+higherIsBetter: true
+maxScore: 100
+sourceUrl: https://openai.com/index/browsecomp/
+description: >-
+  BrowseComp (OpenAI, 2025) asks agents to browse the live web for
+  hard-to-find, entangled facts that cannot be answered from memory. It is the
+  standard measure of deep-research browsing competence.
+methodologyNotes: >-
+  Created by OpenAI; scores for non-OpenAI models are usually reported by
+  OpenAI rather than the model's own vendor.
