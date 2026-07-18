@@ -1,0 +1,25 @@
+a: gpt-5-6-sol
+b: gemini-3-1-pro
+verdict: |
+  These flagships optimize for different strengths. GPT-5.6 Sol leads every
+  agentic benchmark in OpenAI's cross-eval by wide margins — 64.6% vs 54.2%
+  on SWE-Bench Pro, 88.8% vs 70.7% on Terminal-Bench 2.1 — and is generally
+  available rather than a preview. Gemini 3.1 Pro answers with breadth and
+  price: it accepts video and audio natively (Sol is text+image only), is
+  effectively tied on GPQA Diamond science questions (94.3% vs 94.6%), and
+  costs $2/$12 vs $5/$30 for prompts under 200K tokens.
+
+  Pick Sol for agentic coding and computer-use work; pick Gemini 3.1 Pro for
+  multimodal analysis pipelines (video, audio, PDF) or when its sub-200K
+  pricing tier fits your workload. Watch Gemini's tier doubling past 200K
+  input tokens and its January 2025 knowledge cutoff — a year older than
+  Sol's.
+faq:
+  - q: Which is cheaper, GPT-5.6 Sol or Gemini 3.1 Pro?
+    a: >-
+      Gemini 3.1 Pro for prompts under 200K tokens ($2/$12 vs $5/$30 per 1M);
+      above 200K its rates rise to $4/$18, still below Sol.
+  - q: Which handles more modalities?
+    a: >-
+      Gemini 3.1 Pro — text, images, video, audio, and PDF input vs text and
+      images for GPT-5.6 Sol.

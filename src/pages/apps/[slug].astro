@@ -1,0 +1,123 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import FAQ from '../../components/blocks/FAQ.astro';
+import VerifiedBadge from '../../components/data/VerifiedBadge.astro';
+import { usd } from '../../lib/fmt';
+import { breadcrumbs, faqPage, softwareApplication } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const apps = await getCollection('apps');
+  return apps.map((app) => ({ params: { slug: app.data.slug }, props: { app } }));
+}
+
+interface Props {
+  app: CollectionEntry<'apps'>;
+}
+
+const { app } = Astro.props;
+const d = app.data;
+const models = await getCollection('models');
+const supported = d.supportedModels.map((ref) => models.find((m) => m.id === ref.id)).filter(Boolean);
+
+const paid = d.pricingPlans.filter((p) => p.pricePerMonth !== null && p.pricePerMonth! > 0);
+const fromPrice = paid.length ? Math.min(...paid.map((p) => p.pricePerMonth!)) : undefined;
+const paragraphs = d.summary.trim().split(/\n\n+/);
+
+const title = `${d.name}: Pricing, Features & Supported Models`;
+const jsonld = [
+  breadcrumbs([{ name: 'Apps', path: '/apps' }, { name: d.name }]),
+  softwareApplication({
+    name: d.name,
+    path: `/apps/${d.slug}`,
+    description: d.description,
+    vendorName: d.vendorName,
+    vendorUrl: d.url,
+    price: fromPrice,
+    priceDescription: fromPrice !== undefined ? 'USD per month, cheapest paid plan' : undefined,
+  }),
+  ...(d.faq.length ? [faqPage(d.faq)] : []),
+];
+---
+
+<BaseLayout title={title} description={d.description} jsonld={jsonld}>
+  <Breadcrumbs items={[{ label: 'Apps', href: '/apps' }, { label: d.name }]} />
+
+  <header>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+      <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{d.name}</h1>
+      <span class="rounded-full border border-line px-2.5 py-0.5 text-[11px] font-medium text-ink-2 capitalize">
+        {d.category.replace('-', ' ')}
+      </span>
+    </div>
+    <div class="mt-2 flex flex-wrap items-center gap-3 text-[13px] text-ink-2">
+      <span>
+        by {d.vendorName} · <a href={d.url} rel="noopener" class="font-medium underline decoration-line underline-offset-2 hover:text-ink">{new URL(d.url).hostname}</a>
+      </span>
+      <VerifiedBadge date={d.lastVerified} />
+    </div>
+  </header>
+
+  <div class="prose-site mt-6" data-pagefind-body>
+    {paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Plans &amp; pricing</h2>
+  <div class="table-scroll mt-4">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th class="cell-num">Price / month</th>
+          <th>Includes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          d.pricingPlans.map((plan) => (
+            <tr>
+              <td class="font-medium">{plan.name}</td>
+              <td class="cell-num">
+                {plan.pricePerMonth === null ? 'Custom' : plan.pricePerMonth === 0 ? 'Free' : usd(plan.pricePerMonth).replace('.00', '')}
+                {plan.annualPricePerMonth !== undefined && (
+                  <div class="text-[11px] text-ink-3">{usd(plan.annualPricePerMonth).replace('.00', '')} billed annually</div>
+                )}
+              </td>
+              <td class="text-ink-2">{plan.features.join(' · ')}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-3 text-[12px] text-ink-3">
+    Verified against the <a href={d.pricingPlans[0]?.cite.url} rel="noopener nofollow" class="underline underline-offset-2 hover:text-ink-2">official pricing page</a>.
+  </p>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Key features</h2>
+  <ul class="mt-4 grid max-w-2xl grid-cols-1 gap-2 sm:grid-cols-2">
+    {d.features.map((f) => <li class="border-l-2 border-line-strong pl-3 text-[13px] text-ink-2">{f}</li>)}
+  </ul>
+
+  {
+    supported.length > 0 && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Notable supported models</h2>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {supported.map((m) => (
+            <li>
+              <a href={`/${m!.data.slug}`} class="inline-block border border-line px-3 py-1.5 text-[13px] font-medium transition-colors hover:border-line-strong hover:text-accent-text">
+                {m!.data.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+
+  <div class="mt-10">
+    <FAQ items={d.faq} heading={`${d.name} FAQ`} />
+  </div>
+</BaseLayout>

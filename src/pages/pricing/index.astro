@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { isCurrent } from '../../lib/models';
+import { tokens, usd } from '../../lib/fmt';
+import { breadcrumbs, dataset } from '../../lib/jsonld';
+
+const models = (await getCollection('models'))
+  .filter(isCurrent)
+  .sort((a, b) => a.data.pricing.input - b.data.pricing.input);
+const vendors = await getCollection('vendors');
+const vendorName = (id: string) => vendors.find((v) => v.id === id)?.data.name ?? id;
+
+const newest = models.reduce((max, m) => (m.data.lastVerified > max ? m.data.lastVerified : max), new Date(0));
+
+const jsonld = [
+  breadcrumbs([{ name: 'Pricing' }]),
+  dataset({
+    name: 'AI Model API Pricing Database',
+    path: '/pricing',
+    description: 'API pricing per 1M tokens for every major AI model, verified against official vendor pricing pages.',
+    updated: newest,
+  }),
+];
+---
+
+<BaseLayout
+  title="AI Model Pricing Database: Every API Price Per 1M Tokens"
+  description="API pricing for every major AI model in one table — input, output, cached, and batch rates per 1M tokens for GPT, Claude, Gemini, Grok, Mistral, and DeepSeek, verified against official pricing pages."
+  jsonld={jsonld}
+>
+  <Breadcrumbs items={[{ label: 'Pricing' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">AI Model Pricing Database</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    Standard API rates per 1M tokens for all {models.length} current models we track, sorted
+    cheapest-first by input price. Every number is verified against the vendor's official pricing
+    page — click through to any model for cached, batch, and per-task cost detail.
+  </p>
+
+  <div class="table-scroll mt-8">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Vendor</th>
+          <th class="cell-num">Input / 1M</th>
+          <th class="cell-num">Output / 1M</th>
+          <th class="cell-num">Cached input</th>
+          <th class="cell-num">Batch input</th>
+          <th class="cell-num">Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          models.map((m) => (
+            <tr>
+              <td>
+                <a href={`/${m.data.slug}-pricing`} class="font-medium hover:text-accent-text">
+                  {m.data.name}
+                </a>
+              </td>
+              <td class="text-ink-2">{vendorName(m.data.vendor.id)}</td>
+              <td class="cell-num">{usd(m.data.pricing.input)}</td>
+              <td class="cell-num">{usd(m.data.pricing.output)}</td>
+              <td class="cell-num">{m.data.pricing.cachedInput !== undefined ? usd(m.data.pricing.cachedInput) : '—'}</td>
+              <td class="cell-num">{m.data.pricing.batchInput !== undefined ? usd(m.data.pricing.batchInput) : '—'}</td>
+              <td class="cell-num">{tokens(m.data.contextWindow.value)}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mt-4 max-w-2xl text-[13px] leading-relaxed text-ink-3">
+    Several vendors price by prompt length (Gemini and Grok double rates past 200K input tokens;
+    GPT-5.5 surcharges past 272K) or by time of day (DeepSeek peak-hours). See each model's
+    pricing page for the full matrix, or estimate a workload with the
+    <a href="/calculators/token-cost" class="underline underline-offset-2 hover:text-ink-2">token cost calculator</a>.
+  </p>
+</BaseLayout>

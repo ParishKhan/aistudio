@@ -1,0 +1,106 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import BenchBar from '../../components/data/BenchBar.astro';
+import SourceNote from '../../components/data/SourceNote.astro';
+import { ranking } from '../../lib/models';
+import { score as fmtScore } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const benchmarks = await getCollection('benchmarks');
+  return benchmarks.map((bench) => ({ params: { slug: bench.data.slug }, props: { bench } }));
+}
+
+interface Props {
+  bench: CollectionEntry<'benchmarks'>;
+}
+
+const { bench } = Astro.props;
+const models = await getCollection('models');
+const ranked = ranking(models, bench);
+const top = ranked[0]?.entry.score ?? bench.data.maxScore ?? 1;
+const scale = bench.data.maxScore ?? top;
+
+const title = `${bench.data.name} Leaderboard: All Model Scores`;
+const description = `${bench.data.name} measures ${bench.data.measures.toLowerCase()}. Current scores for ${ranked.length} models with the source for every number${ranked[0] ? `, led by ${ranked[0].model.data.name} at ${fmtScore(ranked[0].entry.score, bench.data.scoreType)}` : ''}.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonld={[breadcrumbs([{ name: 'Benchmarks', path: '/benchmarks' }, { name: bench.data.name }])]}
+>
+  <Breadcrumbs items={[{ label: 'Benchmarks', href: '/benchmarks' }, { label: bench.data.name }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{bench.data.name}</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    {bench.data.description}
+  </p>
+  <p class="mt-2 text-[13px]">
+    <a href={bench.data.sourceUrl} rel="noopener" class="font-medium text-accent-text underline underline-offset-2">
+      Official source →
+    </a>
+  </p>
+
+  {
+    ranked.length > 0 && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Current standings</h2>
+        <div class="mt-4">
+          {ranked.map((r) => (
+            <BenchBar
+              label={r.model.data.name}
+              display={fmtScore(r.entry.score, bench.data.scoreType)}
+              fraction={r.entry.score / scale}
+              href={`/${r.model.data.slug}-benchmarks`}
+            />
+          ))}
+        </div>
+
+        <div class="table-scroll mt-8">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="cell-num">#</th>
+                <th>Model</th>
+                <th class="cell-num">Score</th>
+                <th>Conditions</th>
+                <th>Reported by</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ranked.map((r, i) => (
+                <tr>
+                  <td class="cell-num">{i + 1}</td>
+                  <td>
+                    <a href={`/${r.model.data.slug}`} class="font-medium hover:text-accent-text">
+                      {r.model.data.name}
+                    </a>
+                  </td>
+                  <td class="cell-num font-semibold">{fmtScore(r.entry.score, bench.data.scoreType)}</td>
+                  <td class="text-ink-2">{r.entry.variant ?? '—'}</td>
+                  <td class="text-ink-2">{r.entry.selfReported ? 'vendor' : 'third-party'}</td>
+                  <td>
+                    <SourceNote n={1} url={r.entry.cite.url} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )
+  }
+
+  {
+    bench.data.methodologyNotes && (
+      <div class="mt-8 max-w-2xl border-l-2 border-line-strong pl-4">
+        <h2 class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Methodology note</h2>
+        <p class="mt-2 text-[13px] leading-relaxed text-ink-2">{bench.data.methodologyNotes}</p>
+      </div>
+    )
+  }
+</BaseLayout>

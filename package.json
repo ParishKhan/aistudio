@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "check:data": "tsx scripts/check-data.ts"
+    "check:data": "tsx scripts/check-data.ts",
+    "prebuild": "tsx scripts/gen-redirects.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

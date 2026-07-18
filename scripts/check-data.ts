@@ -107,9 +107,17 @@ for (const m of models) {
     if (m[rel] && !modelSlugs.has(m[rel])) errors.push(`${m.__file}: unknown ${rel} "${m[rel]}"`);
   }
 }
+const priorityOf = new Map(models.map((m) => [m.slug, m.priority]));
 for (const c of collections.comparisons ?? []) {
   for (const side of ['a', 'b'] as const) {
     if (!modelSlugs.has(c[side])) errors.push(`${c.__file}: unknown model "${c[side]}"`);
+  }
+  // File order must match canonical URL order (lower priority number first),
+  // so filenames always equal the generated /a-vs-b slug.
+  const pa = priorityOf.get(c.a);
+  const pb = priorityOf.get(c.b);
+  if (pa !== undefined && pb !== undefined && pa > pb) {
+    errors.push(`${c.__file}: swap a/b — canonical order puts ${c.b} (priority ${pb}) first`);
   }
 }
 for (const coll of ['prompts', 'tutorials', 'workflows', 'agents', 'templates']) {

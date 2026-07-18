@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import EntityCard from '../../components/blocks/EntityCard.astro';
+import { usd } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const apps = (await getCollection('apps')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const categoryLabel: Record<string, string> = {
+  ide: 'AI code editor',
+  'app-builder': 'AI app builder',
+  'cloud-ide': 'Cloud IDE + agent',
+  cli: 'CLI agent',
+  extension: 'Editor extension',
+};
+
+const cheapestPaid = (app: (typeof apps)[number]) => {
+  const paid = app.data.pricingPlans.filter((p) => p.pricePerMonth !== null && p.pricePerMonth! > 0);
+  return paid.length ? Math.min(...paid.map((p) => p.pricePerMonth!)) : null;
+};
+---
+
+<BaseLayout
+  title="AI Coding Apps Compared: Cursor, Windsurf, Lovable, Replit, Bolt, v0"
+  description="The major AI coding apps and app builders compared — Cursor, Windsurf, Lovable, Replit, Bolt, and v0 — with verified pricing plans, supported models, and feature breakdowns."
+  jsonld={[breadcrumbs([{ name: 'Apps' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Apps' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">AI Coding Apps</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    The editors, agents, and app builders where AI models do real work — with pricing verified
+    against each vendor's official pricing page.
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      apps.map((app) => {
+        const from = cheapestPaid(app);
+        return (
+          <EntityCard
+            name={app.data.name}
+            href={`/apps/${app.data.slug}`}
+            meta={`${categoryLabel[app.data.category]} · by ${app.data.vendorName}`}
+            stats={[
+              { label: 'Free tier', value: app.data.pricingPlans.some((p) => p.pricePerMonth === 0) ? 'Yes' : 'No' },
+              { label: 'Paid from', value: from !== null ? `${usd(from).replace('.00', '')}/mo` : 'Custom' },
+            ]}
+          />
+        );
+      })
+    }
+  </div>
+</BaseLayout>

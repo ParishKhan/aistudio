@@ -1,0 +1,25 @@
+a: claude-opus-4-8
+b: claude-fable-5
+verdict: |
+  The in-family question: is Fable 5 worth double the price? Fable 5 is
+  Anthropic's Mythos-class tier and clearly the stronger model — its 80%
+  SWE-Bench Pro (vs 69.2% for Opus 4.8) is the largest gap between two
+  same-vendor models we track, and Anthropic says the lead grows with task
+  length.
+
+  Opus 4.8 counters with price ($5/$25 vs $10/$50), fast mode (2.5× output
+  speed at $10/$50 — Fable has no fast mode), and no safety-classifier
+  fallback: notably, Fable routes flagged cybersecurity and biology requests
+  to Opus 4.8 anyway. Default to Opus 4.8 for production agents; reach for
+  Fable 5 when a single hard, long-horizon task justifies paying double.
+faq:
+  - q: Is Claude Fable 5 better than Opus 4.8?
+    a: >-
+      On capability, yes — Anthropic positions Mythos-class above Opus, and
+      reported benchmarks agree (80% vs 69.2% on SWE-Bench Pro). Opus 4.8
+      costs half as much and offers fast mode.
+  - q: Why would Fable 5 answer with Opus 4.8?
+    a: >-
+      Fable 5's safety classifiers route requests touching cybersecurity,
+      biology/chemistry, or suspected distillation to Opus 4.8 — affecting
+      under 5% of sessions per Anthropic.

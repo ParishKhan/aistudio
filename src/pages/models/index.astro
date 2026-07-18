@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import EntityCard from '../../components/blocks/EntityCard.astro';
+import { byPriority } from '../../lib/models';
+import { tokens, usd } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const models = (await getCollection('models')).sort(byPriority);
+const vendors = await getCollection('vendors');
+const vendorName = (id: string) => vendors.find((v) => v.id === id)?.data.name ?? id;
+
+const families = [...new Set(models.map((m) => m.data.family))];
+---
+
+<BaseLayout
+  title="AI Models: Specs, Pricing & Benchmarks for Every Major LLM"
+  description="Every major AI model in one database — GPT, Claude, Gemini, Grok, Mistral, and DeepSeek — with context windows, API pricing, and benchmark scores, all verified against official sources."
+  jsonld={[breadcrumbs([{ name: 'Models' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Models' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">AI Models</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    {models.length} current models across {families.length} families, each with specs, pricing,
+    context window, and benchmarks — every fact linked to an official source with a verification
+    date.
+  </p>
+
+  {
+    families.map((family) => {
+      const familyModels = models.filter((m) => m.data.family === family);
+      return (
+        <section class="mt-10">
+          <h2 class="flex items-baseline gap-2 text-lg font-semibold tracking-tight">
+            {family}
+            <span class="text-[12px] font-normal text-ink-3">by {vendorName(familyModels[0].data.vendor.id)}</span>
+          </h2>
+          <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {familyModels.map((m) => (
+              <EntityCard
+                name={m.data.name}
+                href={`/${m.data.slug}`}
+                meta={`${m.data.tier === 'flagship' ? 'Flagship' : m.data.tier === 'mid' ? 'Mid-tier' : m.data.tier === 'small' ? 'Small' : m.data.tier}${m.data.status !== 'current' ? ` · ${m.data.status}` : ''}`}
+                stats={[
+                  { label: 'Context', value: tokens(m.data.contextWindow.value) },
+                  { label: 'Input / 1M', value: usd(m.data.pricing.input) },
+                  { label: 'Output / 1M', value: usd(m.data.pricing.output) },
+                ]}
+              />
+            ))}
+          </div>
+        </section>
+      );
+    })
+  }
+</BaseLayout>

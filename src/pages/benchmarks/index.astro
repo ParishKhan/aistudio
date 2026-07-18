@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { ranking } from '../../lib/models';
+import { score as fmtScore } from '../../lib/fmt';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const benchmarks = await getCollection('benchmarks');
+const models = await getCollection('models');
+const rows = benchmarks
+  .map((bench) => {
+    const ranked = ranking(models, bench);
+    return { bench, leader: ranked[0], count: ranked.length };
+  })
+  .sort((a, b) => b.count - a.count);
+---
+
+<BaseLayout
+  title="AI Benchmarks Explained: What Each Eval Measures & Who Leads"
+  description="The benchmarks that matter for AI models — SWE-Bench Pro, GPQA Diamond, Terminal-Bench, BrowseComp — what each one measures, methodology caveats, and the current leader."
+  jsonld={[breadcrumbs([{ name: 'Benchmarks' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Benchmarks' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Benchmarks</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    What each benchmark actually measures, its methodology caveats, and who currently leads among
+    the models we track. Every score links to the announcement or leaderboard it came from.
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    {
+      rows.map(({ bench, leader, count }) => (
+        <a href={`/benchmarks/${bench.data.slug}`} class="group border border-line p-4 transition-colors hover:border-line-strong">
+          <div class="text-[15px] font-semibold group-hover:text-accent-text">{bench.data.name}</div>
+          <p class="mt-1 text-[13px] leading-relaxed text-ink-2">{bench.data.measures}</p>
+          {leader && (
+            <div class="mt-3 flex items-baseline justify-between border-t border-line pt-3">
+              <span class="text-[12px] text-ink-3">Leader ({count} models tracked)</span>
+              <span class="num text-[12px] font-semibold">
+                {leader.model.data.name} · {fmtScore(leader.entry.score, bench.data.scoreType)}
+              </span>
+            </div>
+          )}
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

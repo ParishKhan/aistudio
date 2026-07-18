@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import { orderPair } from '../../lib/routes';
+import { breadcrumbs } from '../../lib/jsonld';
+
+const comparisons = await getCollection('comparisons');
+const models = await getCollection('models');
+const byId = new Map(models.map((m) => [m.id, m]));
+
+const entries = comparisons
+  .map((c) => {
+    const a = byId.get(c.data.a.id)!;
+    const b = byId.get(c.data.b.id)!;
+    const [first, second] = orderPair(a, b);
+    return { first, second, hasVerdict: Boolean(c.data.verdict) };
+  })
+  .sort((x, y) => x.first.data.priority - y.first.data.priority || x.second.data.priority - y.second.data.priority);
+
+const groups = [
+  { label: 'Flagship matchups', filter: (e: (typeof entries)[number]) => e.first.data.tier === 'flagship' && e.second.data.tier === 'flagship' },
+  { label: 'Mid-tier matchups', filter: (e: (typeof entries)[number]) => e.first.data.tier === 'mid' || e.second.data.tier === 'mid' },
+  { label: 'Fast & small models', filter: (e: (typeof entries)[number]) => e.first.data.tier === 'small' || e.second.data.tier === 'small' },
+];
+const used = new Set<(typeof entries)[number]>();
+---
+
+<BaseLayout
+  title="AI Model Comparisons: Head-to-Head Specs & Benchmarks"
+  description="Side-by-side comparisons of every major AI model pairing — GPT-5.6 vs Claude, Gemini vs Grok, DeepSeek vs Mistral — with benchmarks, pricing, and context windows from official sources."
+  jsonld={[breadcrumbs([{ name: 'Comparisons' }])]}
+>
+  <Breadcrumbs items={[{ label: 'Comparisons' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Model Comparisons</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    {entries.length} head-to-head matchups with spec-by-spec grids, benchmark deltas, and — for the
+    big rivalries — a written verdict. Marked ★ where a verdict is included.
+  </p>
+
+  {
+    groups.map((group) => {
+      const groupEntries = entries.filter((e) => !used.has(e) && group.filter(e));
+      groupEntries.forEach((e) => used.add(e));
+      if (groupEntries.length === 0) return null;
+      return (
+        <section class="mt-10">
+          <h2 class="text-lg font-semibold tracking-tight">{group.label}</h2>
+          <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {groupEntries.map((e) => (
+              <li>
+                <a
+                  href={`/${e.first.data.slug}-vs-${e.second.data.slug}`}
+                  class="group flex items-baseline justify-between gap-2 border border-line px-4 py-3 transition-colors hover:border-line-strong"
+                >
+                  <span class="text-[14px] font-medium group-hover:text-accent-text">
+                    {e.first.data.name} <span class="text-ink-3">vs</span> {e.second.data.name}
+                  </span>
+                  {e.hasVerdict && <span class="text-[12px] text-accent-text" title="Includes written verdict">★</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })
+  }
+</BaseLayout>

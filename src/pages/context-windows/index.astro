@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/nav/Breadcrumbs.astro';
+import BenchBar from '../../components/data/BenchBar.astro';
+import { isCurrent } from '../../lib/models';
+import { tokens, tokensLong } from '../../lib/fmt';
+import { breadcrumbs, dataset } from '../../lib/jsonld';
+
+const models = (await getCollection('models'))
+  .filter(isCurrent)
+  .sort((a, b) => b.data.contextWindow.value - a.data.contextWindow.value);
+const max = models[0]?.data.contextWindow.value ?? 1;
+const newest = models.reduce((m, x) => (x.data.lastVerified > m ? x.data.lastVerified : m), new Date(0));
+
+const jsonld = [
+  breadcrumbs([{ name: 'Context Windows' }]),
+  dataset({
+    name: 'AI Model Context Window Database',
+    path: '/context-windows',
+    description: 'Context window and max output token limits for every major AI model, verified against official documentation.',
+    updated: newest,
+  }),
+];
+---
+
+<BaseLayout
+  title="Context Window Database: Token Limits for Every AI Model"
+  description="Context windows and max output limits for every major AI model, ranked — GPT-5.6's 1.05M tokens to Claude Haiku's 200K — verified against official vendor docs."
+  jsonld={jsonld}
+>
+  <Breadcrumbs items={[{ label: 'Context Windows' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Context Window Database</h1>
+  <p class="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2" data-pagefind-body>
+    How many tokens each model can hold, ranked. 1M-token context became the frontier standard in
+    2026 — the spread now runs from {tokens(max)} down to {tokens(models[models.length - 1].data.contextWindow.value)}.
+  </p>
+
+  <div class="mt-8">
+    {
+      models.map((m) => (
+        <BenchBar
+          label={m.data.name}
+          display={tokens(m.data.contextWindow.value)}
+          fraction={m.data.contextWindow.value / max}
+          href={`/${m.data.slug}-context-window`}
+        />
+      ))
+    }
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Full table</h2>
+  <div class="table-scroll mt-4">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="cell-num">Context window</th>
+          <th class="cell-num">Max output</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          models.map((m) => (
+            <tr>
+              <td>
+                <a href={`/${m.data.slug}-context-window`} class="font-medium hover:text-accent-text">
+                  {m.data.name}
+                </a>
+              </td>
+              <td class="cell-num">{tokensLong(m.data.contextWindow.value)}</td>
+              <td class="cell-num">{m.data.maxOutput ? tokensLong(m.data.maxOutput.value) : '—'}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</BaseLayout>
