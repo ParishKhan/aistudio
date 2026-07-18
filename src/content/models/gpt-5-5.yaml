@@ -1,0 +1,116 @@
+name: GPT-5.5
+slug: gpt-5-5
+vendor: openai
+family: GPT
+tier: flagship
+priority: 7
+status: current
+releaseDate:
+  value: 2026-04-23
+  cite:
+    url: https://developers.openai.com/api/docs/models/gpt-5.5
+    verified: 2026-07-18
+    note: Snapshot date gpt-5.5-2026-04-23.
+knowledgeCutoff:
+  value: '2025-12-01'
+  cite:
+    url: https://developers.openai.com/api/docs/models/gpt-5.5
+    verified: 2026-07-18
+modalities:
+  input: [text, image]
+  output: [text]
+contextWindow:
+  value: 1050000
+  cite:
+    url: https://developers.openai.com/api/docs/models/gpt-5.5
+    verified: 2026-07-18
+maxOutput:
+  value: 128000
+  cite:
+    url: https://developers.openai.com/api/docs/models/gpt-5.5
+    verified: 2026-07-18
+pricing:
+  input: 5.00
+  output: 30.00
+  cachedInput: 0.50
+  batchInput: 2.50
+  batchOutput: 15.00
+  cite:
+    url: https://developers.openai.com/api/docs/pricing
+    verified: 2026-07-18
+pricingNotes: >-
+  Prompts with more than 272K input tokens are priced at 2× input and 1.5×
+  output for the full session. Batch API halves standard rates.
+api:
+  modelIds: [gpt-5.5, gpt-5.5-2026-04-23]
+  aliases: []
+  providers:
+    - name: OpenAI API
+      url: https://developers.openai.com/api/docs/models/gpt-5.5
+      modelId: gpt-5.5
+  docsUrl: https://developers.openai.com/api/docs/models/gpt-5.5
+  rateLimitNotes: >-
+    Reasoning effort supports none, low, medium (default), high, and xhigh.
+  cite:
+    url: https://developers.openai.com/api/docs/models/gpt-5.5
+    verified: 2026-07-18
+benchmarks:
+  - benchmark: gpqa-diamond
+    score: 93.6
+    selfReported: true
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+  - benchmark: swe-bench-pro
+    score: 59.4
+    selfReported: true
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+  - benchmark: terminal-bench-2-1
+    score: 85.6
+    selfReported: true
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+  - benchmark: browsecomp
+    score: 84.4
+    selfReported: true
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+capabilities:
+  - Streaming
+  - Function calling
+  - Structured outputs
+  - Reasoning effort control (none to xhigh)
+  - Batch API
+successor: gpt-5-6-sol
+description: >-
+  GPT-5.5 was OpenAI's flagship before the GPT-5.6 family (April–July 2026):
+  1.05M context, $5/$30 per 1M tokens. Full specs, pricing, and how it
+  compares to its successor GPT-5.6 Sol.
+summary: |
+  GPT-5.5 was OpenAI's frontier model from its April 23, 2026 snapshot until
+  the GPT-5.6 family arrived on July 9, 2026. It remains available in the API
+  at the same $5/$30 pricing as its successor GPT-5.6 Sol, which beats it on
+  every benchmark OpenAI reports while using fewer tokens.
+
+  It carries a 1,050,000-token context window and 128,000-token max output,
+  with one notable pricing quirk: sessions with more than 272K input tokens
+  are billed at 2× input and 1.5× output rates. A separate GPT-5.5 Pro tier
+  ($30/$180) serves the highest-effort professional work.
+
+  For new work, OpenAI's own launch data makes GPT-5.6 Sol the better buy at
+  identical prices; GPT-5.5 mainly matters for teams with pinned snapshots.
+faq:
+  - q: Is GPT-5.5 still available?
+    a: >-
+      Yes — gpt-5.5 and the gpt-5.5-2026-04-23 snapshot remain in the API at
+      $5/$30 per 1M tokens, though GPT-5.6 Sol supersedes it at the same price.
+  - q: Should I use GPT-5.5 or GPT-5.6 Sol?
+    a: >-
+      Sol costs the same and scores higher on every benchmark OpenAI has
+      published, so Sol is the default choice unless you depend on a pinned
+      GPT-5.5 snapshot.
+lastVerified: 2026-07-18

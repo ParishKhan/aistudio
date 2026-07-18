@@ -1,0 +1,13 @@
+name: Google
+slug: google
+url: https://deepmind.google
+docsUrl: https://ai.google.dev/gemini-api/docs
+pricingUrl: https://ai.google.dev/gemini-api/docs/pricing
+statusUrl: https://status.cloud.google.com
+description: >-
+  Google DeepMind builds the Gemini model family, served through the Gemini
+  API, Google AI Studio, and Vertex AI.
+sameAs:
+  - https://en.wikipedia.org/wiki/Google_DeepMind
+  - https://x.com/GoogleDeepMind
+  - https://github.com/google-gemini

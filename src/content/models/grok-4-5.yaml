@@ -1,0 +1,105 @@
+name: Grok 4.5
+slug: grok-4-5
+vendor: xai
+family: Grok
+tier: flagship
+priority: 9
+status: current
+releaseDate:
+  value: 2026-07-16
+  cite:
+    url: https://x.ai/news/grok-4-5
+    verified: 2026-07-18
+knowledgeCutoff:
+  value: '2026-02-01'
+  cite:
+    url: https://docs.x.ai/docs/models
+    verified: 2026-07-18
+modalities:
+  input: [text]
+  output: [text]
+contextWindow:
+  value: 500000
+  cite:
+    url: https://docs.x.ai/docs/models
+    verified: 2026-07-18
+pricing:
+  input: 2.00
+  output: 6.00
+  cachedInput: 0.50
+  cite:
+    url: https://docs.x.ai/docs/models
+    verified: 2026-07-18
+    note: Rates for prompts under 200K tokens.
+pricingNotes: >-
+  Tiered by prompt length: $2 input / $6 output per 1M tokens under 200K
+  input tokens, doubling to $4 / $12 at 200K and beyond. Cached input costs
+  $0.50/1M ($1.00 ≥200K). SpaceXAI claims roughly 2× the token efficiency of
+  comparable models, which lowers effective per-task cost further.
+api:
+  modelIds: [grok-4.5]
+  aliases: []
+  providers:
+    - name: SpaceXAI API
+      url: https://docs.x.ai/docs/models
+      modelId: grok-4.5
+  docsUrl: https://docs.x.ai/docs/models
+  rateLimitNotes: >-
+    Served at ~80 tokens/second. Available in Grok Build, Cursor (all plans),
+    and the SpaceXAI console.
+  cite:
+    url: https://docs.x.ai/docs/models
+    verified: 2026-07-18
+benchmarks:
+  - benchmark: terminal-bench-2-1
+    score: 83.3
+    selfReported: true
+    cite:
+      url: https://x.ai/news/grok-4-5
+      verified: 2026-07-18
+  - benchmark: swe-bench-pro
+    score: 64.7
+    selfReported: true
+    cite:
+      url: https://x.ai/news/grok-4-5
+      verified: 2026-07-18
+capabilities:
+  - Reasoning
+  - Function calling
+  - Structured outputs
+  - Responses API (OpenAI-compatible)
+  - High token efficiency (~16K output tokens per SWE-Bench Pro task)
+description: >-
+  Grok 4.5 is SpaceXAI's flagship coding and agentic model (July 2026):
+  500K context at $2/$6 per 1M tokens, trained alongside Cursor, with
+  claimed 2× token efficiency. Specs, pricing, and benchmarks.
+summary: |
+  Grok 4.5 launched July 16, 2026 as SpaceXAI's strongest model — the first
+  flagship shipped since xAI merged into SpaceX. It was trained alongside
+  Cursor on real engineering workflows, and its pitch is efficiency: 83.3% on
+  Terminal-Bench 2.1 and 64.7% on SWE-Bench Pro while averaging about 16K
+  output tokens per SWE-Bench task, roughly 4× fewer than Claude Opus 4.8 at
+  max effort.
+
+  At $2 per million input tokens and $6 per million output (doubling past
+  200K input), it undercuts every other flagship on sticker price, and it is
+  served at fast-model speeds of about 80 tokens per second. The context
+  window is 500K tokens — half the 1M standard set by OpenAI, Anthropic,
+  Google, and DeepSeek's current models.
+
+  Grok 4.5 is the default model in Grok Build and is available in Cursor on
+  all plans, with a free-usage window at launch.
+faq:
+  - q: How much does Grok 4.5 cost?
+    a: >-
+      $2 per 1M input tokens and $6 per 1M output for prompts under 200K
+      tokens; $4/$12 at 200K and beyond. Cached input costs $0.50/1M.
+  - q: What is Grok 4.5's context window?
+    a: >-
+      500,000 tokens — the smallest among current flagships, though tiered
+      pricing only doubles past 200K input tokens.
+  - q: Who makes Grok 4.5 — xAI or SpaceXAI?
+    a: >-
+      SpaceXAI, the merged SpaceX/xAI entity formed when the xAI acquisition
+      closed in February 2026. The API still lives at api.x.ai.
+lastVerified: 2026-07-18

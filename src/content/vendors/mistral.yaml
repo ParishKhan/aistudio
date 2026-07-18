@@ -1,0 +1,13 @@
+name: Mistral AI
+slug: mistral
+url: https://mistral.ai
+docsUrl: https://docs.mistral.ai
+pricingUrl: https://mistral.ai/pricing
+statusUrl: https://status.mistral.ai
+description: >-
+  Mistral AI is a Paris-based lab known for strong open-weight models. Its
+  frontier model, Mistral Medium 3.5, ships under a modified MIT license.
+sameAs:
+  - https://en.wikipedia.org/wiki/Mistral_AI
+  - https://x.com/MistralAI
+  - https://github.com/mistralai

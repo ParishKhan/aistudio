@@ -1,0 +1,77 @@
+name: Mistral Medium 3.5
+slug: mistral-medium-3-5
+vendor: mistral
+family: Mistral
+tier: flagship
+priority: 14
+status: current
+releaseDate:
+  value: 2026-04-28
+  cite:
+    url: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+    verified: 2026-07-18
+modalities:
+  input: [text, image]
+  output: [text]
+contextWindow:
+  value: 262144
+  cite:
+    url: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+    verified: 2026-07-18
+    note: Listed as 256k on the model card.
+pricing:
+  input: 1.50
+  output: 7.50
+  cite:
+    url: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+    verified: 2026-07-18
+api:
+  modelIds: [mistral-medium-3-5-26-04]
+  aliases: []
+  providers:
+    - name: Mistral La Plateforme
+      url: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+      modelId: mistral-medium-3-5-26-04
+  docsUrl: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+  rateLimitNotes: >-
+    Weights released under a modified MIT license — self-hosting is allowed.
+  cite:
+    url: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+    verified: 2026-07-18
+benchmarks: []
+capabilities:
+  - Function calling
+  - Structured outputs
+  - Agents API
+  - OCR and document processing
+  - Open weights (modified MIT license)
+description: >-
+  Mistral Medium 3.5 is Mistral AI's frontier model (April 2026): a 256K
+  context multimodal model under a modified MIT license at $1.50/$7.50 per 1M
+  tokens. Specs, pricing, and API details.
+summary: |
+  Mistral Medium 3.5 (version 26.04) is Mistral AI's frontier-class model,
+  released April 28, 2026 and optimized for agentic and coding use cases. Its
+  differentiator among flagships is the license: the weights ship under a
+  modified MIT license, so teams can run it on their own infrastructure — no
+  other current frontier model in our database pairs open weights with a
+  vendor-hosted API this capable.
+
+  On Mistral's La Plateforme it costs $1.50 per million input tokens and
+  $7.50 per million output, with a 256K (262,144-token) context window and
+  text-plus-image input. Reported third-party analyses describe it as a
+  dense 128B-parameter model.
+
+  For European-hosted deployments, self-hosting requirements, or
+  cost-sensitive agentic work, it is the leading open-weight flagship
+  alternative to the closed US models.
+faq:
+  - q: Is Mistral Medium 3.5 open source?
+    a: >-
+      The weights are released under a modified MIT license, so it can be
+      self-hosted; check the license text for the exact modifications.
+  - q: How much does Mistral Medium 3.5 cost?
+    a: >-
+      $1.50 per 1M input tokens and $7.50 per 1M output on Mistral's API —
+      or run the open weights on your own hardware.
+lastVerified: 2026-07-18

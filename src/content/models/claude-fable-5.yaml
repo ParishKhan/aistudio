@@ -1,0 +1,147 @@
+name: Claude Fable 5
+slug: claude-fable-5
+vendor: anthropic
+family: Claude
+tier: flagship
+priority: 4
+status: current
+releaseDate:
+  value: 2026-06-09
+  cite:
+    url: https://www.anthropic.com/news/claude-fable-5-mythos-5
+    verified: 2026-07-18
+    note: Launched Jun 9, access suspended Jun 12, redeployed Jul 1, 2026.
+knowledgeCutoff:
+  value: '2026-01'
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+modalities:
+  input: [text, image, pdf]
+  output: [text]
+contextWindow:
+  value: 1000000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+    note: Uses the newer tokenizer (~30% more tokens for the same text than pre-4.7 models).
+maxOutput:
+  value: 128000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+pricing:
+  input: 10.00
+  output: 50.00
+  cachedInput: 1.00
+  cacheWrite: 12.50
+  batchInput: 5.00
+  batchOutput: 25.00
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/pricing
+    verified: 2026-07-18
+pricingNotes: >-
+  Full 1M context at standard pricing. 1-hour cache writes cost $20/1M.
+  On some topics (cybersecurity, biology/chemistry, distillation), safety
+  classifiers route the response to Claude Opus 4.8 instead; Anthropic reports
+  this affects under 5% of sessions.
+api:
+  modelIds: [claude-fable-5]
+  aliases: [claude-fable-5]
+  providers:
+    - name: Claude API
+      url: https://platform.claude.com/docs/en/about-claude/models/overview
+      modelId: claude-fable-5
+    - name: Amazon Bedrock
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock
+      modelId: anthropic.claude-fable-5
+    - name: Google Cloud Vertex AI
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai
+      modelId: claude-fable-5
+    - name: Microsoft Foundry
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry
+  docsUrl: https://platform.claude.com/docs/en/about-claude/models/overview
+  rateLimitNotes: >-
+    Adaptive thinking is always on. Claude Mythos 5 (claude-mythos-5) is the
+    same underlying model with cyber safeguards lifted, restricted to Project
+    Glasswing partners.
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+benchmarks:
+  - benchmark: gpqa-diamond
+    score: 92.6
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: Reported by OpenAI in the GPT-5.6 announcement.
+  - benchmark: swe-bench-pro
+    score: 80.0
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: >-
+        Reported by OpenAI; SpaceXAI's Grok 4.5 post cites 80.4% at max effort
+        from Anthropic's system card.
+  - benchmark: terminal-bench-2-1
+    score: 83.1
+    selfReported: false
+    cite:
+      url: https://openai.com/index/gpt-5-6/
+      verified: 2026-07-18
+      note: >-
+        Reported by OpenAI; SpaceXAI's Grok 4.5 post cites 84.3% at max
+        effort.
+capabilities:
+  - Adaptive thinking (always on)
+  - Effort control
+  - Prompt caching (5m and 1h)
+  - Batch API
+  - Computer use
+  - Persistent memory workflows
+  - Web search, web fetch, code execution tools
+description: >-
+  Claude Fable 5 is Anthropic's most capable generally available model (June
+  2026): the first Mythos-class release, 1M context, $10/$50 per 1M tokens,
+  state-of-the-art on agentic coding benchmarks.
+summary: |
+  Claude Fable 5 is the first Mythos-class model Anthropic has made generally
+  available — a capability tier the company places above its Opus line. It
+  launched June 9, 2026 at $10 per million input tokens and $50 per million
+  output, was briefly suspended three days later, and returned to general
+  availability on July 1.
+
+  Anthropic reports state-of-the-art results on nearly all tested benchmarks,
+  with the lead over other models growing as tasks get longer: its
+  OpenAI-reported 80% on SWE-Bench Pro is the highest score in our database.
+  During early testing, Stripe reported Fable 5 completed a codebase-wide
+  migration in a 50-million-line Ruby codebase in a day.
+
+  The distinctive trade-off is safety routing: classifier-flagged requests in
+  cybersecurity, biology/chemistry, and suspected distillation fall back to
+  Claude Opus 4.8, which Anthropic says affects under 5% of sessions. A
+  sibling model, Claude Mythos 5, is the same model with cyber safeguards
+  lifted, restricted to approved defenders under Project Glasswing.
+faq:
+  - q: How much does Claude Fable 5 cost?
+    a: >-
+      $10 per 1M input tokens and $50 per 1M output tokens — double Claude
+      Opus 4.8. Batch API halves that; cache reads cost $1/1M.
+  - q: What is a Mythos-class model?
+    a: >-
+      Anthropic's tier above Opus in capability. Fable 5 is the
+      safeguarded general release; Mythos 5 is the same model with cyber
+      safeguards lifted for approved organizations in Project Glasswing.
+  - q: Why do some Fable 5 requests get answered by Opus 4.8?
+    a: >-
+      Safety classifiers route requests touching cybersecurity, biology and
+      chemistry, or suspected distillation to Claude Opus 4.8. Anthropic
+      reports over 95% of sessions involve no fallback.
+  - q: What is Claude Fable 5's context window?
+    a: >-
+      1,000,000 tokens at standard pricing, with 128,000 max output tokens.
+      Note it uses a newer tokenizer that produces roughly 30% more tokens for
+      the same text than pre-Opus-4.7 models.
+lastVerified: 2026-07-18

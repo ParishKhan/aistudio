@@ -1,0 +1,93 @@
+name: Claude Haiku 4.5
+slug: claude-haiku-4-5
+vendor: anthropic
+family: Claude
+tier: small
+priority: 10
+status: current
+releaseDate:
+  value: 2025-10-15
+  cite:
+    url: https://www.anthropic.com/news/claude-haiku-4-5
+    verified: 2026-07-18
+knowledgeCutoff:
+  value: '2025-02'
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+    note: Reliable knowledge cutoff Feb 2025; training data cutoff Jul 2025.
+modalities:
+  input: [text, image, pdf]
+  output: [text]
+contextWindow:
+  value: 200000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+maxOutput:
+  value: 64000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+pricing:
+  input: 1.00
+  output: 5.00
+  cachedInput: 0.10
+  cacheWrite: 1.25
+  batchInput: 0.50
+  batchOutput: 2.50
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/pricing
+    verified: 2026-07-18
+api:
+  modelIds: [claude-haiku-4-5-20251001]
+  aliases: [claude-haiku-4-5]
+  providers:
+    - name: Claude API
+      url: https://platform.claude.com/docs/en/about-claude/models/overview
+      modelId: claude-haiku-4-5-20251001
+    - name: Amazon Bedrock
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock
+      modelId: anthropic.claude-haiku-4-5-20251001-v1:0
+    - name: Google Cloud Vertex AI
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai
+      modelId: claude-haiku-4-5@20251001
+  docsUrl: https://platform.claude.com/docs/en/about-claude/models/overview
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+benchmarks: []
+capabilities:
+  - Extended thinking
+  - Prompt caching (5m and 1h)
+  - Batch API
+  - Computer use
+description: >-
+  Claude Haiku 4.5 is Anthropic's fastest model (October 2025): 200K context
+  at $1/$5 per 1M tokens with near-frontier intelligence. Specs, pricing, and
+  how it compares to other small models.
+summary: |
+  Claude Haiku 4.5 is Anthropic's speed-and-cost tier, released October 15,
+  2025 and still the lineup's fastest model in mid-2026. At $1 per million
+  input tokens and $5 per million output, it competes directly with GPT-5.6
+  Luna and Gemini 3.5 Flash on price.
+
+  It is the oldest current model in Anthropic's lineup, which shows in two
+  specs: a 200,000-token context window (versus 1M for the rest of the
+  current Claude family) and a February 2025 reliable knowledge cutoff. It
+  remains the only current Claude model with classic extended thinking rather
+  than adaptive thinking.
+
+  For high-volume, latency-sensitive work that fits in 200K tokens — support
+  triage, extraction, routing, sub-agents — it remains Anthropic's
+  cost-per-token champion.
+faq:
+  - q: How much does Claude Haiku 4.5 cost?
+    a: >-
+      $1 per 1M input tokens and $5 per 1M output tokens, with cache reads at
+      $0.10/1M and batch rates of $0.50/$2.50.
+  - q: What is Claude Haiku 4.5's context window?
+    a: >-
+      200,000 tokens with up to 64,000 output tokens — smaller than the 1M
+      window on current Opus, Sonnet, and Fable models.
+lastVerified: 2026-07-18

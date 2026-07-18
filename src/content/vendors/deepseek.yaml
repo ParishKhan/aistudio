@@ -1,0 +1,14 @@
+name: DeepSeek
+slug: deepseek
+url: https://www.deepseek.com
+docsUrl: https://api-docs.deepseek.com
+pricingUrl: https://api-docs.deepseek.com/quick_start/pricing
+statusUrl: https://status.deepseek.com
+description: >-
+  DeepSeek is a Chinese AI lab known for radically cheap, open-weight frontier
+  models. Its V4 generation (Pro and Flash) ships 1M-token context under an
+  MIT license.
+sameAs:
+  - https://en.wikipedia.org/wiki/DeepSeek
+  - https://x.com/deepseek_ai
+  - https://github.com/deepseek-ai

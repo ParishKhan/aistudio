@@ -51,11 +51,12 @@ export async function getFlatPages(): Promise<FlatPage[]> {
     });
 
     for (const sub of SUBPAGES) {
-      // Skip thin prompt pages: only generate when ≥3 prompts reference the model.
+      // Skip thin pages: prompts need ≥3 entries, benchmarks need ≥1 score.
       if (sub === 'prompts') {
         const count = prompts.filter((p) => p.data.models.some((r) => r.id === model.id)).length;
         if (count < 3) continue;
       }
+      if (sub === 'benchmarks' && model.data.benchmarks.length === 0) continue;
       pages.push({
         slug: `${model.data.slug}-${sub}`,
         type: `model-${sub}`,

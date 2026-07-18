@@ -1,0 +1,14 @@
+name: SpaceXAI
+slug: xai
+url: https://x.ai
+docsUrl: https://docs.x.ai
+pricingUrl: https://docs.x.ai/docs/models
+statusUrl: https://status.x.ai
+description: >-
+  SpaceXAI — the merged SpaceX/xAI entity — builds the Grok model family,
+  Grok Build, and the SpaceXAI API. Grok 4.5 is its flagship coding and
+  agentic model.
+sameAs:
+  - https://en.wikipedia.org/wiki/XAI_(company)
+  - https://x.com/spacexai
+  - https://github.com/xai-org

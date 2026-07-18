@@ -1,0 +1,100 @@
+name: Claude Sonnet 5
+slug: claude-sonnet-5
+vendor: anthropic
+family: Claude
+tier: mid
+priority: 8
+status: current
+releaseDate:
+  value: 2026-06-30
+  cite:
+    url: https://www.anthropic.com/news/claude-sonnet-5
+    verified: 2026-07-18
+knowledgeCutoff:
+  value: '2026-01'
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+modalities:
+  input: [text, image, pdf]
+  output: [text]
+contextWindow:
+  value: 1000000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+maxOutput:
+  value: 128000
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+    note: Up to 300K output on the Batch API with the output-300k beta header.
+pricing:
+  input: 2.00
+  output: 10.00
+  cachedInput: 0.20
+  cacheWrite: 2.50
+  batchInput: 1.00
+  batchOutput: 5.00
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/pricing
+    verified: 2026-07-18
+    note: Introductory pricing through Aug 31, 2026.
+pricingNotes: >-
+  Introductory pricing of $2/$10 per 1M tokens runs through August 31, 2026;
+  standard pricing of $3/$15 (with proportional cache and batch rates) takes
+  effect September 1, 2026. Full 1M context at standard rates.
+api:
+  modelIds: [claude-sonnet-5]
+  aliases: [claude-sonnet-5]
+  providers:
+    - name: Claude API
+      url: https://platform.claude.com/docs/en/about-claude/models/overview
+      modelId: claude-sonnet-5
+    - name: Amazon Bedrock
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock
+      modelId: anthropic.claude-sonnet-5
+    - name: Google Cloud Vertex AI
+      url: https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai
+      modelId: claude-sonnet-5
+  docsUrl: https://platform.claude.com/docs/en/about-claude/models/overview
+  rateLimitNotes: >-
+    The effort parameter defaults to high on the Claude API and Claude Code.
+  cite:
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
+    verified: 2026-07-18
+benchmarks: []
+capabilities:
+  - Adaptive thinking
+  - Effort control
+  - Prompt caching (5m and 1h)
+  - Batch API (with 300K extended output beta)
+  - Computer use
+description: >-
+  Claude Sonnet 5 is Anthropic's speed/intelligence balance (June 2026): 1M
+  context at intro pricing of $2/$10 per 1M tokens through August 31, then
+  $3/$15. Specs, pricing timeline, and API details.
+summary: |
+  Claude Sonnet 5 launched June 30, 2026 as Anthropic's mid-tier workhorse —
+  "the best combination of speed and intelligence" in the company's own
+  positioning — and the default model for Free and Pro plans on claude.ai.
+
+  Its headline is the pricing timeline: an introductory $2 per million input
+  tokens and $10 per million output runs through August 31, 2026, after which
+  standard $3/$15 pricing applies. During the intro window it undercuts
+  GPT-5.6 Terra ($2.50/$15) while carrying the same 1,000,000-token context
+  window and a 128,000-token output cap.
+
+  Like Opus 4.8 and Fable 5, it shares the January 2026 knowledge cutoff and
+  the newer Claude tokenizer, and supports adaptive thinking with effort
+  control defaulting to high on the API.
+faq:
+  - q: How much does Claude Sonnet 5 cost?
+    a: >-
+      $2 per 1M input and $10 per 1M output tokens through August 31, 2026;
+      from September 1 the standard rate is $3/$15. Batch halves either rate.
+  - q: What is Claude Sonnet 5's context window?
+    a: >-
+      1,000,000 tokens at standard pricing, with 128,000 max output tokens
+      (300,000 via the Batch API extended-output beta).
+lastVerified: 2026-07-18
