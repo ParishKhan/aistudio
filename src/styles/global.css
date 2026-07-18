@@ -106,9 +106,9 @@ html {
   white-space: nowrap;
 }
 
-/* Winner cell in comparison grids: accent underline, not a fill. */
+/* Winner cell in comparison grids: accent-colored text, not a fill. */
 .cell-win {
-  box-shadow: inset 0 -2px 0 var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 
