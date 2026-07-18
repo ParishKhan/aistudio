@@ -1,0 +1,15 @@
+---
+interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+const display = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<span class="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-[11px] text-ink-2">
+  <svg class="size-3 text-good" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+    <path d="m3 8.5 3.5 3.5L13 5"></path>
+  </svg>
+  Verified <time class="num" datetime={date.toISOString().slice(0, 10)}>{display}</time>
+</span>

@@ -1,0 +1,48 @@
+---
+import { SITE, SECTIONS } from '../../data/site';
+
+const groups: { label: string; key: 'database' | 'library' | 'learn' }[] = [
+  { label: 'Database', key: 'database' },
+  { label: 'Library', key: 'library' },
+  { label: 'Learn', key: 'learn' },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-line bg-surface-2">
+  <div class="mx-auto max-w-[1200px] px-4 py-10 sm:px-6">
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+      <div class="col-span-2 sm:col-span-1">
+        <a href="/" class="flex items-center gap-2">
+          <span class="inline-block size-2.5 bg-accent" aria-hidden="true"></span>
+          <span class="text-[15px] font-semibold tracking-tight">AIStudio</span>
+        </a>
+        <p class="mt-3 max-w-56 text-[13px] leading-relaxed text-ink-2">
+          {SITE.tagline}. Every fact sourced and dated.
+        </p>
+      </div>
+      {
+        groups.map((g) => (
+          <div>
+            <h2 class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{g.label}</h2>
+            <ul class="mt-3 space-y-2">
+              {SECTIONS.filter((s) => s.group === g.key).map((s) => (
+                <li>
+                  <a href={`/${s.slug}`} class="text-[13px] text-ink-2 transition-colors hover:text-ink">
+                    {s.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
+      <p class="text-[12px] text-ink-3">
+        © {year} AIStudio · Data verified against official sources — <a href="/methodology" class="underline underline-offset-2 hover:text-ink-2">methodology</a>
+      </p>
+      <a href={SITE.github} rel="noopener" class="text-[12px] text-ink-3 transition-colors hover:text-ink-2">GitHub</a>
+    </div>
+  </div>
+</footer>

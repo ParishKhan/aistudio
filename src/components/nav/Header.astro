@@ -1,0 +1,110 @@
+---
+import { NAV_PRIMARY } from '../../data/site';
+
+const { pathname } = Astro.url;
+const isActive = (slug: string) => pathname === `/${slug}` || pathname.startsWith(`/${slug}/`);
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur-sm">
+  <div class="mx-auto flex h-13 max-w-[1200px] items-center gap-6 px-4 sm:px-6">
+    <a href="/" class="flex shrink-0 items-center gap-2" aria-label="AIStudio home">
+      <span class="inline-block size-2.5 bg-accent" aria-hidden="true"></span>
+      <span class="text-[15px] font-semibold tracking-tight">AIStudio</span>
+    </a>
+
+    <nav class="hidden md:block" aria-label="Primary">
+      <ul class="flex items-center gap-1">
+        {
+          NAV_PRIMARY.map((s) => (
+            <li>
+              <a
+                href={`/${s.slug}`}
+                aria-current={isActive(s.slug) ? 'page' : undefined}
+                class:list={[
+                  'rounded px-2.5 py-1.5 text-[13px] font-medium transition-colors',
+                  isActive(s.slug) ? 'text-ink' : 'text-ink-2 hover:text-ink',
+                ]}
+              >
+                {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-1">
+      <a
+        href="/search"
+        class="flex items-center gap-2 rounded border border-line px-2.5 py-1.5 text-[13px] text-ink-3 transition-colors hover:border-line-strong hover:text-ink-2"
+      >
+        <svg class="size-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"></circle>
+          <path d="m13.5 13.5-3.2-3.2"></path>
+        </svg>
+        <span class="hidden sm:inline">Search</span>
+      </a>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        class="rounded p-2 text-ink-2 transition-colors hover:text-ink"
+        aria-label="Toggle dark mode"
+      >
+        <svg class="size-4 dark:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="8" cy="8" r="3.25"></circle>
+          <path d="M8 1v1.5M8 13.5V15M15 8h-1.5M2.5 8H1m11.6-4.6-1 1M4.4 11.6l-1 1m9.2 0-1-1M4.4 4.4l-1-1"></path>
+        </svg>
+        <svg class="hidden size-4 dark:block" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7Z"></path>
+        </svg>
+      </button>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="rounded p-2 text-ink-2 hover:text-ink md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M2 4h12M2 8h12M2 12h12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" class="hidden border-t border-line md:hidden" aria-label="Primary mobile">
+    <ul class="mx-auto max-w-[1200px] px-4 py-2 sm:px-6">
+      {
+        NAV_PRIMARY.map((s) => (
+          <li>
+            <a
+              href={`/${s.slug}`}
+              class="block py-2 text-[14px] font-medium text-ink-2 hover:text-ink"
+              aria-current={isActive(s.slug) ? 'page' : undefined}
+            >
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const themeBtn = document.getElementById('theme-toggle');
+  themeBtn?.addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  });
+
+  const menuBtn = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  menuBtn?.addEventListener('click', () => {
+    const open = mobileNav?.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+</script>

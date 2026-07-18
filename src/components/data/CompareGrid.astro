@@ -1,0 +1,56 @@
+---
+export interface CompareCell {
+  display: string;
+  /** Marks the better value in this row — gets the accent underline. */
+  win?: boolean;
+  sub?: string;
+}
+
+export interface CompareRow {
+  label: string;
+  cells: [CompareCell, CompareCell];
+}
+
+interface Props {
+  columns: [{ name: string; href: string }, { name: string; href: string }];
+  rows: CompareRow[];
+}
+
+const { columns, rows } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="w-40 sm:w-52"><span class="sr-only">Spec</span></th>
+        {
+          columns.map((col) => (
+            <th>
+              <a href={col.href} class="text-ink transition-colors hover:text-accent-text">
+                {col.name}
+              </a>
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row" class="font-medium text-ink-2">
+              {row.label}
+            </th>
+            {row.cells.map((cell) => (
+              <td class:list={['num', cell.win && 'cell-win']}>
+                {cell.display}
+                {cell.sub && <div class="mt-0.5 font-sans text-[12px] font-normal text-ink-3">{cell.sub}</div>}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

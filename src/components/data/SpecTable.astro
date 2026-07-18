@@ -1,0 +1,41 @@
+---
+import SourceNote from './SourceNote.astro';
+
+export interface SpecRow {
+  label: string;
+  value: string;
+  /** Muted second line under the value. */
+  sub?: string;
+  citeUrl?: string;
+  citeIndex?: number;
+}
+
+interface Props {
+  rows: SpecRow[];
+  caption?: string;
+}
+
+const { rows, caption } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table class="data-table">
+    {caption && <caption class="pb-2 text-left text-[12px] text-ink-3">{caption}</caption>}
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row" class="w-44 font-medium text-ink-2 sm:w-56">
+              {row.label}
+            </th>
+            <td class="num">
+              {row.value}
+              {row.citeUrl && row.citeIndex && <SourceNote n={row.citeIndex} url={row.citeUrl} />}
+              {row.sub && <div class="mt-0.5 font-sans text-[12px] text-ink-3">{row.sub}</div>}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

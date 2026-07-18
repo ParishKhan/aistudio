@@ -1,0 +1,20 @@
+---
+interface Props {
+  /** 1-based index into the page's source list. */
+  n: number;
+  url: string;
+}
+
+const { n, url } = Astro.props;
+---
+
+<sup class="ml-0.5">
+  <a
+    href={url}
+    rel="noopener nofollow"
+    class="font-mono text-[10px] text-ink-3 no-underline transition-colors hover:text-accent-text"
+    title="Source"
+  >
+    [{n}]
+  </a>
+</sup>

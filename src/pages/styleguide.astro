@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/nav/Breadcrumbs.astro';
+import SpecTable from '../components/data/SpecTable.astro';
+import StatCard from '../components/data/StatCard.astro';
+import CompareGrid from '../components/data/CompareGrid.astro';
+import BenchBar from '../components/data/BenchBar.astro';
+import VerifiedBadge from '../components/data/VerifiedBadge.astro';
+import FAQ from '../components/blocks/FAQ.astro';
+import EntityCard from '../components/blocks/EntityCard.astro';
+---
+
+<BaseLayout title="Styleguide — AIStudio" description="Internal component styleguide.">
+  <Breadcrumbs items={[{ label: 'Styleguide' }]} />
+
+  <h1 class="text-2xl font-semibold tracking-tight">Styleguide</h1>
+  <p class="mt-2 text-[14px] text-ink-2">Internal page exercising every design-system component. Not linked, not indexed.</p>
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">StatCard</h2>
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <StatCard label="Context window" value="400K" sub="tokens" />
+    <StatCard label="Input price" value="$1.25" sub="per 1M tokens" />
+    <StatCard label="Output price" value="$10.00" sub="per 1M tokens" />
+    <StatCard label="Knowledge cutoff" value="2025-08" />
+  </div>
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">SpecTable</h2>
+  <SpecTable
+    rows={[
+      { label: 'Release date', value: 'Aug 7, 2025', citeUrl: 'https://example.com', citeIndex: 1 },
+      { label: 'Context window', value: '400,000 tokens', citeUrl: 'https://example.com', citeIndex: 2 },
+      { label: 'Max output', value: '128,000 tokens', sub: 'Including reasoning tokens' },
+      { label: 'Modalities', value: 'Text, image → text' },
+    ]}
+  />
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">CompareGrid</h2>
+  <CompareGrid
+    columns={[
+      { name: 'GPT-5', href: '#' },
+      { name: 'Claude Opus 4', href: '#' },
+    ]}
+    rows={[
+      { label: 'Context window', cells: [{ display: '400K', win: true }, { display: '200K' }] },
+      { label: 'Input price / 1M', cells: [{ display: '$1.25', win: true }, { display: '$15.00' }] },
+      { label: 'SWE-bench Verified', cells: [{ display: '74.9%' }, { display: '79.4%', win: true, sub: 'high effort' }] },
+    ]}
+  />
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">BenchBar</h2>
+  <div>
+    <BenchBar label="Claude Opus 4" display="79.4%" fraction={0.794} href="#" />
+    <BenchBar label="GPT-5" display="74.9%" fraction={0.749} highlight href="#" />
+    <BenchBar label="Gemini 2.5 Pro" display="63.8%" fraction={0.638} href="#" />
+  </div>
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">VerifiedBadge</h2>
+  <VerifiedBadge date={new Date('2026-07-18')} />
+
+  <h2 class="mt-10 mb-4 text-lg font-semibold">EntityCard</h2>
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <EntityCard
+      name="GPT-5"
+      href="#"
+      meta="OpenAI · Flagship"
+      stats={[
+        { label: 'Context', value: '400K' },
+        { label: 'Input / 1M', value: '$1.25' },
+      ]}
+    />
+    <EntityCard
+      name="Claude Opus 4"
+      href="#"
+      meta="Anthropic · Flagship"
+      stats={[
+        { label: 'Context', value: '200K' },
+        { label: 'Input / 1M', value: '$15.00' },
+      ]}
+    />
+    <EntityCard name="Cursor" href="#" meta="AI code editor · from $20/mo" />
+  </div>
+
+  <div class="mt-10 mb-4">
+    <FAQ
+      items={[
+        { q: 'Is this data accurate?', a: 'Every fact carries a source link to official vendor documentation and a last-verified date.' },
+        { q: 'How often is it updated?', a: 'Automated checks flag any fact not re-verified within 90 days.' },
+      ]}
+    />
+  </div>
+</BaseLayout>

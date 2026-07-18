@@ -1,0 +1,16 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  /** Small muted line under the value, e.g. "per 1M input tokens". */
+  sub?: string;
+}
+
+const { label, value, sub } = Astro.props;
+---
+
+<div class="border border-line bg-surface p-4">
+  <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{label}</div>
+  <div class="num mt-1.5 text-xl font-semibold text-ink">{value}</div>
+  {sub && <div class="mt-0.5 text-[12px] text-ink-3">{sub}</div>}
+</div>

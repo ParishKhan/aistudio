@@ -1,17 +1,16 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={`${SITE.name} — ${SITE.tagline}`} description={SITE.description}>
+  <section class="py-16 sm:py-24">
+    <h1 class="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      The AI product reference database
+    </h1>
+    <p class="mt-4 max-w-xl text-[15px] leading-relaxed text-ink-2">
+      Specs, pricing, context windows, and benchmarks for every major AI model and coding app.
+      Every fact sourced and dated. Launching soon.
+    </p>
+  </section>
+</BaseLayout>

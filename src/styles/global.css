@@ -1,1 +1,145 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/600.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Semantic tokens. Raw values live on :root/.dark and flip with the theme;
+ * @theme inline registers them as Tailwind color utilities (bg-surface,
+ * text-ink-2, border-line, ...).
+ */
+:root {
+  --surface: #fafaf9;
+  --surface-2: #f5f5f4;
+  --ink: #1c1917;
+  --ink-2: #57534e;
+  --ink-3: #a29d98;
+  --line: #e7e5e4;
+  --line-strong: #d6d3d1;
+  --accent: #e8590c;
+  --accent-text: #c2410c;
+  --good: #15803d;
+  --bad: #b91c1c;
+}
+
+.dark {
+  --surface: #151312;
+  --surface-2: #1e1b19;
+  --ink: #e7e5e4;
+  --ink-2: #a8a29e;
+  --ink-3: #736d67;
+  --line: #292524;
+  --line-strong: #44403c;
+  --accent: #f97316;
+  --accent-text: #fb923c;
+  --good: #3fb950;
+  --bad: #f85149;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+}
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', SFMono-Regular, monospace;
+}
+
+html {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-gutter: stable;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Every number on the site sits in a fixed-width grid. */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Data tables: dense rows, hairline borders, no zebra. */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.4;
+}
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.data-table thead th {
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--ink-2);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.data-table td.cell-num,
+.data-table th.cell-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Winner cell in comparison grids: accent underline, not a fill. */
+.cell-win {
+  box-shadow: inset 0 -2px 0 var(--accent);
+  font-weight: 600;
+}
+
+/* Sticky first column for wide tables on small screens. */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll .data-table th:first-child,
+.table-scroll .data-table td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+/* Prose defaults for hand-written summaries/articles. */
+.prose-site {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 42rem;
+}
+.prose-site p + p {
+  margin-top: 0.875em;
+}
+.prose-site a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-site strong {
+  font-weight: 600;
+}
