@@ -1,0 +1,45 @@
+name: Weekly data verification
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Report stale facts
+        id: stale
+        run: |
+          npm run check:data -- --report-stale > stale-report.txt 2>&1 || true
+          cat stale-report.txt
+          if grep -q "STALE" stale-report.txt; then echo "stale=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Open issue if stale facts found
+        if: steps.stale.outputs.stale == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('stale-report.txt', 'utf8');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Stale data report — ${new Date().toISOString().slice(0, 10)}`,
+              body: ['Facts not verified in the last 90 days:', '', '```', body.slice(0, 60000), '```'].join('\n'),
+              labels: ['data-freshness'],
+            });
