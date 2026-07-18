@@ -1,0 +1,151 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import StatCard from '../components/data/StatCard.astro';
+import SpecTable from '../components/data/SpecTable.astro';
+import BenchBar from '../components/data/BenchBar.astro';
+import FAQ from '../components/blocks/FAQ.astro';
+import { modelSources } from '../lib/sources';
+import { ranking } from '../lib/models';
+import { tokens, tokensLong, usd, date, cutoff, score } from '../lib/fmt';
+import { softwareApplication, faqPage } from '../lib/jsonld';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-hub' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const allModels = await getCollection('models');
+const allBenchmarks = await getCollection('benchmarks');
+const sources = modelSources(model);
+
+const specRows = [
+  { label: 'Vendor', value: vendor.data.name },
+  { label: 'Release date', value: date(d.releaseDate.value), citeUrl: d.releaseDate.cite.url, citeIndex: sources.indexOf(d.releaseDate.cite.url) },
+  ...(d.knowledgeCutoff
+    ? [{ label: 'Knowledge cutoff', value: cutoff(d.knowledgeCutoff.value), citeUrl: d.knowledgeCutoff.cite.url, citeIndex: sources.indexOf(d.knowledgeCutoff.cite.url) }]
+    : []),
+  { label: 'Context window', value: `${tokensLong(d.contextWindow.value)} tokens`, citeUrl: d.contextWindow.cite.url, citeIndex: sources.indexOf(d.contextWindow.cite.url) },
+  ...(d.maxOutput
+    ? [{ label: 'Max output', value: `${tokensLong(d.maxOutput.value)} tokens`, sub: d.maxOutput.cite.note, citeUrl: d.maxOutput.cite.url, citeIndex: sources.indexOf(d.maxOutput.cite.url) }]
+    : []),
+  { label: 'Modalities', value: `${d.modalities.input.join(', ')} → ${d.modalities.output.join(', ')}` },
+  { label: 'Input price', value: `${usd(d.pricing.input)} / 1M tokens`, citeUrl: d.pricing.cite.url, citeIndex: sources.indexOf(d.pricing.cite.url) },
+  { label: 'Output price', value: `${usd(d.pricing.output)} / 1M tokens`, citeUrl: d.pricing.cite.url, citeIndex: sources.indexOf(d.pricing.cite.url) },
+  { label: 'Primary model ID', value: d.api.modelIds[0], citeUrl: d.api.cite.url, citeIndex: sources.indexOf(d.api.cite.url) },
+];
+
+// Top benchmark highlights: this model's scores with rank context.
+const highlights = d.benchmarks
+  .slice(0, 3)
+  .map((entry) => {
+    const bench = allBenchmarks.find((b) => b.id === entry.benchmark.id)!;
+    const ranked = ranking(allModels, bench);
+    const best = ranked[0]?.entry.score ?? entry.score;
+    return { bench, entry, ranked, best };
+  });
+
+const paragraphs = d.summary.trim().split(/\n\n+/);
+
+const jsonld = [
+  softwareApplication({
+    name: d.name,
+    path: `/${d.slug}`,
+    description: d.description,
+    vendorName: vendor.data.name,
+    vendorUrl: vendor.data.url,
+    releaseDate: d.releaseDate.value,
+    price: d.pricing.input,
+    priceDescription: `USD per 1M input tokens (output: ${usd(d.pricing.output)}/1M)`,
+  }),
+  ...(d.faq.length ? [faqPage(d.faq)] : []),
+];
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="hub"
+  available={available}
+  extraJsonld={jsonld}
+>
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <StatCard label="Context window" value={tokens(d.contextWindow.value)} sub="tokens" />
+    <StatCard label="Input price" value={usd(d.pricing.input)} sub="per 1M tokens" />
+    <StatCard label="Output price" value={usd(d.pricing.output)} sub="per 1M tokens" />
+    {d.knowledgeCutoff && <StatCard label="Knowledge cutoff" value={d.knowledgeCutoff.value} />}
+  </div>
+
+  <div class="prose-site mt-8" data-pagefind-body>
+    {paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Specifications</h2>
+  <div class="mt-4">
+    <SpecTable rows={specRows} />
+  </div>
+
+  {
+    highlights.length > 0 && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Benchmark highlights</h2>
+        <div class="mt-4 space-y-6">
+          {highlights.map(({ bench, ranked }) => (
+            <div>
+              <div class="flex items-baseline justify-between gap-2">
+                <a href={`/benchmarks/${bench.data.slug}`} class="text-[13px] font-semibold hover:text-accent-text">
+                  {bench.data.name}
+                </a>
+                <span class="text-[12px] text-ink-3">{bench.data.measures}</span>
+              </div>
+              <div class="mt-2">
+                {ranked.slice(0, 4).map((r) => (
+                  <BenchBar
+                    label={r.model.data.name}
+                    display={score(r.entry.score, bench.data.scoreType)}
+                    fraction={r.entry.score / (bench.data.maxScore ?? ranked[0].entry.score)}
+                    highlight={r.model.id === model.id}
+                    href={`/${r.model.data.slug}`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="mt-3 text-[12px] text-ink-3">
+          All scores sourced and dated — see <a href={`/${d.slug}-benchmarks`} class="underline underline-offset-2 hover:text-ink-2">all {d.name} benchmarks</a>.
+        </p>
+      </>
+    )
+  }
+
+  <div class="mt-10">
+    <FAQ items={d.faq} heading={`${d.name} FAQ`} />
+  </div>
+
+  <nav aria-label={`More ${d.name} pages`} class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+    {
+      [
+        { key: 'pricing', label: `${d.name} pricing`, desc: 'Full price matrix + real-task costs' },
+        { key: 'api', label: `${d.name} API`, desc: 'Model IDs, providers, code examples' },
+        { key: 'context-window', label: 'Context window', desc: `What fits in ${tokens(d.contextWindow.value)} tokens` },
+        { key: 'benchmarks', label: 'Benchmarks', desc: 'Every published score, sourced' },
+        { key: 'alternatives', label: 'Alternatives', desc: 'Cheaper and comparable models' },
+      ]
+        .filter((l) => available.includes(l.key))
+        .map((l) => (
+          <a href={`/${d.slug}-${l.key}`} class="group border border-line p-3.5 transition-colors hover:border-line-strong">
+            <span class="text-[13px] font-semibold group-hover:text-accent-text">{l.label}</span>
+            <span class="mt-0.5 block text-[12px] text-ink-3">{l.desc}</span>
+          </a>
+        ))
+    }
+  </nav>
+</ModelShell>

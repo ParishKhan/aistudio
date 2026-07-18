@@ -1,0 +1,100 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import EntityCard from '../components/blocks/EntityCard.astro';
+import { alternativesFor, byPriority } from '../lib/models';
+import { orderPair } from '../lib/routes';
+import { tokens, usd } from '../lib/fmt';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-alternatives' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const allModels = await getCollection('models');
+const comparisons = await getCollection('comparisons');
+const alts = alternativesFor(model, allModels);
+
+const picks = [
+  alts.cheaper && { tag: 'Cheaper', model: alts.cheaper, why: `${usd(alts.cheaper.data.pricing.input)} vs ${usd(d.pricing.input)} per 1M input` },
+  alts.biggerContext && { tag: 'Bigger context', model: alts.biggerContext, why: `${tokens(alts.biggerContext.data.contextWindow.value)} vs ${tokens(d.contextWindow.value)} tokens` },
+  alts.betterCoding && { tag: 'Better on SWE-Bench Pro', model: alts.betterCoding, why: 'Higher reported agentic-coding score' },
+].filter(Boolean) as { tag: string; model: (typeof allModels)[number]; why: string }[];
+
+const hasComparison = (other: (typeof allModels)[number]) =>
+  comparisons.some(
+    (c) => (c.data.a.id === model.id && c.data.b.id === other.id) || (c.data.b.id === model.id && c.data.a.id === other.id),
+  );
+const compareHref = (other: (typeof allModels)[number]) => {
+  const [first, second] = orderPair(model, other);
+  return `/${first.data.slug}-vs-${second.data.slug}`;
+};
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="alternatives"
+  available={available}
+  heading={`${d.name} Alternatives`}
+  crumbLabel="Alternatives"
+>
+  <p class="prose-site" data-pagefind-body>
+    Models to consider instead of {d.name}, computed from our database: the closest same-tier
+    rivals, plus specific picks if you need lower cost, more context, or stronger coding scores.
+  </p>
+
+  {
+    picks.length > 0 && (
+      <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {picks.map((pick) => (
+          <div class="border border-line p-4">
+            <div class="text-[11px] font-semibold tracking-wider text-accent-text uppercase">{pick.tag}</div>
+            <a href={`/${pick.model.data.slug}`} class="mt-1.5 block text-[15px] font-semibold hover:text-accent-text">
+              {pick.model.data.name}
+            </a>
+            <div class="num mt-1 text-[12px] text-ink-2">{pick.why}</div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    alts.sameTier.length > 0 && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Same-tier rivals</h2>
+        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {alts.sameTier.sort(byPriority).map((m) => (
+            <EntityCard
+              name={m.data.name}
+              href={`/${m.data.slug}`}
+              meta={`${m.data.family} · ${m.data.tier}`}
+              stats={[
+                { label: 'Context', value: tokens(m.data.contextWindow.value) },
+                { label: 'Input / 1M', value: usd(m.data.pricing.input) },
+                { label: 'Output / 1M', value: usd(m.data.pricing.output) },
+              ]}
+            />
+          ))}
+        </div>
+        <ul class="mt-4 space-y-1">
+          {alts.sameTier.filter(hasComparison).map((m) => (
+            <li>
+              <a href={compareHref(m)} class="text-[13px] font-medium text-accent-text underline underline-offset-2">
+                {d.name} vs {m.data.name}: full comparison →
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+</ModelShell>

@@ -1,0 +1,35 @@
+---
+import type { Source } from '../../lib/sources';
+import { date } from '../../lib/fmt';
+
+interface Props {
+  sources: Source[];
+}
+
+const { sources } = Astro.props;
+const hostname = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+---
+
+{
+  sources.length > 0 && (
+    <section class="mt-12 border-t border-line pt-6">
+      <h2 class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">Sources &amp; verification</h2>
+      <ol class="mt-3 space-y-1.5">
+        {sources.map((s, i) => (
+          <li class="flex flex-wrap items-baseline gap-x-2 text-[12px]">
+            <span class="num text-ink-3">[{i + 1}]</span>
+            <a href={s.url} rel="noopener nofollow" class="break-all text-ink-2 underline decoration-line underline-offset-2 transition-colors hover:text-accent-text">
+              {hostname(s.url)}
+              {new URL(s.url).pathname.replace(/\/$/, '')}
+            </a>
+            <span class="num text-ink-3">verified {date(s.verified)}</span>
+            {s.note && <span class="text-ink-3">— {s.note}</span>}
+          </li>
+        ))}
+      </ol>
+      <p class="mt-3 text-[12px] text-ink-3">
+        Every number on this page links to an official source. Read our <a href="/methodology" class="underline underline-offset-2 hover:text-ink-2">verification methodology</a>.
+      </p>
+    </section>
+  )
+}

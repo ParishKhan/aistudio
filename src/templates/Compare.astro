@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/nav/Breadcrumbs.astro';
+import CompareGrid from '../components/data/CompareGrid.astro';
+import FAQ from '../components/blocks/FAQ.astro';
+import SourcesFooter from '../components/data/SourcesFooter.astro';
+import VerifiedBadge from '../components/data/VerifiedBadge.astro';
+import { compareRows } from '../lib/models';
+import { modelSources, oldestVerified, type Source } from '../lib/sources';
+import { breadcrumbs as breadcrumbsLd, faqPage } from '../lib/jsonld';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'compare' }>;
+}
+
+const { page } = Astro.props;
+const { a, b, comparison } = page;
+const benchmarks = await getCollection('benchmarks');
+const rows = compareRows(a, b, benchmarks);
+const heading = `${a.data.name} vs ${b.data.name}`;
+
+// Merge both models' sources into one numbered list.
+const merged: Source[] = [];
+const seen = new Set<string>();
+for (const s of [...modelSources(a).list, ...modelSources(b).list]) {
+  if (!seen.has(s.url)) {
+    merged.push(s);
+    seen.add(s.url);
+  }
+}
+
+const verified = oldestVerified(a) < oldestVerified(b) ? oldestVerified(a) : oldestVerified(b);
+const faq = comparison?.data.faq ?? [];
+const verdictParagraphs = comparison?.data.verdict?.trim().split(/\n\n+/) ?? [];
+
+const jsonld = [
+  breadcrumbsLd([{ name: 'Comparisons', path: '/comparisons' }, { name: heading }]),
+  ...(faq.length ? [faqPage(faq)] : []),
+];
+---
+
+<BaseLayout title={page.title} description={page.description} jsonld={jsonld}>
+  <Breadcrumbs items={[{ label: 'Comparisons', href: '/comparisons' }, { label: heading }]} />
+
+  <header>
+    <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{heading}</h1>
+    <div class="mt-2 flex flex-wrap items-center gap-3 text-[13px] text-ink-2">
+      <span>
+        <a href={`/${a.data.slug}`} class="font-medium underline decoration-line underline-offset-2 hover:text-ink">{a.data.name}</a>
+        {' '}and{' '}
+        <a href={`/${b.data.slug}`} class="font-medium underline decoration-line underline-offset-2 hover:text-ink">{b.data.name}</a>
+        {' '}compared spec by spec
+      </span>
+      <VerifiedBadge date={verified} />
+    </div>
+  </header>
+
+  <div class="py-8" data-pagefind-body>
+    {
+      verdictParagraphs.length > 0 && (
+        <div class="prose-site mb-8 border-l-2 border-accent pl-4">
+          {verdictParagraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+      )
+    }
+
+    <CompareGrid
+      columns={[
+        { name: a.data.name, href: `/${a.data.slug}` },
+        { name: b.data.name, href: `/${b.data.slug}` },
+      ]}
+      rows={rows}
+    />
+    <p class="mt-3 text-[12px] text-ink-3">
+      Underlined cells mark the better value in each row. Benchmark rows appear only when both models report the same eval.
+    </p>
+
+    <div class="mt-10">
+      <FAQ items={faq} heading={`${heading} FAQ`} />
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {
+        [a, b].map((m) => (
+          <a href={`/${m.data.slug}`} class="group border border-line p-4 transition-colors hover:border-line-strong">
+            <span class="text-[14px] font-semibold group-hover:text-accent-text">{m.data.name}: full specs →</span>
+            <span class="mt-0.5 block text-[12px] text-ink-3">Pricing, API, context window, benchmarks</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <SourcesFooter sources={merged} />
+</BaseLayout>

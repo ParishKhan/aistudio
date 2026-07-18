@@ -1,0 +1,156 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import SpecTable from '../components/data/SpecTable.astro';
+import FAQ from '../components/blocks/FAQ.astro';
+import { modelSources } from '../lib/sources';
+import { isCurrent } from '../lib/models';
+import { usd, tokens } from '../lib/fmt';
+import { faqPage } from '../lib/jsonld';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-pricing' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const sources = modelSources(model);
+const p = d.pricing;
+const citeIndex = sources.indexOf(p.cite.url);
+
+const priceRows = [
+  { label: 'Input', value: `${usd(p.input)} / 1M tokens`, citeUrl: p.cite.url, citeIndex },
+  { label: 'Output', value: `${usd(p.output)} / 1M tokens`, citeUrl: p.cite.url, citeIndex },
+  ...(p.cachedInput !== undefined ? [{ label: 'Cached input', value: `${usd(p.cachedInput)} / 1M tokens`, citeUrl: p.cite.url, citeIndex }] : []),
+  ...(p.cacheWrite !== undefined ? [{ label: 'Cache write', value: `${usd(p.cacheWrite)} / 1M tokens`, citeUrl: p.cite.url, citeIndex }] : []),
+  ...(p.batchInput !== undefined ? [{ label: 'Batch input', value: `${usd(p.batchInput)} / 1M tokens`, citeUrl: p.cite.url, citeIndex }] : []),
+  ...(p.batchOutput !== undefined ? [{ label: 'Batch output', value: `${usd(p.batchOutput)} / 1M tokens`, citeUrl: p.cite.url, citeIndex }] : []),
+];
+
+/** Illustrative workloads with token counts stated inline — costs are computed, not claimed. */
+const tasks = [
+  { name: 'Chat turn', detail: '500 input + 300 output tokens', input: 500, output: 300 },
+  { name: 'Summarize a long report', detail: '30K input + 1.5K output tokens', input: 30_000, output: 1_500 },
+  { name: 'Code review of a large PR', detail: '80K input + 5K output tokens', input: 80_000, output: 5_000 },
+  { name: 'Agent session', detail: '400K input + 25K output tokens', input: 400_000, output: 25_000 },
+];
+const cost = (inTok: number, outTok: number) => (inTok / 1e6) * p.input + (outTok / 1e6) * p.output;
+const fmtCost = (n: number) => (n < 0.1 ? `$${n.toFixed(4)}` : `$${n.toFixed(2)}`);
+
+const rivals = (await getCollection('models'))
+  .filter((m) => m.id !== model.id && m.data.tier === d.tier && isCurrent(m))
+  .sort((a, b) => a.data.pricing.input - b.data.pricing.input);
+
+const pricingFaq = [
+  {
+    q: `How much does ${d.name} cost per 1M tokens?`,
+    a: `${usd(p.input)} per 1M input tokens and ${usd(p.output)} per 1M output tokens${p.cachedInput !== undefined ? `, with cached input at ${usd(p.cachedInput)}/1M` : ''}${p.batchInput !== undefined ? ` and batch pricing at ${usd(p.batchInput)}/${usd(p.batchOutput!)}` : ''}.`,
+  },
+  {
+    q: `What does a typical ${d.name} request cost?`,
+    a: `A short chat turn (500 input + 300 output tokens) costs about ${fmtCost(cost(500, 300))}. A large agent session (400K input + 25K output) costs about ${fmtCost(cost(400_000, 25_000))}.`,
+  },
+];
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="pricing"
+  available={available}
+  heading={`${d.name} Pricing`}
+  crumbLabel="Pricing"
+  extraJsonld={[faqPage(pricingFaq)]}
+>
+  <p class="prose-site" data-pagefind-body>
+    {d.name} costs <strong>{usd(p.input)} per million input tokens</strong> and
+    <strong>{usd(p.output)} per million output tokens</strong> on the {vendor.data.name} API.
+    All prices below are verified against the official pricing page.
+  </p>
+
+  <h2 class="mt-8 text-lg font-semibold tracking-tight">Price matrix</h2>
+  <div class="mt-4">
+    <SpecTable rows={priceRows} />
+  </div>
+  {d.pricingNotes && <p class="mt-3 max-w-2xl text-[13px] leading-relaxed text-ink-2">{d.pricingNotes}</p>}
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">What real tasks cost</h2>
+  <p class="mt-1 text-[13px] text-ink-3">Computed from the prices above at the stated token counts. Standard (non-batch) rates.</p>
+  <div class="table-scroll mt-4">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Assumed tokens</th>
+          <th class="cell-num">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          tasks.map((t) => (
+            <tr>
+              <td class="font-medium">{t.name}</td>
+              <td class="text-ink-2">{t.detail}</td>
+              <td class="cell-num">{fmtCost(cost(t.input, t.output))}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-3 text-[13px]">
+    <a href={`/calculators/token-cost?model=${d.slug}`} class="font-medium text-accent-text underline underline-offset-2">
+      Estimate your own workload with the token cost calculator →
+    </a>
+  </p>
+
+  {
+    rivals.length > 0 && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Compared with rivals</h2>
+        <div class="table-scroll mt-4">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th class="cell-num">Input / 1M</th>
+                <th class="cell-num">Output / 1M</th>
+                <th class="cell-num">Context</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-surface-2">
+                <td class="font-semibold">{d.name}</td>
+                <td class="cell-num">{usd(p.input)}</td>
+                <td class="cell-num">{usd(p.output)}</td>
+                <td class="cell-num">{tokens(d.contextWindow.value)}</td>
+              </tr>
+              {rivals.map((m) => (
+                <tr>
+                  <td>
+                    <a href={`/${m.data.slug}-pricing`} class="hover:text-accent-text">
+                      {m.data.name}
+                    </a>
+                  </td>
+                  <td class="cell-num">{usd(m.data.pricing.input)}</td>
+                  <td class="cell-num">{usd(m.data.pricing.output)}</td>
+                  <td class="cell-num">{tokens(m.data.contextWindow.value)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )
+  }
+
+  <div class="mt-10">
+    <FAQ items={pricingFaq} heading="Pricing FAQ" />
+  </div>
+</ModelShell>

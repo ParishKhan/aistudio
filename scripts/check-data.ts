@@ -83,7 +83,19 @@ const modelSlugs = new Set(models.map((m) => m.slug));
 const appSlugs = new Set((collections.apps ?? []).map((a) => a.slug));
 
 // ---- slug/filename + per-collection checks ----
-for (const entries of Object.values(collections)) checkSlugMatchesFile(entries);
+// Comparisons have no slug field: their URL derives from the a/b pair.
+for (const [name, entries] of Object.entries(collections)) {
+  if (name === 'comparisons') {
+    for (const e of entries) {
+      const stem = basename(e.__file, extname(e.__file));
+      if (e.a && e.b && stem !== `${e.a}-vs-${e.b}`) {
+        errors.push(`${e.__file}: filename should be "${e.a}-vs-${e.b}"`);
+      }
+    }
+    continue;
+  }
+  checkSlugMatchesFile(entries);
+}
 
 // ---- reference checks ----
 for (const m of models) {

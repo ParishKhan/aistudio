@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  model: CollectionEntry<'models'>;
+  active: string;
+  /** Sub-pages that actually exist for this model (prompts may be skipped). */
+  available: string[];
+}
+
+const { model, active, available } = Astro.props;
+const slug = model.data.slug;
+
+const tabs = [
+  { key: 'hub', label: 'Overview', href: `/${slug}` },
+  { key: 'pricing', label: 'Pricing', href: `/${slug}-pricing` },
+  { key: 'api', label: 'API', href: `/${slug}-api` },
+  { key: 'context-window', label: 'Context Window', href: `/${slug}-context-window` },
+  { key: 'benchmarks', label: 'Benchmarks', href: `/${slug}-benchmarks` },
+  { key: 'alternatives', label: 'Alternatives', href: `/${slug}-alternatives` },
+  { key: 'prompts', label: 'Prompts', href: `/${slug}-prompts` },
+].filter((t) => t.key === 'hub' || available.includes(t.key));
+---
+
+<nav aria-label={`${model.data.name} pages`} class="mt-6 border-b border-line">
+  <ul class="-mb-px flex gap-1 overflow-x-auto">
+    {
+      tabs.map((tab) => (
+        <li class="shrink-0">
+          <a
+            href={tab.href}
+            aria-current={active === tab.key ? 'page' : undefined}
+            class:list={[
+              'inline-block border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors',
+              active === tab.key
+                ? 'border-accent text-ink'
+                : 'border-transparent text-ink-2 hover:border-line-strong hover:text-ink',
+            ]}
+          >
+            {tab.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

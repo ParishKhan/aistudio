@@ -1,0 +1,48 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getFlatPages } from '../lib/routes';
+import ModelHub from '../templates/ModelHub.astro';
+import ModelPricing from '../templates/ModelPricing.astro';
+import ModelApi from '../templates/ModelApi.astro';
+import ModelContextWindow from '../templates/ModelContextWindow.astro';
+import ModelBenchmarks from '../templates/ModelBenchmarks.astro';
+import ModelAlternatives from '../templates/ModelAlternatives.astro';
+import ModelPrompts from '../templates/ModelPrompts.astro';
+import Compare from '../templates/Compare.astro';
+
+/**
+ * Every flat root URL — model hubs, model sub-pages, and comparisons — is
+ * generated here from the route registry. check-data.ts guarantees no slug
+ * collides with a reserved section route.
+ */
+export const getStaticPaths = (async () => {
+  const pages = await getFlatPages();
+  // Sub-page tabs shown on a model's pages = the sub-pages that actually exist.
+  const availableByModel = new Map<string, string[]>();
+  for (const page of pages) {
+    if (page.type !== 'compare' && page.type !== 'model-hub') {
+      const id = page.model.id;
+      availableByModel.set(id, [...(availableByModel.get(id) ?? []), page.subpage]);
+    }
+  }
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: {
+      page,
+      available: page.type === 'compare' ? [] : (availableByModel.get(page.model.id) ?? []),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page, available } = Astro.props;
+---
+
+{page.type === 'model-hub' && <ModelHub page={page} available={available} />}
+{page.type === 'model-pricing' && <ModelPricing page={page} available={available} />}
+{page.type === 'model-api' && <ModelApi page={page} available={available} />}
+{page.type === 'model-context-window' && <ModelContextWindow page={page} available={available} />}
+{page.type === 'model-benchmarks' && <ModelBenchmarks page={page} available={available} />}
+{page.type === 'model-alternatives' && <ModelAlternatives page={page} available={available} />}
+{page.type === 'model-prompts' && <ModelPrompts page={page} available={available} />}
+{page.type === 'compare' && <Compare page={page} />}

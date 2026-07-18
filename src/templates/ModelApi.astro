@@ -1,0 +1,107 @@
+---
+import { getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import { apiSnippets } from '../lib/snippets';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-api' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const snippets = apiSnippets(model, vendor.data.slug);
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="api"
+  available={available}
+  heading={`${d.name} API`}
+  crumbLabel="API"
+>
+  <p class="prose-site" data-pagefind-body>
+    Call {d.name} with the model ID <code class="num rounded bg-surface-2 px-1.5 py-0.5 text-[13px]">{d.api.modelIds[0]}</code>.
+    {d.api.aliases.length > 0 && d.api.aliases[0] !== d.api.modelIds[0] && (
+      <> The alias <code class="num rounded bg-surface-2 px-1.5 py-0.5 text-[13px]">{d.api.aliases[0]}</code> also routes here.</>
+    )}
+    Official docs: <a href={d.api.docsUrl} rel="noopener">{vendor.data.name} model reference</a>.
+  </p>
+
+  <h2 class="mt-8 text-lg font-semibold tracking-tight">Model IDs</h2>
+  <div class="table-scroll mt-4">
+    <table class="data-table">
+      <thead>
+        <tr><th>ID</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        {d.api.modelIds.map((id) => (
+          <tr>
+            <td class="num">{id}</td>
+            <td class="text-ink-2">model ID</td>
+          </tr>
+        ))}
+        {d.api.aliases
+          .filter((a) => !d.api.modelIds.includes(a))
+          .map((a) => (
+            <tr>
+              <td class="num">{a}</td>
+              <td class="text-ink-2">alias</td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Where it's available</h2>
+  <div class="table-scroll mt-4">
+    <table class="data-table">
+      <thead>
+        <tr><th>Provider</th><th>Model ID</th></tr>
+      </thead>
+      <tbody>
+        {d.api.providers.map((prov) => (
+          <tr>
+            <td>
+              <a href={prov.url} rel="noopener" class="font-medium hover:text-accent-text">{prov.name}</a>
+            </td>
+            <td class="num">{prov.modelId ?? '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Code examples</h2>
+  <div class="mt-4 space-y-6">
+    {
+      (
+        [
+          { label: 'curl', code: snippets.curl },
+          { label: 'Python', code: snippets.python },
+          { label: 'TypeScript', code: snippets.typescript },
+        ] as const
+      ).map((s) => (
+        <div>
+          <h3 class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">{s.label}</h3>
+          <pre class="table-scroll mt-2 border border-line bg-surface-2 p-4 text-[12.5px] leading-relaxed"><code class="num">{s.code}</code></pre>
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    d.api.rateLimitNotes && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Notes</h2>
+        <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-ink-2">{d.api.rateLimitNotes}</p>
+      </>
+    )
+  }
+</ModelShell>

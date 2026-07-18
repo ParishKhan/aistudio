@@ -1,0 +1,92 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import StatCard from '../components/data/StatCard.astro';
+import BenchBar from '../components/data/BenchBar.astro';
+import { isCurrent } from '../lib/models';
+import { tokens, tokensLong } from '../lib/fmt';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-context-window' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const ctx = d.contextWindow.value;
+
+/**
+ * Rough equivalents at widely used rules of thumb (~0.75 words/token,
+ * ~500 words/page, ~10 tokens/line of code). Stated as approximations.
+ */
+const words = Math.round((ctx * 0.75) / 1000) * 1000;
+const pages = Math.round(words / 500);
+const loc = Math.round(ctx / 10 / 1000) * 1000;
+const equivalents = [
+  { label: 'Words of English text', value: `≈ ${words.toLocaleString('en-US')}` },
+  { label: 'Pages (500 words/page)', value: `≈ ${pages.toLocaleString('en-US')}` },
+  { label: 'Lines of code', value: `≈ ${loc.toLocaleString('en-US')}` },
+];
+
+const ranked = (await getCollection('models'))
+  .filter(isCurrent)
+  .sort((a, b) => b.data.contextWindow.value - a.data.contextWindow.value);
+const max = ranked[0]?.data.contextWindow.value ?? ctx;
+const rank = ranked.findIndex((m) => m.id === model.id) + 1;
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="context-window"
+  available={available}
+  heading={`${d.name} Context Window`}
+  crumbLabel="Context window"
+>
+  <p class="prose-site" data-pagefind-body>
+    {d.name} has a context window of <strong>{tokensLong(ctx)} tokens</strong>{
+      d.maxOutput && <> and can produce up to <strong>{tokensLong(d.maxOutput.value)} output tokens</strong> per request</>
+    }. That ranks #{rank} of the {ranked.length} current models we track.
+  </p>
+
+  <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <StatCard label="Context window" value={tokens(ctx)} sub="tokens" />
+    {d.maxOutput && <StatCard label="Max output" value={tokens(d.maxOutput.value)} sub="tokens" />}
+    <StatCard label="Rank" value={`#${rank}`} sub={`of ${ranked.length} tracked models`} />
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">What fits in {tokens(ctx)} tokens</h2>
+  <p class="mt-1 text-[13px] text-ink-3">Approximate equivalents at common rules of thumb — actual tokenization varies by content and tokenizer.</p>
+  <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+    {equivalents.map((e) => <StatCard label={e.label} value={e.value} />)}
+  </div>
+
+  <h2 class="mt-10 text-lg font-semibold tracking-tight">Context windows compared</h2>
+  <div class="mt-4">
+    {
+      ranked.map((m) => (
+        <BenchBar
+          label={m.data.name}
+          display={tokens(m.data.contextWindow.value)}
+          fraction={m.data.contextWindow.value / max}
+          highlight={m.id === model.id}
+          href={`/${m.data.slug}-context-window`}
+        />
+      ))
+    }
+  </div>
+
+  {
+    d.pricingNotes && (
+      <>
+        <h2 class="mt-10 text-lg font-semibold tracking-tight">Long-context pricing</h2>
+        <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-ink-2">{d.pricingNotes}</p>
+      </>
+    )
+  }
+</ModelShell>

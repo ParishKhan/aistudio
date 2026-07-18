@@ -1,0 +1,90 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { FlatPage } from '../lib/routes';
+import ModelShell from './ModelShell.astro';
+import SourceNote from '../components/data/SourceNote.astro';
+import { modelSources } from '../lib/sources';
+import { ranking } from '../lib/models';
+import { score as fmtScore } from '../lib/fmt';
+
+interface Props {
+  page: Extract<FlatPage, { type: 'model-benchmarks' }>;
+  available: string[];
+}
+
+const { page, available } = Astro.props;
+const model = page.model;
+const d = model.data;
+const vendor = (await getEntry(d.vendor))!;
+const allModels = await getCollection('models');
+const allBenchmarks = await getCollection('benchmarks');
+const sources = modelSources(model);
+
+const rows = d.benchmarks.map((entry) => {
+  const bench = allBenchmarks.find((b) => b.id === entry.benchmark.id)!;
+  const ranked = ranking(allModels, bench);
+  const rank = ranked.findIndex((r) => r.model.id === model.id) + 1;
+  return { entry, bench, rank, of: ranked.length };
+});
+---
+
+<ModelShell
+  model={model}
+  vendor={vendor}
+  title={page.title}
+  description={page.description}
+  active="benchmarks"
+  available={available}
+  heading={`${d.name} Benchmarks`}
+  crumbLabel="Benchmarks"
+>
+  <p class="prose-site" data-pagefind-body>
+    Every published benchmark score we track for {d.name}, each linked to the announcement or
+    leaderboard it came from. Scores marked "vendor" were published by {vendor.data.name};
+    "third-party" scores were reported by someone else.
+  </p>
+
+  <div class="table-scroll mt-8">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Benchmark</th>
+          <th>Measures</th>
+          <th class="cell-num">Score</th>
+          <th>Conditions</th>
+          <th>Reported by</th>
+          <th class="cell-num">Rank</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(({ entry, bench, rank, of }) => (
+            <tr>
+              <td>
+                <a href={`/benchmarks/${bench.data.slug}`} class="font-medium hover:text-accent-text">
+                  {bench.data.name}
+                </a>
+              </td>
+              <td class="max-w-56 text-ink-2">{bench.data.measures}</td>
+              <td class="cell-num font-semibold">
+                {fmtScore(entry.score, bench.data.scoreType)}
+                <SourceNote n={sources.indexOf(entry.cite.url)} url={entry.cite.url} />
+              </td>
+              <td class="text-ink-2">{entry.variant ?? '—'}</td>
+              <td class="text-ink-2">{entry.selfReported ? 'vendor' : 'third-party'}</td>
+              <td class="cell-num">
+                #{rank}<span class="text-ink-3"> / {of}</span>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mt-4 max-w-2xl text-[13px] leading-relaxed text-ink-3">
+    Rank is among the {allModels.length} models in our database that report the same benchmark.
+    Cross-vendor comparisons should account for differing eval harnesses and reasoning-effort
+    settings — see each benchmark's methodology notes.
+  </p>
+</ModelShell>
